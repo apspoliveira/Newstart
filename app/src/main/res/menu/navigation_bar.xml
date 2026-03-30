@@ -16,13 +16,6 @@
         android:title="Air" />
 
     <item
-        android:id="@+id/nav_bar_stats"
-        android:icon="@drawable/ic_baseline_barchart_24"
-        android:visible="true"
-        android:enabled="true"
-        android:title="Body Stats" />
-
-    <item
         android:id="@+id/nav_bar_exersises"
         android:icon="@drawable/ic_dumbbell_24"
         android:visible="true"

@@ -6,16 +6,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.falyrion.gymtonicapp.R;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,10 +23,11 @@ import java.util.Locale;
 
 public class Fragment_Air extends Fragment {
 
-    private int airMinutes = 0;
-    private final int airGoal = 30;
     private String date;
     private SharedPreferences sharedPreferences;
+
+    // Video ID for the requested video
+    private final String targetVideoId = "OM_X52rdeds";
 
     @Nullable
     @Override
@@ -42,46 +43,53 @@ public class Fragment_Air extends Fragment {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
         date = formatter.format(new Date());
 
-        ProgressBar progressBar = view.findViewById(R.id.progressBarAir);
-        TextView progressText = view.findViewById(R.id.textViewAirProgress);
-        Button addButton = view.findViewById(R.id.buttonAddAir);
-
-        // NEWSTART Air Principle Checkboxes
+        // Checkboxes
         CheckBox checkBoxFreshAir = view.findViewById(R.id.checkBoxFreshAir);
         CheckBox checkBoxVentilation = view.findViewById(R.id.checkBoxVentilation);
         CheckBox checkBoxDeepBreathing = view.findViewById(R.id.checkBoxDeepBreathing);
         CheckBox checkBoxCleanAir = view.findViewById(R.id.checkBoxCleanAir);
 
+        // Player Views
+        YouTubePlayerView playerFreshAir = view.findViewById(R.id.youtube_fresh_air);
+        YouTubePlayerView playerVentilation = view.findViewById(R.id.youtube_ventilation);
+        YouTubePlayerView playerDeepBreathing = view.findViewById(R.id.youtube_deep_breathing);
+        YouTubePlayerView playerCleanAir = view.findViewById(R.id.youtube_clean_air);
+
+        // Add to lifecycle
+        getLifecycle().addObserver(playerFreshAir);
+        getLifecycle().addObserver(playerVentilation);
+        getLifecycle().addObserver(playerDeepBreathing);
+        getLifecycle().addObserver(playerCleanAir);
+
         // Load saved states
-        airMinutes = sharedPreferences.getInt("air_minutes_" + date, 0);
         checkBoxFreshAir.setChecked(sharedPreferences.getBoolean("air_fresh_" + date, false));
         checkBoxVentilation.setChecked(sharedPreferences.getBoolean("air_vent_" + date, false));
         checkBoxDeepBreathing.setChecked(sharedPreferences.getBoolean("air_deep_" + date, false));
         checkBoxCleanAir.setChecked(sharedPreferences.getBoolean("air_clean_" + date, false));
 
-        addButton.setOnClickListener(v -> {
-            if (airMinutes < airGoal) {
-                airMinutes += 5;
-                sharedPreferences.edit().putInt("air_minutes_" + date, airMinutes).apply();
-                updateUI(progressBar, progressText);
-            }
-        });
+        // Initialize Players with the specific video
+        setupPlayer(playerFreshAir, targetVideoId);
+        setupPlayer(playerVentilation, targetVideoId);
+        setupPlayer(playerDeepBreathing, targetVideoId);
+        setupPlayer(playerCleanAir, targetVideoId);
 
-        checkBoxFreshAir.setOnCheckedChangeListener((buttonView, isChecked) -> 
-            sharedPreferences.edit().putBoolean("air_fresh_" + date, isChecked).apply());
-        checkBoxVentilation.setOnCheckedChangeListener((buttonView, isChecked) -> 
-            sharedPreferences.edit().putBoolean("air_vent_" + date, isChecked).apply());
-        checkBoxDeepBreathing.setOnCheckedChangeListener((buttonView, isChecked) -> 
-            sharedPreferences.edit().putBoolean("air_deep_" + date, isChecked).apply());
-        checkBoxCleanAir.setOnCheckedChangeListener((buttonView, isChecked) -> 
-            sharedPreferences.edit().putBoolean("air_clean_" + date, isChecked).apply());
-
-        updateUI(progressBar, progressText);
+        // Listeners
+        checkBoxFreshAir.setOnCheckedChangeListener((buttonView, isChecked) ->
+                sharedPreferences.edit().putBoolean("air_fresh_" + date, isChecked).apply());
+        checkBoxVentilation.setOnCheckedChangeListener((buttonView, isChecked) ->
+                sharedPreferences.edit().putBoolean("air_vent_" + date, isChecked).apply());
+        checkBoxDeepBreathing.setOnCheckedChangeListener((buttonView, isChecked) ->
+                sharedPreferences.edit().putBoolean("air_deep_" + date, isChecked).apply());
+        checkBoxCleanAir.setOnCheckedChangeListener((buttonView, isChecked) ->
+                sharedPreferences.edit().putBoolean("air_clean_" + date, isChecked).apply());
     }
 
-    private void updateUI(ProgressBar progressBar, TextView progressText) {
-        int progress = (int) (((double) airMinutes / airGoal) * 100);
-        progressBar.setProgress(Math.min(progress, 100));
-        progressText.setText(airMinutes + " / " + airGoal + " mins");
+    private void setupPlayer(YouTubePlayerView playerView, String videoId) {
+        playerView.initialize(new AbstractYouTubePlayerListener() {
+            @Override
+            public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+                youTubePlayer.cueVideo(videoId, 0);
+            }
+        });
     }
 }

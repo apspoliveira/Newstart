@@ -44,10 +44,6 @@ public class Activity_Main extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
     }
 
-    private void setFragmentBodyStats() {
-        // Pass
-    }
-
     private void setFragmentWorkout() {
         Fragment_Workout fragment = new Fragment_Workout();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
@@ -117,9 +113,6 @@ public class Activity_Main extends AppCompatActivity {
             case 4:
                 setFragmentAir();
                 break;
-            case 1:
-                setFragmentBodyStats();
-                break;
             case 2:
                 setFragmentWorkout();
                 break;
@@ -147,12 +140,6 @@ public class Activity_Main extends AppCompatActivity {
                     if (currentFragmentID != 4) {
                         setFragmentAir();
                         currentFragmentID = 4;
-                    }
-                    return true;
-                } else if (itemId == R.id.nav_bar_stats) {
-                    if (currentFragmentID != 1) {
-                        setFragmentBodyStats();
-                        currentFragmentID = 1;
                     }
                     return true;
                 } else if (itemId == R.id.nav_bar_exersises) {
