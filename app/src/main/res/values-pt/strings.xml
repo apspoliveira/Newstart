@@ -1,0 +1,120 @@
+<resources>
+
+    <string name="app_name">Gymtonic</string>
+
+    <!-- Meal Data -->
+    <string name="calories">Calorias</string>
+    <string name="calories_kcal">Calorias [kcal]</string>
+    <string name="fat">Gordura</string>
+    <string name="fat_g">Gordura [g]</string>
+    <string name="fat_sat">Gorduras saturadas</string>
+    <string name="fat_sat_g">Gorduras saturadas [g]</string>
+    <string name="carbs">Carboidratos</string>
+    <string name="carbs_g">Carboidratos [g]</string>
+    <string name="sugar">Açúcar</string>
+    <string name="sugar_g">Açúcar [g]</string>
+    <string name="protein">Proteína</string>
+    <string name="protein_g">Proteína [g]</string>
+
+    <string name="salt">Sal</string>
+    <string name="salt_g">Sal [g]</string>
+    <string name="fiber">Fibra</string>
+    <string name="fiber_g">Fibra [g]</string>
+    <string name="cholesterol">Colesterol</string>
+    <string name="cholesterol_mg">Colesterol [mg]</string>
+    <string name="creatine_g">Creatina</string>
+    <string name="creatine">Creatina [g]</string>
+    <string name="ca">Cálcio</string>
+    <string name="ca_mg">Cálcio [mg]</string>
+    <string name="fe">Ferro</string>
+    <string name="fe_mg">Ferro [mg]</string>
+    <string name="ka">Potássio</string>
+    <string name="ka_mg">Potássio [mg]</string>
+    <string name="mg">Magnésio</string>
+    <string name="mg_mg">Magnésio [mg]</string>
+    <string name="mn">Manganês</string>
+    <string name="mn_mg">Manganês [mg]</string>
+    <string name="na">Sódio</string>
+    <string name="na_mg">Sódio [mg]</string>
+    <string name="phosphorus">Fósforo</string>
+    <string name="phosphorus_mg">Fósforo [mg]</string>
+    <string name="zn">Zinco</string>
+    <string name="zn_mg">Zinco [mg]</string>
+    <string name="vit_a">Vitamina A</string>
+    <string name="vit_a_mg">Vitamina A [mg]</string>
+    <string name="vit_b1">Vitamina B1</string>
+    <string name="vit_b1_mg">Vitamina B1 [mg]</string>
+    <string name="vit_b2">Vitamina B2</string>
+    <string name="vit_b2_mg">Vitamina B2 [mg]</string>
+    <string name="vit_b3">Vitamina B3</string>
+    <string name="vit_b3_mg">Vitamina B3 [mg]</string>
+    <string name="vit_b5">Vitamina B5</string>
+    <string name="vit_b5_mg">Vitamina B5 [mg]</string>
+    <string name="vit_b6">Vitamina B6</string>
+    <string name="vit_b6_mg">Vitamina B6 [mg]</string>
+    <string name="vit_b7">Vitamina B7</string>
+    <string name="vit_b7_mg">Vitamina B7 [mg]</string>
+    <string name="vit_b11">Vitamina B11</string>
+    <string name="vit_b11_mg">Vitamina B11 [mg]</string>
+    <string name="vit_b12">Vitamina B12</string>
+    <string name="vit_b12_mg">Vitamina B12 [mg]</string>
+    <string name="vit_c">Vitamina C</string>
+    <string name="vit_c_mg">Vitamina C [mg]</string>
+    <string name="vit_e">Vitamina E</string>
+    <string name="vit_e_mg">Vitamina E [mg]</string>
+    <string name="vit_k">Vitamina K</string>
+    <string name="vit_k_mg">Vitamina K [mg]</string>
+    <string name="vit_h">Vitamina H</string>
+    <string name="vit_h_mg">Vitamina H [mg]</string>
+
+    <!-- Dashboard Nutrition -->
+    <string name="dn_header_01">Visão Geral de Hoje</string>
+    <string name="dn_header_02">Detalhes</string>
+    <string name="dn_button_add">Adicionar Refeição</string>
+    <string name="dn_button_edit">Refeições de Hoje</string>
+
+    <!-- UI -->
+    <string name="button_text_back">Voltar</string>
+    <string name="button_text_save">Salvar</string>
+    <string name="button_text_cancel">Cancelar</string>
+    <string name="button_text_create_meal">Criar nova refeição personalizada</string>
+    <string name="title_meal_name">Nome da Refeição</string>
+    <string name="title_name">Nome</string>
+    <string name="title_category">Categoria</string>
+    <string name="title_general_data">Dados Gerais</string>
+    <string name="title_details">Detalhes (Opcional)</string>
+    <string name="title_select_plan">Selecionar Plano de Treino</string>
+    <string name="hint_no_entries">Nenhuma entrada encontrada para hoje</string>
+    <string name="hint_enter_name_exercise">Insira o nome do exercício aqui</string>
+    <string name="workout_plans">Planos</string>
+    <string name="workout_routines">Rotinas</string>
+    <string name="workout_exercises">Exercícios</string>
+    <string name="workout_sets">Séries</string>
+    <string name="workout_reps">Repetições</string>
+    <string name="workout_weight">Peso [kg]</string>
+    <string name="button_edit_plans">Editar Planos de Treino</string>
+    <string name="button_edit_routines">Editar Rotinas de Treino</string>
+    <string name="button_edit_exercises">Editar Exercícios de Treino</string>
+    <string name="button_add_plans">Adicionar Planos de Treino</string>
+    <string name="button_add_routines">Adicionar Rotinas de Treino</string>
+    <string name="button_add_routine">Adicionar Rotina de Treino</string>
+    <string name="button_add_exercises">Adicionar Exercícios de Treino</string>
+    <string name="button_create_plans">Criar Planos de Treino</string>
+    <string name="button_create_plan">Criar Novo Plano de Treino</string>
+    <string name="button_create_routines">Criar Rotinas de Treino</string>
+    <string name="button_create_exercises">Criar Exercícios de Treino</string>
+    <string name="settings_lang">Idioma</string>
+    <string name="settings_goals">Objetivos Diários</string>
+
+    <string name="lang_de">Alemão</string>
+    <string name="lang_en">Inglês</string>
+    <string name="lang_pt">Português</string>
+
+    <!-- Bible Verse -->
+    <string name="settings_bible_title">Inspiração Diária</string>
+    <string name="settings_bible_loading">Carregando versículo...</string>
+    <string name="settings_bible_error">Não foi possível carregar o versículo. Verifique sua conexão.</string>
+    <string name="bible_verse_format">\"%1$s\"</string>
+    <string name="bible_reference_format">- %1$s</string>
+
+</resources>
