@@ -60,8 +60,8 @@
     <string name="vit_b12_mg">Vitamin B12 [mg]</string>
     <string name="vit_c">Vitamin C</string>
     <string name="vit_c_mg">Vitamin C [mg]</string>
-    <string name="vit_e">Vitamin E</string>
-    <string name="vit_e_mg">Vitamin E [mg]</string>
+    <string name="vit_e">Vitamina E</string>
+    <string name="vit_e_mg">Vitamina E [mg]</string>
     <string name="vit_k">Vitamin K</string>
     <string name="vit_k_mg">Vitamin K [mg]</string>
     <string name="vit_h">Vitamin H</string>
@@ -116,5 +116,13 @@
     <string name="settings_bible_error">Could not load verse. Please check your connection.</string>
     <string name="bible_verse_format">\"%1$s\"</string>
     <string name="bible_reference_format">- %1$s</string>
+
+    <!-- NEWSTART Water -->
+    <string name="nav_water">Water</string>
+    <string name="water_title">Water (NEWSTART)</string>
+    <string name="water_drink">Drink at least 8 glasses of water</string>
+    <string name="water_hydro">Take a contrast shower (hot/cold)</string>
+    <string name="water_morning">Drink 2 glasses upon waking</string>
+    <string name="water_pure">Choose pure water over sugary drinks</string>
 
 </resources>

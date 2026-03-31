@@ -1,134 +1,264 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_purple">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="80dp">
 
-        <TextView
-            android:id="@+id/textViewAirTitle"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Air (NEWSTART)"
-            android:textColor="@color/text_high"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:layout_marginBottom="24dp"/>
+            android:orientation="vertical"
+            android:padding="20dp">
 
-        <!-- Item 1: Fresh Air -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/light_purple"
-            app:cardCornerRadius="8dp"
-            android:layout_marginBottom="16dp">
-            <LinearLayout
+            <TextView
+                android:id="@+id/textViewAirTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Air (NEWSTART)"
+                android:textColor="@color/white"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="32dp"
+                android:text="BREATHE DEEPER. LIVE LONGER."
+                android:textColor="@color/text_middle"
+                android:textSize="12sp"
+                android:letterSpacing="0.1" />
+
+            <!-- Item 1: Fresh Air -->
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp">
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/card_background"
+                android:padding="12dp">
+
+                <ImageView
+                    android:id="@+id/iconFreshAir"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_baseline_air_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/checkBoxFreshAir"
+                    app:layout_constraintBottom_toBottomOf="@id/checkBoxFreshAir"
+                    app:tint="@color/accent_teal"
+                    android:contentDescription="Air Icon" />
+
                 <CheckBox
                     android:id="@+id/checkBoxFreshAir"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:background="@android:color/transparent"
+                    android:button="@null"
                     android:text="Spend time outdoors daily"
-                    android:textColor="@color/text_high"
-                    android:buttonTint="@color/pop_orange" />
-                <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-                    android:id="@+id/youtube_fresh_air"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:enableAutomaticInitialization="false" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toStartOf="@+id/progressText1"
+                    app:layout_constraintStart_toEndOf="@id/iconFreshAir"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Item 2: Ventilation -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/light_purple"
-            app:cardCornerRadius="8dp"
-            android:layout_marginBottom="16dp">
-            <LinearLayout
+                <TextView
+                    android:id="@+id/progressText1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3 / 5"
+                    android:textColor="@color/text_low"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ProgressBar
+                    android:id="@+id/progressBar1"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="60dp"
+                    android:layout_height="4dp"
+                    android:progress="60"
+                    android:progressDrawable="@drawable/custom_progress_bar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/progressText1" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="12dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintTop_toBottomOf="@id/checkBoxFreshAir">
+
+                    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                        android:id="@+id/youtube_fresh_air"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:enableAutomaticInitialization="false" />
+                </androidx.cardview.widget.CardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Item 2: Ventilation -->
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp">
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/card_background"
+                android:padding="12dp">
+
+                <ImageView
+                    android:id="@+id/iconVentilation"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_baseline_air_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/checkBoxVentilation"
+                    app:layout_constraintBottom_toBottomOf="@id/checkBoxVentilation"
+                    app:tint="@color/accent_teal"
+                    android:contentDescription="Ventilation Icon" />
+
                 <CheckBox
                     android:id="@+id/checkBoxVentilation"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:background="@android:color/transparent"
+                    android:button="@null"
                     android:text="Keep windows open for fresh air"
-                    android:textColor="@color/text_high"
-                    android:buttonTint="@color/pop_orange" />
-                <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-                    android:id="@+id/youtube_ventilation"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:enableAutomaticInitialization="false" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iconVentilation"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Item 3: Deep Breathing -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/light_purple"
-            app:cardCornerRadius="8dp"
-            android:layout_marginBottom="16dp">
-            <LinearLayout
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="12dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintTop_toBottomOf="@id/checkBoxVentilation">
+
+                    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                        android:id="@+id/youtube_ventilation"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:enableAutomaticInitialization="false" />
+                </androidx.cardview.widget.CardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Item 3: Deep Breathing -->
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp">
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/card_background"
+                android:padding="12dp">
+
+                <ImageView
+                    android:id="@+id/iconDeepBreathing"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_baseline_air_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/checkBoxDeepBreathing"
+                    app:layout_constraintBottom_toBottomOf="@id/checkBoxDeepBreathing"
+                    app:tint="@color/accent_teal"
+                    android:contentDescription="Breathing Icon" />
+
                 <CheckBox
                     android:id="@+id/checkBoxDeepBreathing"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:background="@android:color/transparent"
+                    android:button="@null"
                     android:text="Practice deep breathing exercises"
-                    android:textColor="@color/text_high"
-                    android:buttonTint="@color/pop_orange" />
-                <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-                    android:id="@+id/youtube_deep_breathing"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:enableAutomaticInitialization="false" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iconDeepBreathing"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Item 4: Clean Air -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/light_purple"
-            app:cardCornerRadius="8dp"
-            android:layout_marginBottom="16dp">
-            <LinearLayout
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="12dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintTop_toBottomOf="@id/checkBoxDeepBreathing">
+
+                    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                        android:id="@+id/youtube_deep_breathing"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:enableAutomaticInitialization="false" />
+                </androidx.cardview.widget.CardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Item 4: Clean Air -->
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp">
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/card_background"
+                android:padding="12dp">
+
+                <ImageView
+                    android:id="@+id/iconCleanAir"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_baseline_air_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/checkBoxCleanAir"
+                    app:layout_constraintBottom_toBottomOf="@id/checkBoxCleanAir"
+                    app:tint="@color/accent_teal"
+                    android:contentDescription="Clean Air Icon" />
+
                 <CheckBox
                     android:id="@+id/checkBoxCleanAir"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:background="@android:color/transparent"
+                    android:button="@null"
                     android:text="Avoid smoke and polluted areas"
-                    android:textColor="@color/text_high"
-                    android:buttonTint="@color/pop_orange" />
-                <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-                    android:id="@+id/youtube_clean_air"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:enableAutomaticInitialization="false" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iconCleanAir"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
-</ScrollView>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="12dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintTop_toBottomOf="@id/checkBoxCleanAir">
+
+                    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                        android:id="@+id/youtube_clean_air"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:enableAutomaticInitialization="false" />
+                </androidx.cardview.widget.CardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

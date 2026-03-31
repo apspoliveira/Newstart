@@ -4,29 +4,26 @@
     <item
         android:id="@+id/nav_bar_home"
         android:icon="@drawable/ic_baseline_dashboard_24"
-        android:visible="true"
-        android:enabled="true"
-        android:title="Nutrition" />
+        android:title="Grid" />
 
     <item
         android:id="@+id/nav_bar_air"
         android:icon="@drawable/ic_baseline_air_24"
-        android:visible="true"
-        android:enabled="true"
         android:title="Air" />
+
+    <item
+        android:id="@+id/nav_bar_water"
+        android:icon="@drawable/ic_baseline_water_drop_24"
+        android:title="Water Drop" />
 
     <item
         android:id="@+id/nav_bar_exersises"
         android:icon="@drawable/ic_dumbbell_24"
-        android:visible="true"
-        android:enabled="true"
-        android:title="Workout" />
+        android:title="Dumbbell" />
 
     <item
         android:id="@+id/nav_bar_settings"
         android:icon="@drawable/ic_baseline_settings_24"
-        android:visible="true"
-        android:enabled="true"
         android:title="Settings" />
 
 </menu>

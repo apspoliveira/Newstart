@@ -2,11 +2,22 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="dark_purple">#131929</color>  <!-- StatusBar, App-Background -->
-    <color name="middle_purple">#1A2237</color>  <!-- NavBar, Widget-Background, Toolbar -->
-    <color name="light_purple">#2A3752</color>  <!-- Progress Bar (empty) -->
-    <color name="text_low">#60687F</color>  <!-- Low level text and button-icons -->
-    <color name="text_middle">#99A4C5</color>  <!-- Middle priority level text and button-icons -->
-    <color name="text_high">#CDFFFFFF</color>  <!-- High priority level text and button-icons -->
-    <color name="pop_orange">#F97141</color>  <!-- Fill for Progress Bar -->
+
+    <!-- Primary Backgrounds -->
+    <color name="dark_purple">#0F1424</color>  <!-- Main App Background -->
+    <color name="middle_purple">#1E273E</color>  <!-- NavBar, Card base -->
+    <color name="light_purple">#2A3752</color>  <!-- Secondary elements -->
+
+    <!-- Text Colors -->
+    <color name="text_high">#E0E6ED</color>  <!-- High priority text (Titles) -->
+    <color name="text_middle">#8A96A8</color>  <!-- Middle priority text (Subtitles) -->
+    <color name="text_low">#5B6676</color>  <!-- Low priority text (Progress labels) -->
+
+    <!-- Accent Colors -->
+    <color name="accent_teal">#4DB6AC</color>  <!-- Progress bars, Icons -->
+    <color name="pop_orange">#F97141</color>  <!-- Keep for compatibility or specific accents -->
+
+    <!-- Card & Progress -->
+    <color name="card_bg">#1E273E</color>
+    <color name="progress_empty">#2C364D</color>
 </resources>

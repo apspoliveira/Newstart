@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import com.falyrion.gymtonicapp.data.DatabaseHelper;
 import com.falyrion.gymtonicapp.fragments.Fragment_Air;
 import com.falyrion.gymtonicapp.fragments.Fragment_Nutrition;
+import com.falyrion.gymtonicapp.fragments.Fragment_Water;
 import com.falyrion.gymtonicapp.fragments.Fragment_Workout;
 import com.falyrion.gymtonicapp.fragments.Fragment_Settings;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -41,6 +42,11 @@ public class Activity_Main extends AppCompatActivity {
 
     private void setFragmentAir() {
         Fragment_Air fragment = new Fragment_Air();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+    }
+
+    private void setFragmentWater() {
+        Fragment_Water fragment = new Fragment_Water();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
     }
 
@@ -113,6 +119,9 @@ public class Activity_Main extends AppCompatActivity {
             case 4:
                 setFragmentAir();
                 break;
+            case 5:
+                setFragmentWater();
+                break;
             case 2:
                 setFragmentWorkout();
                 break;
@@ -140,6 +149,12 @@ public class Activity_Main extends AppCompatActivity {
                     if (currentFragmentID != 4) {
                         setFragmentAir();
                         currentFragmentID = 4;
+                    }
+                    return true;
+                } else if (itemId == R.id.nav_bar_water) {
+                    if (currentFragmentID != 5) {
+                        setFragmentWater();
+                        currentFragmentID = 5;
                     }
                     return true;
                 } else if (itemId == R.id.nav_bar_exersises) {

@@ -20,14 +20,18 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTube
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Random;
 
 public class Fragment_Air extends Fragment {
 
     private String date;
     private SharedPreferences sharedPreferences;
 
-    // Video ID for the requested video
-    private final String targetVideoId = "OM_X52rdeds";
+    // Video IDs for each category
+    private final String[] videoIdsFreshAir = {"OM_X52rdeds", "oxO2qotv3wM"};
+    private final String[] videoIdsVentilation = {"F2hIAOfw5h8", "owwfYlpibU0"};
+    private final String[] videoIdsDeepBreathing = {"QVeEhcKIyd8", "MH5lnMCGVF"};
+    private final String[] videoIdsCleanAir = {"rlFRSJYCax8", "MsZp5thi3sY"};
 
     @Nullable
     @Override
@@ -67,11 +71,18 @@ public class Fragment_Air extends Fragment {
         checkBoxDeepBreathing.setChecked(sharedPreferences.getBoolean("air_deep_" + date, false));
         checkBoxCleanAir.setChecked(sharedPreferences.getBoolean("air_clean_" + date, false));
 
-        // Initialize Players with the specific video
-        setupPlayer(playerFreshAir, targetVideoId);
-        setupPlayer(playerVentilation, targetVideoId);
-        setupPlayer(playerDeepBreathing, targetVideoId);
-        setupPlayer(playerCleanAir, targetVideoId);
+        // Randomly select one video ID for each player
+        Random random = new Random();
+        String videoIdFreshAir = videoIdsFreshAir[random.nextInt(videoIdsFreshAir.length)];
+        String videoIdVentilation = videoIdsVentilation[random.nextInt(videoIdsVentilation.length)];
+        String videoIdDeepBreathing = videoIdsDeepBreathing[random.nextInt(videoIdsDeepBreathing.length)];
+        String videoIdCleanAir = videoIdsCleanAir[random.nextInt(videoIdsCleanAir.length)];
+
+        // Initialize Players with the randomly selected videos
+        setupPlayer(playerFreshAir, videoIdFreshAir);
+        setupPlayer(playerVentilation, videoIdVentilation);
+        setupPlayer(playerDeepBreathing, videoIdDeepBreathing);
+        setupPlayer(playerCleanAir, videoIdCleanAir);
 
         // Listeners
         checkBoxFreshAir.setOnCheckedChangeListener((buttonView, isChecked) ->

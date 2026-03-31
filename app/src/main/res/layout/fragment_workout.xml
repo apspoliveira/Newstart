@@ -1,211 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/dark_purple"
     tools:context=".fragments.Fragment_Workout">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:clipToPadding="false"
+        android:paddingBottom="80dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/shape_box_round_bottom_middle"
-            android:gravity="center">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
 
-            <Spinner
-                android:id="@+id/spinnerWorkoutPlans"
+            <TextView
+                android:id="@+id/textViewWorkoutTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Workout"
+                android:textColor="@color/white"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="24dp"
+                android:text="TRAIN HARD. FEEL BETTER."
+                android:textColor="@color/text_middle"
+                android:textSize="12sp"
+                android:letterSpacing="0.1" />
+
+            <!-- Plan Selector Card -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:tooltipText="Select workout plan"/>
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/card_background"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <Spinner
+                    android:id="@+id/spinnerWorkoutPlans"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:backgroundTint="@color/white" />
+            </LinearLayout>
+
+            <!-- Routines Section -->
+            <TextView
+                android:id="@+id/sectionTitleRoutines"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:text="@string/workout_routines"
+                android:textColor="@color/text_middle"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewRoutines"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                tools:listitem="@android:layout/simple_list_item_1" />
+
+            <!-- Exercises Section -->
+            <TextView
+                android:id="@+id/sectionTitleExercises"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:text="@string/workout_exercises"
+                android:textColor="@color/text_middle"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewExercises"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@android:layout/simple_list_item_2" />
 
         </LinearLayout>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="20dp"/>
-
-        <!-- Section title -->
-        <TextView
-            android:id="@+id/sectionTitleRoutines"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@string/workout_routines"
-            android:layout_gravity="center"
-            android:textColor="@color/text_low"
-            android:textSize="20sp"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewRoutines"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="20dp"/>
-
-        <!-- Section title -->
-        <TextView
-            android:id="@+id/sectionTitleExercises"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@string/workout_exercises"
-            android:layout_gravity="center"
-            android:textColor="@color/text_low"
-            android:textSize="20sp"/>
-
-        <!-- Recycler view -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewExercises"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    </LinearLayout>
+    </ScrollView>
 
     <!-- Background blur -->
     <View
         android:id="@+id/fragmentExercisesBlur"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#CC1A2237"
-        android:visibility="gone"/>
+        android:background="#CC0F1424"
+        android:visibility="gone" />
 
-    <!-- FAB -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabExercisesMain"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="20dp"
-        app:maxImageSize="66dp"
-        android:src="@drawable/ic_baseline_add_circle_24"
-        app:tint="@color/text_low"
-        android:backgroundTint="#00FFFFFF"/>
-
+    <!-- Sub FABs -->
     <LinearLayout
-        android:id="@+id/linearLayoutFAB01"
+        android:id="@+id/linearLayoutFAB03"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="28dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:layout_gravity="bottom|end"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="20dp"
-        android:visibility="invisible">
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/button_edit_exercises"
-            android:textSize="20sp"
-            android:textColor="@color/text_high"
-            android:layout_gravity="center"/>
-
-        <Space
-            android:layout_width="10dp"
-            android:layout_height="match_parent"/>
+            android:layout_marginEnd="8dp"
+            android:text="Add Plan"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabExercises01"
+            android:id="@+id/fabExercises03"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:maxImageSize="66dp"
-            android:src="@drawable/ic_baseline_add_circle_24"
-            app:tint="@color/text_low"
-            android:visibility="visible"
-            android:backgroundTint="#00FFFFFF"/>
-
+            app:backgroundTint="@color/light_purple"
+            app:fabSize="mini"
+            app:srcCompat="@drawable/ic_baseline_add_circle_24"
+            app:tint="@color/white" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayoutFAB02"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="28dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:layout_gravity="bottom|end"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="20dp"
-        android:visibility="invisible">
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/button_edit_routines"
-            android:textSize="20sp"
-            android:textColor="@color/text_high"
-            android:layout_gravity="center"/>
-
-        <Space
-            android:layout_width="10dp"
-            android:layout_height="match_parent"/>
+            android:layout_marginEnd="8dp"
+            android:text="Add Routine"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabExercises02"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:maxImageSize="66dp"
-            android:src="@drawable/ic_baseline_add_circle_24"
-            app:tint="@color/text_low"
-            android:visibility="visible"
-            android:backgroundTint="#00FFFFFF"/>
-
+            app:backgroundTint="@color/light_purple"
+            app:fabSize="mini"
+            app:srcCompat="@drawable/ic_baseline_add_circle_24"
+            app:tint="@color/white" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayoutFAB03"
+        android:id="@+id/linearLayoutFAB01"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="28dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:layout_gravity="bottom|end"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="20dp"
-        android:visibility="invisible">
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/button_edit_plans"
-            android:textSize="20sp"
-            android:textColor="@color/text_high"
-            android:layout_gravity="center"/>
-
-        <Space
-            android:layout_width="10dp"
-            android:layout_height="match_parent"/>
+            android:layout_marginEnd="8dp"
+            android:text="Add Exercise"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabExercises03"
+            android:id="@+id/fabExercises01"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:maxImageSize="66dp"
-            android:src="@drawable/ic_baseline_add_circle_24"
-            app:tint="@color/text_low"
-            android:visibility="visible"
-            android:backgroundTint="#00FFFFFF"/>
-
+            app:backgroundTint="@color/light_purple"
+            app:fabSize="mini"
+            app:srcCompat="@drawable/ic_dumbbell_24"
+            app:tint="@color/white" />
     </LinearLayout>
 
-</FrameLayout>
+    <!-- Main FAB -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabExercisesMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        app:backgroundTint="@color/accent_teal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_baseline_add_circle_24"
+        app:tint="@color/dark_purple" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
