@@ -4,7 +4,7 @@
     <item
         android:id="@+id/nav_bar_home"
         android:icon="@drawable/ic_baseline_dashboard_24"
-        android:title="Grid" />
+        android:title="Home" />
 
     <item
         android:id="@+id/nav_bar_air"
@@ -14,12 +14,12 @@
     <item
         android:id="@+id/nav_bar_water"
         android:icon="@drawable/ic_baseline_water_drop_24"
-        android:title="Water Drop" />
+        android:title="Water" />
 
     <item
-        android:id="@+id/nav_bar_exersises"
-        android:icon="@drawable/ic_dumbbell_24"
-        android:title="Dumbbell" />
+        android:id="@+id/nav_bar_meal"
+        android:icon="@drawable/ic_baseline_restaurant_24"
+        android:title="Meal" />
 
     <item
         android:id="@+id/nav_bar_settings"

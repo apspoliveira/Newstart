@@ -23,6 +23,10 @@
         </activity>
 
         <activity
+            android:name="com.falyrion.gymtonicapp.activities.Activity_FullContent"
+            android:exported="false"
+            android:screenOrientation="sensorPortrait" />
+        <activity
             android:name="com.falyrion.gymtonicapp.activities.Activity_Workout_EditRoutines"
             android:exported="false"
             android:screenOrientation="sensorPortrait"

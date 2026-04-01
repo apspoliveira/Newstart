@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -17,7 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private Context context;
     private static final String DATABASE_NAME = "gymtonicapp.db";
-    private static final int DATABASE_VERSION = 43;
+    private static final int DATABASE_VERSION = 46;
 
     // Table foods
     private static final String TABLE_PM = "preset_meals";
@@ -104,6 +105,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String TABLE_S_LANG = "settings_lang";
     private static final String COL_S_LANG = "language";
+
+    // Table recipes/articles
+    private static final String TABLE_RECIPES = "recipes";
+    private static final String COL_RECIPE_TITLE = "title";
+    private static final String COL_RECIPE_CONTENT = "content";
 
 
     // Constructor ---------------------------------------------------------------------------------
@@ -210,246 +216,117 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COL_S_INDEX + " INTEGER PRIMARY KEY, "
                 + COL_S_LANG + " TEXT);");
 
+        // Create table recipes
+        sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_RECIPES + " ("
+                + COL_RECIPE_TITLE + " TEXT PRIMARY KEY, "
+                + COL_RECIPE_CONTENT + " TEXT);");
+
         // Add preset data to tables ---------------------------------------------------------------
 
         // Preset meals
-        // -> Format: index + name + 6 main values + 22 optional values
-        // -> ('index', 'name', 'category', cal, fat, fatsat, carbs, sugar, protein, salt, fiber, cholesterin, creatine, ca, fe, k_potassium, mg, mn, na_sodium, phosphor, zn, vita, vitb1, b2, b3, b5, b6, b7, b11, b12, c, e, k, h)
-        // -> Preset meals indices have always 1 digit more (7 digits in total) than user created meals to prevent overlaps
         sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000000', 'Apple (100 g)', 'Fruits and Vegetables', 52, 0.17, 0, 13.81, 10.39, 0.26, 0, 2.4, 0, 0, 6, 0.12, 107, 5, 0.035, 1, 11, 0.04, 0.003, 0.017, 0.026, 0.091, 0.061, 0.041, 0, 0, 0, 4.6, 0.18, 0.022, 0)");
         sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000001', 'Banana (100 g)', 'Fruits and Vegetables', 95.0, 0.33, 0.0, 22.84, 12.23, 1.0, 0.0, 2.6, 0.0, 0.0, 5.0, 0.26, 358.0, 27.0, 0.0, 0.0, 22.0, 0.15, 0.003, 0.031, 0.073, 0.665, 0.334, 0.367, 0.0, 0.0, 0.0, 8.7, 0.0, 0.0, 0.0)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000002', 'Watermelon (100 g)', 'Fruits and Vegetables', 38.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.000, 0.00, 0.00, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000003', 'Pear (100 g)', 'Fruits and Vegetables', 57, 0.1, 0, 15.2, 9.8, 0.4, 0, 3.1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000004', 'Strawberry (100 g)', 'Fruits and Vegetables', 32, 0.3, 0, 7.7, 4.9, 0.7, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000005', 'Orange (100 g)', 'Fruits and Vegetables', 47, 0.1, 0, 11.8, 9.4, 0.9, 0, 2.4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000006', 'Peach (100 g)', 'Fruits and Vegetables', 39, 0.3, 0, 9.5, 8.4, 0.9, 0, 1.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000007', 'Plum (100 g)', 'Fruits and Vegetables', 46, 0.3, 0, 11.4, 9.9, 0.7, 0, 1.4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000008', 'Cherry (100 g)', 'Fruits and Vegetables', 50, 0.3, 0, 12.2, 8.5, 1, 0, 1.6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000009', 'Grape (100 g)', 'Fruits and Vegetables', 69, 0.2, 0, 18.1, 15.5, 0.7, 0, 0.9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000010', 'Raspberry (100 g)', 'Fruits and Vegetables', 52, 0.7, 0, 11.9, 4.4, 1.2, 0, 6.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000011', 'Blueberry (100 g)', 'Fruits and Vegetables', 57, 0.3, 0, 14.5, 10, 0.7, 0, 2.4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000012', 'Pineapple (100 g)', 'Fruits and Vegetables', 50, 0.1, 0, 13.1, 9.9, 0.5, 0, 1.4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000013', 'Mango (100 g)', 'Fruits and Vegetables', 60, 0.4, 0, 15, 13.7, 0.8, 0, 1.6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000014', 'Kiwi (100 g)', 'Fruits and Vegetables', 61, 0.5, 0, 14.7, 9, 1.1, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000015', 'Lemon (100 g)', 'Fruits and Vegetables', 29, 0.3, 0, 9.3, 2.5, 1.1, 0, 2.8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000016', 'Cucumber (100 g)', 'Fruits and Vegetables', 15, 0.1, 0, 3.6, 1.7, 0.7, 0, 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000017', 'Tomato (100 g)', 'Fruits and Vegetables', 18, 0.2, 0, 3.9, 2.6, 0.9, 0, 1.2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000018', 'Potato (100 g)', 'Fruits and Vegetables', 77, 0.1, 0, 17.5, 0.8, 2, 0, 2.2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000019', 'Carrot (100 g)', 'Fruits and Vegetables', 41, 0.2, 0, 9.6, 4.7, 0.9, 0, 2.8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000020', 'Broccoli (100 g)', 'Fruits and Vegetables', 34, 0.4, 0, 6.6, 1.7, 2.8, 0, 2.6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000021', 'Spinach (100 g)', 'Fruits and Vegetables', 23, 0.4, 0, 3.6, 0.4, 2.9, 0, 2.2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000022', 'Eggplant (100 g)', 'Fruits and Vegetables', 25, 0.2, 0, 5.9, 3.5, 1, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000023', 'Onion (100 g)', 'Fruits and Vegetables', 40, 0.1, 0, 9.3, 4.2, 1.1, 0, 1.7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000024', 'Garlic (100 g)', 'Fruits and Vegetables', 149, 0.5, 0, 33.1, 1, 6.4, 0, 2.1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000025', 'Bell Pepper (100 g)', 'Fruits and Vegetables', 20, 0.2, 0, 4.6, 2.4, 0.9, 0, 1.7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000026', 'Mushroom (100 g)', 'Fruits and Vegetables', 22, 0.3, 0, 3.3, 2, 3.1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000027', 'Corn (100 g)', 'Fruits and Vegetables', 86, 1.2, 0, 18.7, 6.3, 3.2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000028', 'Avocado (100 g)', 'Fruits and Vegetables', 160, 14.7, 2.1, 8.5, 0.7, 2, 0, 6.7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
+        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000002', 'Watermelon (100 g)', 'Fruits and Vegetables', 38.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)");
 
+        // Add categories
+        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PMC + " VALUES('Fruits and Vegetables')");
+        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PMC + " VALUES('Meat and Fish')");
+        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PMC + " VALUES('Dairy and Eggs')");
+        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PMC + " VALUES('Bakery and Grains')");
+        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PMC + " VALUES('Drinks')");
+        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PMC + " VALUES('Others')");
 
-        // Add meal categories
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PMC + " VALUES('Fruits and Vegetables');");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PMC + " VALUES('Drinks');");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PMC + " VALUES('Grains and Cereals');");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PMC + " VALUES('Spices, Sauces, Oils');");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PMC + " VALUES('Veggie Products');");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PMC + " VALUES('Sweets and Spread');");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PMC + " VALUES('Animal Products');");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PMC + " VALUES('Convenience Foods');");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PMC + " VALUES('Supplements');");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PMC + " VALUES('Custom');");
-
-        // Workout plan names
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_WP + " VALUES('Example Workout Plan')");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_WP + " VALUES('My Workout Plan')");
-
-        // Workout routine names
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_WR + " VALUES('Example Workout Plan', 'Push Day')");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_WR + " VALUES('Example Workout Plan', 'Pull Day')");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_WR + " VALUES('Example Workout Plan', 'Leg Day')");
-
-        // Workout exercises
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_WE + " VALUES('Example Workout Plan', 'Push Day', 'Chest Press', 3, 6, 20)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_WE + " VALUES('Example Workout Plan', 'Push Day', 'Shoulder Press', 3, 6, 20)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_WE + " VALUES('Example Workout Plan', 'Pull Day', 'Lat Pull Down', 3, 8, 20)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_WE + " VALUES('Example Workout Plan', 'Leg Day', 'Leg Press', 3, 6, 20)");
-
-        // Settings
-        // -> (index, calories, carbs, fat, protein). First value is index. Must always be 0.
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_S_GOAL + " VALUES(0, 2500, 200, 100, 160)");
-
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_S_LANG + " VALUES(0, 'system')");
+        // Add initial recipes
+        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_RECIPES + " VALUES('Garden Lentil Stew', '<h1>Garden Lentil Stew</h1><p>A hearty and nutritious stew packed with lentils and fresh vegetables.</p><h3>Ingredients</h3><ul><li>1 cup brown lentils</li><li>1 onion, chopped</li><li>2 carrots, sliced</li><li>2 stalks celery, sliced</li><li>3 cloves garlic, minced</li><li>1 can diced tomatoes</li><li>4 cups vegetable broth</li><li>1 tsp thyme</li><li>1 tsp oregano</li><li>Salt and pepper to taste</li><li>2 cups spinach</li></ul><h3>Instructions</h3><ol><li>In a large pot, sauté onion, carrots, and celery until softened.</li><li>Add garlic and cook for 1 minute.</li><li>Stir in lentils, tomatoes, broth, thyme, and oregano.</li><li>Bring to a boil, then reduce heat and simmer for 30-40 minutes until lentils are tender.</li><li>Stir in spinach and cook until wilted.</li><li>Season with salt and pepper.</li></ol>');");
     }
 
-    /** This method will be called upon upgrading the database from one version to a higher one.
-     *
-     * @param sqLiteDatabase: SQLiteDatabase; The SQLiteDatabase to upgrade.
-     * @param oldVersion: Integer; The old version number of the database to upgrade from.
-     * @param newVersion: Integer; The new version number of the database to upgrade to.
-     */
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-        // Delete old tables
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PM);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PMC);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_CM);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_BD);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_WE);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_WR);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_WP);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_S_GOAL);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_S_LANG);
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        if (oldVersion < 46) {
+            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_RECIPES + " ("
+                    + COL_RECIPE_TITLE + " TEXT PRIMARY KEY, "
+                    + COL_RECIPE_CONTENT + " TEXT);");
 
-        // Create new database
-        onCreate(sqLiteDatabase);
+            db.execSQL("INSERT OR IGNORE INTO " + TABLE_RECIPES + " VALUES('Garden Lentil Stew', '<h1>Garden Lentil Stew</h1><p>A hearty and nutritious stew packed with lentils and fresh vegetables.</p><h3>Ingredients</h3><ul><li>1 cup brown lentils</li><li>1 onion, chopped</li><li>2 carrots, sliced</li><li>2 stalks celery, sliced</li><li>3 cloves garlic, minced</li><li>1 can diced tomatoes</li><li>4 cups vegetable broth</li><li>1 tsp thyme</li><li>1 tsp oregano</li><li>Salt and pepper to taste</li><li>2 cups spinach</li></ul><h3>Instructions</h3><ol><li>In a large pot, sauté onion, carrots, and celery until softened.</li><li>Add garlic and cook for 1 minute.</li><li>Stir in lentils, tomatoes, broth, thyme, and oregano.</li><li>Bring to a boil, then reduce heat and simmer for 30-40 minutes until lentils are tender.</li><li>Stir in spinach and cook until wilted.</li><li>Season with salt and pepper.</li></ol>');");
+
+            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_WP + " ("+ COL_WP_NAME + " TEXT PRIMARY KEY);");
+            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_WR + " ("+ COL_WR_PLAN_NAME + " TEXT, " + COL_WR_ROUTINE_NAME + " TEXT, PRIMARY KEY (" + COL_WR_PLAN_NAME + ", " + COL_WR_ROUTINE_NAME + "));");
+            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_WE + " ("
+                    + COL_WE_PLAN_NAME + " TEXT, "
+                    + COL_WE_ROUTINE_NAME + " TEXT, "
+                    + COL_WE_EXERCISE_NAME + " TEXT, "
+                    + COL_WE_SETS + " INTEGER, "
+                    + COL_WE_REPETITIONS + " INTEGER, "
+                    + COL_WE_WEIGHT + " REAL"
+                    + ");");
+            
+            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_S_GOAL + " ("
+                    + COL_S_INDEX + " INTEGER PRIMARY KEY, "
+                    + COL_S_GOAL_CALORIES + " REAL, "
+                    + COL_S_GOAL_FAT + " REAL, "
+                    + COL_S_GOAL_CARBS + " REAL, "
+                    + COL_S_GOAL_PROTEIN + " REAL);");
+
+            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_S_LANG + " ("
+                    + COL_S_INDEX + " INTEGER PRIMARY KEY, "
+                    + COL_S_LANG + " TEXT);");
+        }
     }
 
+    public void addDataBody(String date, double weight, double chest, double belly, double butt,
+                            double waist, double arm_r, double arm_l, double leg_r, double leg_l) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
 
-    // Meals Query's -------------------------------------------------------------------------------
+        cv.put(COLUMN_BD_DATE, date);
+        cv.put(COLUMN_BD_WEIGHT, weight);
+        cv.put(COLUMN_BD_CHEST, chest);
+        cv.put(COLUMN_BD_BELLY, belly);
+        cv.put(COLUMN_BD_BUTT, butt);
+        cv.put(COLUMN_BD_WAIST, waist);
+        cv.put(COLUMN_BD_ARM_R, arm_r);
+        cv.put(COLUMN_BD_ARM_L, arm_l);
+        cv.put(COLUMN_BD_LEG_R, leg_r);
+        cv.put(COLUMN_BD_LEG_L, leg_l);
 
-    public Cursor getPresetMealsSimpleAllCategories() {
-        // -> Return index, name, calories from table "foods" in ascending order by name
-
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        Cursor cursor = null;
-
-        if (sqLiteDatabase != null) {
-            cursor = sqLiteDatabase.rawQuery(
-                    "SELECT " + COL_PM_INDEX + ", " + COL_PM_NAME + ", " + COL_PM_CALORIES + " FROM " + TABLE_PM + " ORDER BY " + COL_PM_NAME +  " ASC LIMIT 100;",
-                    null
-            );
+        long result = db.replace(TABLE_BD, null, cv);
+        if (result == -1) {
+            Toast.makeText(context, "Failed to add body data", Toast.LENGTH_SHORT).show();
         }
-
-        return cursor;
-    }
-
-    public Cursor getPresetMealsSimpleFromCategory(String category) {
-        // -> Return index, name, calories from specified category table "foods" in ascending order by name
-
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        Cursor cursor = null;
-
-        if (sqLiteDatabase != null) {
-            cursor = sqLiteDatabase.rawQuery(
-                    "SELECT " + COL_PM_INDEX + ", " + COL_PM_NAME + ", " + COL_PM_CALORIES + " FROM " + TABLE_PM + " WHERE " + COL_PM_CATEGORY + "='" + category + "'" + " ORDER BY " + COL_PM_NAME +  " ASC;",
-                    null
-            );
-        }
-
-        return cursor;
-    }
-
-    public Cursor getPresetMealDetails(String foodUUID) {
-        // -> Returns all Details for a preset meal with given UUID
-
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        Cursor cursor = null;
-
-        if (sqLiteDatabase != null) {
-            cursor = sqLiteDatabase.rawQuery("SELECT * FROM " + TABLE_PM + " WHERE " + COL_PM_INDEX + "='" + foodUUID + "';", null);
-        }
-
-        return cursor;
     }
 
     public Cursor getPresetMealCategories() {
-        // -> Returns all Details for a preset meal with given UUID
-
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        Cursor cursor = null;
-
-        if (sqLiteDatabase != null) {
-            cursor = sqLiteDatabase.rawQuery("SELECT DISTINCT " + COL_PMC_NAME + " FROM " + TABLE_PMC + " ORDER BY " + COL_PMC_NAME + " ASC;", null);
-        }
-
-        return cursor;
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM " + TABLE_PMC, null);
     }
 
-    public Cursor getConsumedMeals(String date) {
-        // -> Returns index, name, calories, amount for all consumed meals for a given date
-
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        Cursor cursor = null;
-
-        if (sqLiteDatabase != null) {
-            // SELECT food.food_index, food.name, food.calories, dailymeals.amount FROM dailymeals LEFT JOIN food ON dailymeals.food_index=food.food_index WHERE dailymeals.date=date;
-            // Returns -> | food.food_index | food.name | food.cal | dailymeals.amount |
-            cursor = sqLiteDatabase.rawQuery(
-                    "SELECT " + TABLE_PM + "." + COL_PM_INDEX + ", " + TABLE_PM + "." + COL_PM_NAME + ", " + TABLE_PM + "." + COL_PM_CALORIES + ", " + TABLE_CM + "." + COL_CM_AMOUNT + " " +
-                            "FROM " + TABLE_CM + " " +
-                            "LEFT JOIN " + TABLE_PM + " ON " + TABLE_CM + "." + COL_CM_INDEX + "=" + TABLE_PM + "." + COL_PM_INDEX + " " +
-                            "WHERE " + TABLE_CM + "." + COL_CM_DATE + "='" + date + "';",
-                    null);
-        }
-
-        return cursor;
+    public Cursor getPresetMealsSimpleAllCategories() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT " + COL_PM_INDEX + ", " + COL_PM_NAME + ", " + COL_PM_CALORIES + " FROM " + TABLE_PM + " ORDER BY " + COL_PM_NAME + " ASC", null);
     }
 
-    public Cursor getConsumedMealsSums(String date) {
-        // -> Returns sum of all details of all consumed meals for a given date
+    public Cursor getPresetMealsSimpleFromCategory(String category) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT " + COL_PM_INDEX + ", " + COL_PM_NAME + ", " + COL_PM_CALORIES + " FROM " + TABLE_PM + " WHERE " + COL_PM_CATEGORY + " = ? ORDER BY " + COL_PM_NAME + " ASC", new String[]{category});
+    }
 
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        Cursor cursor = null;
+    public void addOrReplaceConsumedMeal(String date, String mealUUID, double amount) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COL_CM_DATE, date);
+        cv.put(COL_CM_INDEX, mealUUID);
+        cv.put(COL_CM_AMOUNT, amount);
+        db.replace(TABLE_CM, null, cv);
+    }
 
-        if (sqLiteDatabase != null) {
-
-            // SELECT (food.calories * dailymeals.amount) [other columns here] FROM dailymeals LEFT JOIN food ON dailymeals.food_index=food.food_index WHERE dailymeals.date=date;
-            // Returns -> | food.food_index | food.name | food.cal | food.fat | food.fat_sat | food.carbs | food.sugar | food.protein | dailymeals.amount |
-            cursor = sqLiteDatabase.rawQuery(
-                    "SELECT " +
-                            "SUM (" + TABLE_PM + "." + COL_PM_CALORIES + " * " + TABLE_CM + "." + COL_CM_AMOUNT + "), " +
-                            "SUM (" + TABLE_PM + "." + COL_PM_FAT + " * " + TABLE_CM + "." + COL_CM_AMOUNT + "), " +
-                            "SUM (" + TABLE_PM + "." + COL_PM_FAT_SAT + " * " + TABLE_CM + "." + COL_CM_AMOUNT + "), " +
-                            "SUM (" + TABLE_PM + "." + COL_PM_CARBS + " * " + TABLE_CM + "." + COL_CM_AMOUNT + "), " +
-                            "SUM (" + TABLE_PM + "." + COL_PM_SUGAR + " * " + TABLE_CM + "." + COL_CM_AMOUNT + "), " +
-                            "SUM (" + TABLE_PM + "." + COL_PM_PROTEIN + " * " + TABLE_CM + "." + COL_CM_AMOUNT + "), " +
-
-                            "SUM (" + TABLE_PM + "." + COL_PM_SALT + " * " + TABLE_CM + "." + COL_CM_AMOUNT + "), " +
-                            "SUM (" + TABLE_PM + "." + COL_PM_FIBER + " * " + TABLE_CM + "." + COL_CM_AMOUNT + "), " +
-                            "SUM (" + TABLE_PM + "." + COL_PM_CHOL + " * " + TABLE_CM + "." + COL_CM_AMOUNT + "), " +
-                            "SUM (" + TABLE_PM + "." + COL_PM_CREATINE + " * " + TABLE_CM + "." + COL_CM_AMOUNT + "), " +
-
-                            "SUM (" + TABLE_PM + "." + COL_PM_CA + " * " + TABLE_CM + "." + COL_CM_AMOUNT + "), " +
-                            "SUM (" + TABLE_PM + "." + COL_PM_FE + " * " + TABLE_CM + "." + COL_CM_AMOUNT + "), " +
-                            "SUM (" + TABLE_PM + "." + COL_PM_K + " * " + TABLE_CM + "." + COL_CM_AMOUNT + "), " +
-                            "SUM (" + TABLE_PM + "." + COL_PM_MG + " * " + TABLE_CM + "." + COL_CM_AMOUNT + "), " +
-                            "SUM (" + TABLE_PM + "." + COL_PM_MN + " * " + TABLE_CM + "." + COL_CM_AMOUNT + "), " +
-                            "SUM (" + TABLE_PM + "." + COL_PM_NA + " * " + TABLE_CM + "." + COL_CM_AMOUNT + "), " +
-                            "SUM (" + TABLE_PM + "." + COL_PM_P + " * " + TABLE_CM + "." + COL_CM_AMOUNT + "), " +
-                            "SUM (" + TABLE_PM + "." + COL_PM_ZN + " * " + TABLE_CM + "." + COL_CM_AMOUNT + "), " +
-
-                            "SUM (" + TABLE_PM + "." + COL_PM_VIT_A + " * " + TABLE_CM + "." + COL_CM_AMOUNT + "), " +
-                            "SUM (" + TABLE_PM + "." + COL_PM_VIT_B1 + " * " + TABLE_CM + "." + COL_CM_AMOUNT + "), " +
-                            "SUM (" + TABLE_PM + "." + COL_PM_VIT_B2 + " * " + TABLE_CM + "." + COL_CM_AMOUNT + "), " +
-                            "SUM (" + TABLE_PM + "." + COL_PM_VIT_B3 + " * " + TABLE_CM + "." + COL_CM_AMOUNT + "), " +
-                            "SUM (" + TABLE_PM + "." + COL_PM_VIT_B5 + " * " + TABLE_CM + "." + COL_CM_AMOUNT + "), " +
-                            "SUM (" + TABLE_PM + "." + COL_PM_VIT_B6 + " * " + TABLE_CM + "." + COL_CM_AMOUNT + "), " +
-                            "SUM (" + TABLE_PM + "." + COL_PM_VIT_B7 + " * " + TABLE_CM + "." + COL_CM_AMOUNT + "), " +
-                            "SUM (" + TABLE_PM + "." + COL_PM_VIT_B11 + " * " + TABLE_CM + "." + COL_CM_AMOUNT + "), " +
-                            "SUM (" + TABLE_PM + "." + COL_PM_VIT_B12 + " * " + TABLE_CM + "." + COL_CM_AMOUNT + "), " +
-                            "SUM (" + TABLE_PM + "." + COL_PM_VIT_C + " * " + TABLE_CM + "." + COL_CM_AMOUNT + "), " +
-                            "SUM (" + TABLE_PM + "." + COL_PM_VIT_E + " * " + TABLE_CM + "." + COL_CM_AMOUNT + "), " +
-                            "SUM (" + TABLE_PM + "." + COL_PM_VIT_K + " * " + TABLE_CM + "." + COL_CM_AMOUNT + "), " +
-                            "SUM (" + TABLE_PM + "." + COL_PM_VIT_H + " * " + TABLE_CM + "." + COL_CM_AMOUNT + ") " +
-
-                            "FROM " + TABLE_CM + " " +
-                            "LEFT JOIN " + TABLE_PM + " ON " + TABLE_CM + "." + COL_CM_INDEX + "=" + TABLE_PM + "." + COL_PM_INDEX + " " +
-                            "WHERE " + TABLE_CM + "." + COL_CM_DATE + "='" + date + "';",
-                    null);
-        }
-
-        return cursor;
+    public Cursor getPresetMealDetails(String uuid) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM " + TABLE_PM + " WHERE " + COL_PM_INDEX + " = ?", new String[]{uuid});
     }
 
     public void addOrReplacePresetMeal(String uuid, String name, String category, double[] data) {
-        // -> Inserts new preset meal to database
-
-        // Get database
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-
-        // Create content values to put into the database
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-
         cv.put(COL_PM_INDEX, uuid);
         cv.put(COL_PM_NAME, name);
         cv.put(COL_PM_CATEGORY, category);
@@ -484,287 +361,159 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(COL_PM_VIT_E, data[28]);
         cv.put(COL_PM_VIT_K, data[29]);
         cv.put(COL_PM_VIT_H, data[30]);
-
-        // Insert data into database
-        long result = sqLiteDatabase.replaceOrThrow(TABLE_PM, null, cv);
-        if (result == -1) {
-            Toast.makeText(context, "Failed to save data", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show();
-        }
-
+        db.replace(TABLE_PM, null, cv);
     }
 
-    public void addOrReplaceConsumedMeal(String date, String mealUUID, double amount) {
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-
-        cv.put(COL_CM_INDEX, mealUUID);
-        cv.put(COL_CM_DATE, date);
-        cv.put(COL_CM_AMOUNT, amount);
-
-        sqLiteDatabase.replaceOrThrow(TABLE_CM, null, cv);
+    public Cursor getConsumedMeals(String date) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT " + TABLE_CM + "." + COL_CM_INDEX + ", " + COL_CM_AMOUNT + ", " + COL_PM_NAME + ", " + COL_PM_CALORIES +
+                " FROM " + TABLE_CM +
+                " INNER JOIN " + TABLE_PM + " ON " + TABLE_CM + "." + COL_CM_INDEX + " = " + TABLE_PM + "." + COL_PM_INDEX +
+                " WHERE " + COL_CM_DATE + " = ?";
+        return db.rawQuery(query, new String[]{date});
     }
 
     public void removeConsumedMeal(String date, String mealUUID) {
-        // Remove entry from DailyMealsTable with date and UUID
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        if (sqLiteDatabase != null) {
-            sqLiteDatabase.delete(TABLE_CM, COL_CM_INDEX + "= ? AND " + COL_CM_DATE + "= ?", new String[] {mealUUID, date});
-            // sqLiteDatabase.delete(TABLE_NAME_M, COLUMN_M_INDEX + "='" + mealUUID + "' AND " + COLUMN_M_DATE + "='" + date + "'", null);
-            // sqLiteDatabase.rawQuery("DELETE FROM " + TABLE_NAME_M + " WHERE " + COLUMN_M_INDEX + "='" + mealUUID + "' AND " + COLUMN_M_DATE + "='" + date + "';", null);
-        }
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_CM, COL_CM_DATE + " = ? AND " + COL_CM_INDEX + " = ?", new String[]{date, mealUUID});
     }
 
-    // Workout Query's -----------------------------------------------------------------------------
+    // Workout methods -----------------------------------------------------------------------------
 
     public Cursor getWorkoutPlans() {
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        Cursor cursor = null;
-
-        if (sqLiteDatabase != null) {
-            cursor = sqLiteDatabase.rawQuery("SELECT DISTINCT * FROM " + TABLE_WP + ";", null);
-        }
-
-        return cursor;
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM " + TABLE_WP, null);
     }
 
-    public Cursor getWorkoutRoutines(String planName) {
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        Cursor cursor = null;
-
-        if (sqLiteDatabase != null) {
-            // cursor = sqLiteDatabase.rawQuery("SELECT DISTINCT " + COL_WE_ROUTINE_NAME + " FROM " + TABLE_WE + " WHERE " + COL_WE_PLAN_NAME + "='" + plan +"';", null);
-            cursor = sqLiteDatabase.rawQuery("SELECT DISTINCT " + COL_WR_ROUTINE_NAME + " FROM " + TABLE_WR + " WHERE " + COL_WR_PLAN_NAME + "='" + planName + "';", null);
-        }
-
-        return cursor;
+    public void addWorkoutPlan(String name) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COL_WP_NAME, name);
+        db.insert(TABLE_WP, null, cv);
     }
 
-    public Cursor getWorkoutExercises(String plan, String routine) {
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        Cursor cursor = null;
+    public void updateWorkoutPlanName(String oldName, String newName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COL_WP_NAME, newName);
+        db.update(TABLE_WP, cv, COL_WP_NAME + " = ?", new String[]{oldName});
 
-        if (sqLiteDatabase != null) {
-            cursor = sqLiteDatabase.rawQuery(
-                    "SELECT " + COL_WE_EXERCISE_NAME + ", " + COL_WE_SETS + ", " + COL_WE_REPETITIONS + ", " + COL_WE_WEIGHT +
-                            " FROM " + TABLE_WE +
-                            " WHERE " + COL_WE_PLAN_NAME + "='" + plan + "' AND " + COL_WE_ROUTINE_NAME + "='" + routine +"';",
-                    null);
-        }
+        ContentValues cvRoutines = new ContentValues();
+        cvRoutines.put(COL_WR_PLAN_NAME, newName);
+        db.update(TABLE_WR, cvRoutines, COL_WR_PLAN_NAME + " = ?", new String[]{oldName});
 
-        return cursor;
+        ContentValues cvExercises = new ContentValues();
+        cvExercises.put(COL_WE_PLAN_NAME, newName);
+        db.update(TABLE_WE, cvExercises, COL_WE_PLAN_NAME + " = ?", new String[]{oldName});
     }
 
-    public void addWorkoutPlan(String planName) {
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        if (sqLiteDatabase != null) {
-            sqLiteDatabase.execSQL("INSERT OR REPLACE INTO " + TABLE_WP + " VALUES('" + planName + "')");
-        }
+    public void deleteWorkoutPlan(String name) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_WP, COL_WP_NAME + " = ?", new String[]{name});
+        db.delete(TABLE_WR, COL_WR_PLAN_NAME + " = ?", new String[]{name});
+        db.delete(TABLE_WE, COL_WE_PLAN_NAME + " = ?", new String[]{name});
+    }
+
+    public Cursor getWorkoutRoutines(String workoutPlanName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT " + COL_WR_ROUTINE_NAME + " FROM " + TABLE_WR + " WHERE " + COL_WR_PLAN_NAME + " = ?", new String[]{workoutPlanName});
     }
 
     public void addWorkoutRoutine(String planName, String routineName) {
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        if (sqLiteDatabase != null) {
-            ContentValues cv = new ContentValues();
-            cv.put(COL_WR_PLAN_NAME, planName);
-            cv.put(COL_WR_ROUTINE_NAME, routineName);
-
-            sqLiteDatabase.replaceOrThrow(TABLE_WR, null, cv);
-        }
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COL_WR_PLAN_NAME, planName);
+        cv.put(COL_WR_ROUTINE_NAME, routineName);
+        db.insert(TABLE_WR, null, cv);
     }
 
-    public void addWorkoutExercise(String planName, String routineName, String exerciseName, int sets, int repetitions, double weight) {
-        // Get database
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+    public void updateWorkoutRoutineName(String planName, String oldRoutineName, String newRoutineName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COL_WR_ROUTINE_NAME, newRoutineName);
+        db.update(TABLE_WR, cv, COL_WR_PLAN_NAME + " = ? AND " + COL_WR_ROUTINE_NAME + " = ?", new String[]{planName, oldRoutineName});
 
-        // Create content values to put into the database
+        ContentValues cvExercises = new ContentValues();
+        cvExercises.put(COL_WE_ROUTINE_NAME, newRoutineName);
+        db.update(TABLE_WE, cvExercises, COL_WE_PLAN_NAME + " = ? AND " + COL_WE_ROUTINE_NAME + " = ?", new String[]{planName, oldRoutineName});
+    }
+
+    public void deleteWorkoutRoutine(String planName, String routineName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_WR, COL_WR_PLAN_NAME + " = ? AND " + COL_WR_ROUTINE_NAME + " = ?", new String[]{planName, routineName});
+        db.delete(TABLE_WE, COL_WE_PLAN_NAME + " = ? AND " + COL_WE_ROUTINE_NAME + " = ?", new String[]{planName, routineName});
+    }
+
+    public Cursor getWorkoutExercises(String planName, String routineName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM " + TABLE_WE + " WHERE " + COL_WE_PLAN_NAME + " = ? AND " + COL_WE_ROUTINE_NAME + " = ?", new String[]{planName, routineName});
+    }
+
+    public void addWorkoutExercise(String planName, String routineName, String exerciseName, int sets, int reps, double weight) {
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(COL_WE_PLAN_NAME, planName);
         cv.put(COL_WE_ROUTINE_NAME, routineName);
         cv.put(COL_WE_EXERCISE_NAME, exerciseName);
         cv.put(COL_WE_SETS, sets);
-        cv.put(COL_WE_REPETITIONS, repetitions);
+        cv.put(COL_WE_REPETITIONS, reps);
         cv.put(COL_WE_WEIGHT, weight);
-
-        long result = sqLiteDatabase.replaceOrThrow(TABLE_WE, null, cv);
-        if (result == -1) {
-            Toast.makeText(context, "Failed to save", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void updateWorkoutPlanName(String oldPlanName, String newPlanName) {
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-
-        if (sqLiteDatabase != null) {
-            // Remove old plan name from table "plans"
-            sqLiteDatabase.delete(TABLE_WP, COL_WP_NAME + "= ?", new String[] {oldPlanName});
-
-            // Add new plan name to table "plans"
-            ContentValues cv = new ContentValues();
-            cv.put(COL_WP_NAME, newPlanName);
-            sqLiteDatabase.insertOrThrow(TABLE_WP, null, cv);
-
-            // Update plan names in table "exercises"
-            cv = new ContentValues();
-            cv.put(COL_WE_PLAN_NAME, newPlanName);
-            sqLiteDatabase.update(TABLE_WE, cv, COL_WE_PLAN_NAME + "= ?", new String[]{oldPlanName});
-
-            // Update plan names in table "routines"
-            cv = new ContentValues();
-            cv.put(COL_WR_PLAN_NAME, newPlanName);
-            sqLiteDatabase.update(TABLE_WR, cv, COL_WR_PLAN_NAME + "= ?", new String[]{oldPlanName});
-        }
-    }
-
-    public void updateWorkoutRoutineName(String planName, String oldRoutineName, String newRoutineName) {
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-
-        if (sqLiteDatabase != null) {
-            // Update routine name in table "routines"
-            ContentValues cv = new ContentValues();
-            cv.put(COL_WR_ROUTINE_NAME, newRoutineName);
-            sqLiteDatabase.update(TABLE_WR, cv, COL_WR_PLAN_NAME + "= ? AND " + COL_WR_ROUTINE_NAME + "= ?", new String[] {planName, oldRoutineName});
-
-            // Update routine names in table "exercises"
-            cv = new ContentValues();
-            cv.put(COL_WE_ROUTINE_NAME, newRoutineName);
-            sqLiteDatabase.update(TABLE_WE, cv, COL_WE_ROUTINE_NAME + "= ?", new String[]{oldRoutineName});
-        }
-    }
-
-    public void deleteWorkoutPlan(String planName) {
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-
-        // Remove plan name from table "plans"
-        sqLiteDatabase.delete(TABLE_WP, COL_WP_NAME + "= ?", new String[] {planName});
-
-        // Remove all entries for this plan in table "exercises"
-        sqLiteDatabase.delete(TABLE_WE, COL_WE_PLAN_NAME + "= ?", new String[] {planName});
-    }
-
-    public void deleteWorkoutRoutine(String planName, String routineName) {
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-
-        // Remove routine name from table "routines"
-        sqLiteDatabase.delete(TABLE_WR, COL_WR_PLAN_NAME + "= ? AND " + COL_WR_ROUTINE_NAME + "= ?", new String[] {planName, routineName});
-
-        // Remove all entries for this routine in table "exercises"
-        sqLiteDatabase.delete(TABLE_WE, COL_WE_PLAN_NAME + "= ? AND " + COL_WE_ROUTINE_NAME + "= ?", new String[] {planName, routineName});
+        db.insert(TABLE_WE, null, cv);
     }
 
     public void deleteWorkoutExercise(String planName, String routineName, String exerciseName) {
-        // Get database
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        if (sqLiteDatabase != null) {
-            sqLiteDatabase.delete(TABLE_WE, COL_WE_PLAN_NAME + "= ? AND " + COL_WE_ROUTINE_NAME + "= ? AND " + COL_WE_EXERCISE_NAME + "= ?", new String[] {planName, routineName, exerciseName});
-            // sqLiteDatabase.rawQuery("DELETE FROM " + TABLE_NAME_WE + " WHERE " + COL_E_PLAN_NAME + "='" + planName + "' AND " + COL_E_ROUTINE_NAME + "='" + routineName + "' AND " + COL_E_EXERCISE_NAME + "='" + exerciseName +"';", null);
-        }
-
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_WE, COL_WE_PLAN_NAME + " = ? AND " + COL_WE_ROUTINE_NAME + " = ? AND " + COL_WE_EXERCISE_NAME + " = ?", new String[]{planName, routineName, exerciseName});
     }
 
-    // Settings Query's ----------------------------------------------------------------------------
-
-    public Cursor getSettingsGoals() {
-        // -> Read settings from table "settings_goals"
-
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        Cursor cursor = null;
-
-        if (sqLiteDatabase != null) {
-            cursor = sqLiteDatabase.rawQuery(
-                    "SELECT " + COL_S_GOAL_CALORIES + ", " + COL_S_GOAL_FAT + ", " + COL_S_GOAL_CARBS + ", " + COL_S_GOAL_PROTEIN +
-                            " FROM " + TABLE_S_GOAL +
-                            " WHERE " + COL_S_INDEX + "=0;",
-                    null);
-        }
-
-        return cursor;
-    }
+    // Settings methods ----------------------------------------------------------------------------
 
     public Cursor getSettingsLanguage() {
-        // -> Read settings from table "settings_lang"
-
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        Cursor cursor = null;
-
-        if (sqLiteDatabase != null) {
-            cursor = sqLiteDatabase.rawQuery(
-                    "SELECT " + COL_S_LANG + " FROM " + TABLE_S_LANG + " WHERE " + COL_S_INDEX + "=0;",
-                    null);
-        }
-
-        return cursor;
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM " + TABLE_S_LANG, null);
     }
 
-    public void setSettingsGoals(double goalCalories, double goalFat, double goalCarbs, double goalProtein) {
-        // Get database
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-
-        // Create content values to put into the database
+    public void setSettingsLanguage(String lang) {
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-
-        cv.put(COL_S_INDEX, 0);
-        cv.put(COL_S_GOAL_CALORIES, goalCalories);
-        cv.put(COL_S_GOAL_FAT, goalFat);
-        cv.put(COL_S_GOAL_CARBS, goalCarbs);
-        cv.put(COL_S_GOAL_PROTEIN, goalProtein);
-
-        long result = sqLiteDatabase.replaceOrThrow(TABLE_S_GOAL, null, cv);
-        if (result == -1) {
-            Toast.makeText(context, "Failed to save settings", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(context, "Saved settings", Toast.LENGTH_SHORT).show();
-        }
+        cv.put(COL_S_INDEX, 1);
+        cv.put(COL_S_LANG, lang);
+        db.replace(TABLE_S_LANG, null, cv);
     }
 
-    public void setSettingsLanguage(String language) {
-        // Get database
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-
-        // Create content values to put into the database
-        ContentValues cv = new ContentValues();
-
-        cv.put(COL_S_INDEX, 0);
-        cv.put(COL_S_LANG, language);
-
-        long result = sqLiteDatabase.replaceOrThrow(TABLE_S_LANG, null, cv);
-        if (result == -1) {
-            Toast.makeText(context, "Failed to save settings", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(context, "Saved settings. Close App to apply changes.", Toast.LENGTH_SHORT).show();
-        }
+    public Cursor getSettingsGoals() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM " + TABLE_S_GOAL, null);
     }
 
-    // Body-Data Query's ---------------------------------------------------------------------------
-
-    public void addDataBody(String date, double weight, double chest, double belly, double butt,
-                            double waist, double arm_r, double arm_l, double leg_r, double leg_l){
-        // Get database
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-
-        // Create content values to put into the database
+    public void setSettingsGoals(double cal, double fat, double carbs, double protein) {
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
+        cv.put(COL_S_INDEX, 1);
+        cv.put(COL_S_GOAL_CALORIES, cal);
+        cv.put(COL_S_GOAL_FAT, fat);
+        cv.put(COL_S_GOAL_CARBS, carbs);
+        cv.put(COL_S_GOAL_PROTEIN, protein);
+        db.replace(TABLE_S_GOAL, null, cv);
+    }
 
-        cv.put(COLUMN_BD_DATE, date);
-        cv.put(COLUMN_BD_WEIGHT, weight);
-        cv.put(COLUMN_BD_CHEST, chest);
-        cv.put(COLUMN_BD_BELLY, belly);
-        cv.put(COLUMN_BD_BUTT, butt);
-        cv.put(COLUMN_BD_WAIST, waist);
-        cv.put(COLUMN_BD_ARM_R, arm_r);
-        cv.put(COLUMN_BD_ARM_L, arm_l);
-        cv.put(COLUMN_BD_LEG_R, leg_r);
-        cv.put(COLUMN_BD_LEG_L, leg_l);
+    // Recipe methods ------------------------------------------------------------------------------
 
-        // Insert data into dadabase
-        long result = sqLiteDatabase.replaceOrThrow(TABLE_BD, null, cv);
-        if (result == -1) {
-            Toast.makeText(context, "Failed to save data", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show();
+    public String getRecipeContent(String title) {
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.rawQuery("SELECT " + COL_RECIPE_CONTENT + " FROM " + TABLE_RECIPES + " WHERE " + COL_RECIPE_TITLE + " = ?", new String[]{title});
+            String content = "";
+            if (cursor != null) {
+                if (cursor.moveToFirst()) {
+                    content = cursor.getString(0);
+                }
+                cursor.close();
+            }
+            return content;
+        } catch (Exception e) {
+            Log.e("DatabaseHelper", "Error getting recipe content", e);
+            return "";
         }
     }
 

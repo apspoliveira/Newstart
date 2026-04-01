@@ -32,7 +32,7 @@ public class Activity_Main extends AppCompatActivity {
     public DatabaseHelper databaseHelper;
 
 
-    private void setFragmentFood(String date) {
+    private void setFragmentNutrition(String date) {
         Fragment_Nutrition fragment = new Fragment_Nutrition();
         Bundle args = new Bundle();
         args.putString("date", date);
@@ -114,7 +114,10 @@ public class Activity_Main extends AppCompatActivity {
         // Set current fragment based on fragmentID
         switch (currentFragmentID) {
             case 0:
-                setFragmentFood(date);
+                setFragmentWorkout(); // Home shows workout now? Or we could create a real home.
+                break;
+            case 1:
+                setFragmentNutrition(date);
                 break;
             case 4:
                 setFragmentAir();
@@ -122,13 +125,11 @@ public class Activity_Main extends AppCompatActivity {
             case 5:
                 setFragmentWater();
                 break;
-            case 2:
-                setFragmentWorkout();
-                break;
             case 3:
                 setFragmentSettings();
                 break;
             default:
+                setFragmentNutrition(date);
                 break;
         }
 
@@ -141,7 +142,7 @@ public class Activity_Main extends AppCompatActivity {
                 int itemId = item.getItemId();
                 if (itemId == R.id.nav_bar_home) {
                     if (currentFragmentID != 0) {
-                        setFragmentFood(date);
+                        setFragmentWorkout();
                         currentFragmentID = 0;
                     }
                     return true;
@@ -157,10 +158,10 @@ public class Activity_Main extends AppCompatActivity {
                         currentFragmentID = 5;
                     }
                     return true;
-                } else if (itemId == R.id.nav_bar_exersises) {
-                    if (currentFragmentID != 2) {
-                        setFragmentWorkout();
-                        currentFragmentID = 2;
+                } else if (itemId == R.id.nav_bar_meal) {
+                    if (currentFragmentID != 1) {
+                        setFragmentNutrition(date);
+                        currentFragmentID = 1;
                     }
                     return true;
                 } else if (itemId == R.id.nav_bar_settings) {
@@ -173,11 +174,20 @@ public class Activity_Main extends AppCompatActivity {
                 return false;
             }
         });
+
+        // Set selected item in nav bar
+        if (currentFragmentID == 0) navBar.setSelectedItemId(R.id.nav_bar_home);
+        else if (currentFragmentID == 1) navBar.setSelectedItemId(R.id.nav_bar_meal);
+        else if (currentFragmentID == 4) navBar.setSelectedItemId(R.id.nav_bar_air);
+        else if (currentFragmentID == 5) navBar.setSelectedItemId(R.id.nav_bar_water);
+        else if (currentFragmentID == 3) navBar.setSelectedItemId(R.id.nav_bar_settings);
     }
 
     @Override
     protected void onDestroy() {
-        databaseHelper.close();
+        if (databaseHelper != null) {
+            databaseHelper.close();
+        }
         super.onDestroy();
     }
 }
