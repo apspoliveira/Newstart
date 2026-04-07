@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace "com.falyrion.gymtonicapp"
+    namespace "newstart"
     compileSdk 34
 
     defaultConfig {
