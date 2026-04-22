@@ -1,6 +1,5 @@
 package newstart;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -9,16 +8,18 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import newstart.data.DatabaseHelper;
 import newstart.fragments.Fragment_Air;
 import newstart.fragments.Fragment_Nutrition;
+import newstart.fragments.Fragment_Sun;
 import newstart.fragments.Fragment_Water;
 import newstart.fragments.Fragment_Workout;
 import newstart.fragments.Fragment_Settings;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
+
+import com.google.android.material.tabs.TabLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -46,6 +47,11 @@ public class Activity_Main extends AppCompatActivity {
 
     private void setFragmentWater() {
         Fragment_Water fragment = new Fragment_Water();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+    }
+
+    private void setFragmentSun() {
+        Fragment_Sun fragment = new Fragment_Sun();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
     }
 
@@ -112,74 +118,101 @@ public class Activity_Main extends AppCompatActivity {
 
         // Set current fragment based on fragmentID
         switch (currentFragmentID) {
-            case 0:
-                setFragmentWorkout(); // Home shows workout now? Or we could create a real home.
-                break;
-            case 1:
-                setFragmentNutrition(date);
-                break;
-            case 4:
-                setFragmentAir();
-                break;
-            case 5:
-                setFragmentWater();
-                break;
-            case 3:
-                setFragmentSettings();
-                break;
-            default:
-                setFragmentNutrition(date);
-                break;
+            case 0: setFragmentWorkout(); break;
+            case 1: setFragmentNutrition(date); break;
+            case 4: setFragmentAir(); break;
+            case 5: setFragmentWater(); break;
+            case 6: setFragmentSun(); break;
+            case 3: setFragmentSettings(); break;
+            default: setFragmentNutrition(date); break;
         }
 
         // -----------------------------------------------------------------------------------------
-        // Setup navigation bar
-        BottomNavigationView navBar = findViewById(R.id.bottom_navigation);
-        navBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+        // Setup navigation bar (using TabLayout to support >5 items)
+        TabLayout tabLayout = findViewById(R.id.bottom_navigation_tabs);
+        
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int itemId = item.getItemId();
-                if (itemId == R.id.nav_bar_home) {
-                    if (currentFragmentID != 0) {
-                        setFragmentWorkout();
-                        currentFragmentID = 0;
-                    }
-                    return true;
-                } else if (itemId == R.id.nav_bar_air) {
-                    if (currentFragmentID != 4) {
-                        setFragmentAir();
-                        currentFragmentID = 4;
-                    }
-                    return true;
-                } else if (itemId == R.id.nav_bar_water) {
-                    if (currentFragmentID != 5) {
-                        setFragmentWater();
-                        currentFragmentID = 5;
-                    }
-                    return true;
-                } else if (itemId == R.id.nav_bar_meal) {
-                    if (currentFragmentID != 1) {
-                        setFragmentNutrition(date);
-                        currentFragmentID = 1;
-                    }
-                    return true;
-                } else if (itemId == R.id.nav_bar_settings) {
-                    if (currentFragmentID != 3) {
-                        setFragmentSettings();
-                        currentFragmentID = 3;
-                    }
-                    return true;
+            public void onTabSelected(TabLayout.Tab tab) {
+                int position = tab.getPosition();
+                switch (position) {
+                    case 0: // Home
+                        if (currentFragmentID != 0) {
+                            setFragmentWorkout();
+                            currentFragmentID = 0;
+                        }
+                        break;
+                    case 1: // Air
+                        if (currentFragmentID != 4) {
+                            setFragmentAir();
+                            currentFragmentID = 4;
+                        }
+                        break;
+                    case 2: // Water
+                        if (currentFragmentID != 5) {
+                            setFragmentWater();
+                            currentFragmentID = 5;
+                        }
+                        break;
+                    case 3: // Sun
+                        if (currentFragmentID != 6) {
+                            setFragmentSun();
+                            currentFragmentID = 6;
+                        }
+                        break;
+                    case 4: // Meal
+                        if (currentFragmentID != 1) {
+                            setFragmentNutrition(date);
+                            currentFragmentID = 1;
+                        }
+                        break;
+                    case 5: // Settings
+                        if (currentFragmentID != 3) {
+                            setFragmentSettings();
+                            currentFragmentID = 3;
+                        }
+                        break;
                 }
-                return false;
             }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {}
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {}
         });
 
-        // Set selected item in nav bar
-        if (currentFragmentID == 0) navBar.setSelectedItemId(R.id.nav_bar_home);
-        else if (currentFragmentID == 1) navBar.setSelectedItemId(R.id.nav_bar_meal);
-        else if (currentFragmentID == 4) navBar.setSelectedItemId(R.id.nav_bar_air);
-        else if (currentFragmentID == 5) navBar.setSelectedItemId(R.id.nav_bar_water);
-        else if (currentFragmentID == 3) navBar.setSelectedItemId(R.id.nav_bar_settings);
+        // Set initial tab selection based on currentFragmentID
+        TabLayout.Tab initialTab = null;
+        switch (currentFragmentID) {
+            case 0: initialTab = tabLayout.getTabAt(0); break;
+            case 1: initialTab = tabLayout.getTabAt(4); break;
+            case 4: initialTab = tabLayout.getTabAt(1); break;
+            case 5: initialTab = tabLayout.getTabAt(2); break;
+            case 6: initialTab = tabLayout.getTabAt(3); break;
+            case 3: initialTab = tabLayout.getTabAt(5); break;
+        }
+        if (initialTab != null) initialTab.select();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_settings) {
+            setFragmentSettings();
+            currentFragmentID = 3;
+            // Update tab selection
+            TabLayout tabLayout = findViewById(R.id.bottom_navigation_tabs);
+            TabLayout.Tab settingsTab = tabLayout.getTabAt(5);
+            if (settingsTab != null) settingsTab.select();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

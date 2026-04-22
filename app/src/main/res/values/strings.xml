@@ -103,6 +103,7 @@
     <string name="button_create_plan">Create New Workout Plan</string>
     <string name="button_create_routines">Create Workout Routines</string>
     <string name="button_create_exercises">Create Workout Exercises</string>
+    <string name="settings">Settings</string>
     <string name="settings_lang">Language</string>
     <string name="settings_goals">Daily Goals</string>
 
@@ -124,5 +125,11 @@
     <string name="water_hydro">Take a contrast shower (hot/cold)</string>
     <string name="water_morning">Drink 2 glasses upon waking</string>
     <string name="water_pure">Choose pure water over sugary drinks</string>
+
+    <!-- NEWSTART Sunlight -->
+    <string name="sun_title">Sunlight (NEWSTART)</string>
+    <string name="sun_exposure">Sun Exposure: %1$d minutes</string>
+    <string name="sun_benefits">SOAK UP THE SUN. BOOST YOUR MOOD.</string>
+    <string name="sun_goal">Daily sun goal (mins)</string>
 
 </resources>

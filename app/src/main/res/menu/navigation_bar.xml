@@ -17,6 +17,11 @@
         android:title="Water" />
 
     <item
+        android:id="@+id/nav_bar_sun"
+        android:icon="@drawable/ic_baseline_wb_sunny_24"
+        android:title="Sun" />
+
+    <item
         android:id="@+id/nav_bar_meal"
         android:icon="@drawable/ic_baseline_restaurant_24"
         android:title="Meal" />

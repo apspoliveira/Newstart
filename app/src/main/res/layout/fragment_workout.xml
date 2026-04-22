@@ -4,94 +4,145 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_purple"
+    android:background="#F5F5F0"
     tools:context=".fragments.Fragment_Workout">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Workout"
+            android:textColor="#333333"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentEnd="true"
+            android:padding="8dp"
+            android:src="@drawable/ic_dumbbell_24"
+            app:tint="#C5A070" />
+    </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:clipToPadding="false"
-        android:paddingBottom="80dp">
+        android:paddingBottom="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
-
-            <TextView
-                android:id="@+id/textViewWorkoutTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Workout"
-                android:textColor="@color/white"
-                android:textSize="28sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="24dp"
-                android:text="TRAIN HARD. FEEL BETTER."
-                android:textColor="@color/text_middle"
-                android:textSize="12sp"
-                android:letterSpacing="0.1" />
+            android:padding="16dp">
 
             <!-- Plan Selector Card -->
-            <LinearLayout
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/card_background"
-                android:orientation="vertical"
-                android:padding="8dp">
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
 
-                <Spinner
-                    android:id="@+id/spinnerWorkoutPlans"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    android:backgroundTint="@color/white" />
-            </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="12dp">
 
-            <!-- Routines Section -->
-            <TextView
-                android:id="@+id/sectionTitleRoutines"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:text="@string/workout_routines"
-                android:textColor="@color/text_middle"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SELECT TRAINING PLAN"
+                        android:textColor="#7A8B75"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewRoutines"
+                    <Spinner
+                        android:id="@+id/spinnerWorkoutPlans"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:backgroundTint="#7A8B75" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Routines Card -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                tools:listitem="@android:layout/simple_list_item_1" />
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="#525B4D"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
 
-            <!-- Exercises Section -->
-            <TextView
-                android:id="@+id/sectionTitleExercises"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:text="@string/workout_exercises"
-                android:textColor="@color/text_middle"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewExercises"
+                    <TextView
+                        android:id="@+id/sectionTitleRoutines"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:text="@string/workout_routines"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewRoutines"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:listitem="@android:layout/simple_list_item_1" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Exercises Card -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem="@android:layout/simple_list_item_2" />
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/sectionTitleExercises"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:text="@string/workout_exercises"
+                        android:textColor="#7A8B75"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewExercises"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:listitem="@android:layout/simple_list_item_2" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
     </ScrollView>
@@ -101,19 +152,19 @@
         android:id="@+id/fragmentExercisesBlur"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#CC0F1424"
+        android:background="#CC000000"
         android:visibility="gone" />
 
-    <!-- Sub FABs -->
+    <!-- Sub FAB 03 - Edit Plans -->
     <LinearLayout
         android:id="@+id/linearLayoutFAB03"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="28dp"
-        android:layout_marginBottom="28dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:visibility="invisible"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -121,29 +172,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="Add Plan"
-            android:textColor="@color/white"
+            android:text="Edit Plans"
+            android:textColor="#FFFFFF"
             android:textStyle="bold" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabExercises03"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:backgroundTint="@color/light_purple"
+            app:backgroundTint="#7A8B75"
             app:fabSize="mini"
-            app:srcCompat="@drawable/ic_baseline_add_circle_24"
-            app:tint="@color/white" />
+            app:srcCompat="@drawable/ic_baseline_edit_24"
+            app:tint="#FFFFFF" />
     </LinearLayout>
 
+    <!-- Sub FAB 02 - Edit Routines -->
     <LinearLayout
         android:id="@+id/linearLayoutFAB02"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="28dp"
-        android:layout_marginBottom="28dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:visibility="invisible"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -151,29 +203,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="Add Routine"
-            android:textColor="@color/white"
+            android:text="Edit Routines"
+            android:textColor="#FFFFFF"
             android:textStyle="bold" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabExercises02"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:backgroundTint="@color/light_purple"
+            app:backgroundTint="#7A8B75"
             app:fabSize="mini"
-            app:srcCompat="@drawable/ic_baseline_add_circle_24"
-            app:tint="@color/white" />
+            app:srcCompat="@drawable/ic_baseline_edit_24"
+            app:tint="#FFFFFF" />
     </LinearLayout>
 
+    <!-- Sub FAB 01 - Add Exercise -->
     <LinearLayout
         android:id="@+id/linearLayoutFAB01"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="28dp"
-        android:layout_marginBottom="28dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:visibility="invisible"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -182,17 +235,17 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:text="Add Exercise"
-            android:textColor="@color/white"
+            android:textColor="#FFFFFF"
             android:textStyle="bold" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabExercises01"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:backgroundTint="@color/light_purple"
+            app:backgroundTint="#7A8B75"
             app:fabSize="mini"
-            app:srcCompat="@drawable/ic_dumbbell_24"
-            app:tint="@color/white" />
+            app:srcCompat="@drawable/ic_baseline_add_24"
+            app:tint="#FFFFFF" />
     </LinearLayout>
 
     <!-- Main FAB -->
@@ -202,10 +255,10 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        app:backgroundTint="@color/accent_teal"
+        app:backgroundTint="#7A8B75"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_baseline_add_circle_24"
-        app:tint="@color/dark_purple" />
+        app:tint="#FFFFFF" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

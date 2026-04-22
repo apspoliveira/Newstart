@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="Meal Recipes (NEWSTART)"
+            android:text="Nutrition (NEWSTART)"
             android:textColor="#333333"
             android:textSize="22sp"
             android:textStyle="bold" />
@@ -47,8 +47,98 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Card 1 -->
+            <!-- Today's Suggestion Card (Summary) -->
             <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TODAY'S SUGGESTED MENU"
+                        android:textColor="#7A8B75"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="12dp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:text="Breakfast:"
+                            android:textColor="#333333"
+                            android:textStyle="bold"
+                            android:textSize="14sp"/>
+                        <TextView
+                            android:id="@+id/textBreakfastSuggestion"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Loading..."
+                            android:textColor="#555555"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:text="Lunch:"
+                            android:textColor="#333333"
+                            android:textStyle="bold"
+                            android:textSize="14sp"/>
+                        <TextView
+                            android:id="@+id/textLunchSuggestion"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Loading..."
+                            android:textColor="#555555"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:text="Dinner:"
+                            android:textColor="#333333"
+                            android:textStyle="bold"
+                            android:textSize="14sp"/>
+                        <TextView
+                            android:id="@+id/textDinnerSuggestion"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Loading..."
+                            android:textColor="#555555"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Breakfast Card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardBreakfast"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -77,7 +167,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="FEATURED RECIPE: Garden Lentil Stew"
+                            android:text="BREAKFAST OF THE DAY"
                             android:textColor="#E0E0E0"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -107,11 +197,12 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/textBreakfastCardTitle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Garden Lentil\nStew"
+                                android:text="Loading..."
                                 android:textColor="#FFFFFF"
-                                android:textSize="24sp"
+                                android:textSize="22sp"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -124,6 +215,7 @@
                         </LinearLayout>
 
                         <ImageView
+                            android:id="@+id/buttonPlayVideoBreakfast"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:layout_gravity="center"
@@ -131,7 +223,7 @@
                             app:tint="#FFFFFF" />
 
                         <Button
-                            android:id="@+id/buttonViewRecipe"
+                            android:id="@+id/buttonViewBreakfastRecipe"
                             android:layout_width="wrap_content"
                             android:layout_height="36dp"
                             android:layout_gravity="bottom|center_horizontal"
@@ -139,7 +231,7 @@
                             android:backgroundTint="#7A8B75"
                             android:paddingStart="16dp"
                             android:paddingEnd="16dp"
-                            android:text="VIEW FULL RECIPE"
+                            android:text="VIEW RECIPE"
                             android:textColor="#FFFFFF"
                             android:textSize="12sp" />
 
@@ -149,15 +241,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:text="• Prep Time: 15 mins • Cook Time: 45 mins\n• Servings: 4-6. A hearty, plant-based stew packed with protein."
+                        android:text="Start your day with a healthy, plant-based breakfast following NEWSTART principles."
                         android:textColor="#E0E0E0"
                         android:textSize="13sp" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Card 2 -->
+            <!-- Lunch Card -->
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardLunch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -186,7 +279,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="SDA Principles for Healthful Cooking"
+                            android:text="LUNCH OF THE DAY"
                             android:textColor="#E0E0E0"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -208,18 +301,41 @@
                             android:layout_height="match_parent"
                             android:background="#66000000" />
 
-                        <TextView
-                            android:layout_width="200dp"
+                        <LinearLayout
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center_vertical"
                             android:layout_marginStart="16dp"
-                            android:text="SDA Principles for Healthful Cooking"
-                            android:textColor="#FFFFFF"
-                            android:textSize="22sp"
-                            android:textStyle="bold" />
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textLunchCardTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Loading..."
+                                android:textColor="#FFFFFF"
+                                android:textSize="22sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="YouTube"
+                                android:textColor="#FFFFFF"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/buttonPlayVideoLunch"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_gravity="center"
+                            android:src="@android:drawable/ic_media_play"
+                            app:tint="#FFFFFF" />
 
                         <Button
-                            android:id="@+id/buttonViewArticle"
+                            android:id="@+id/buttonViewLunchRecipe"
                             android:layout_width="wrap_content"
                             android:layout_height="36dp"
                             android:layout_gravity="bottom|center_horizontal"
@@ -227,7 +343,7 @@
                             android:backgroundTint="#7A8B75"
                             android:paddingStart="16dp"
                             android:paddingEnd="16dp"
-                            android:text="VIEW FULL ARTICLE"
+                            android:text="VIEW RECIPE"
                             android:textColor="#FFFFFF"
                             android:textSize="12sp" />
 
@@ -237,10 +353,167 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:text="PRINCIPLES:\n• Focus on whole plant foods\n• Reduce sodium and refined sugars\n• Prepare with purpose\n• Prioritize nutrition"
+                        android:text="Fuel your body with a nutritious, whole-food plant-based lunch."
                         android:textColor="#E0E0E0"
                         android:textSize="13sp" />
 
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Dinner Card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardDinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="#525B4D"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="#D4A017"
+                            android:checked="true" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="DINNER OF THE DAY"
+                            android:textColor="#E0E0E0"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:layout_marginTop="8dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/card_background" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="#66000000" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start|center_vertical"
+                            android:layout_marginStart="16dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textDinnerCardTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Loading..."
+                                android:textColor="#FFFFFF"
+                                android:textSize="22sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="YouTube"
+                                android:textColor="#FFFFFF"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/buttonPlayVideoDinner"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_gravity="center"
+                            android:src="@android:drawable/ic_media_play"
+                            app:tint="#FFFFFF" />
+
+                        <Button
+                            android:id="@+id/buttonViewDinnerRecipe"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:layout_gravity="bottom|center_horizontal"
+                            android:layout_marginBottom="8dp"
+                            android:backgroundTint="#7A8B75"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:text="VIEW RECIPE"
+                            android:textColor="#FFFFFF"
+                            android:textSize="12sp" />
+
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="End your day with a light and satisfying NEWSTART-friendly dinner."
+                        android:textColor="#E0E0E0"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Nutrition Article Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="HEALTHFUL COOKING"
+                        android:textColor="#7A8B75"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Learn the core principles of NEWSTART healthful cooking and food preparation."
+                        android:textColor="#333333"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="12dp"/>
+
+                    <Button
+                        android:id="@+id/buttonViewArticle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:backgroundTint="#7A8B75"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:text="READ ARTICLE"
+                        android:textColor="#FFFFFF"
+                        android:textSize="12sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

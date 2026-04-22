@@ -47,11 +47,6 @@
             android:screenOrientation="sensorPortrait"
             android:parentActivityName="newstart.Activity_Main" />
         <activity
-            android:name="newstart.activities.Activity_EditBodyStats"
-            android:exported="false"
-            android:screenOrientation="sensorPortrait"
-            android:parentActivityName="newstart.Activity_Main" />
-        <activity
             android:name="newstart.Activity_Main"
             android:screenOrientation="sensorPortrait"
             android:exported="true" />
