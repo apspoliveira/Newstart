@@ -20,6 +20,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "newstart.db";
     private static final int DATABASE_VERSION = 53;
 
+    // Table body-data
+    private static final String TABLE_BD = "body_data";
+    private static final String COLUMN_BD_DATE = "date";
+    private static final String COLUMN_BD_WEIGHT = "weight";
+    private static final String COLUMN_BD_CHEST = "chest";
+    private static final String COLUMN_BD_BELLY = "belly";
+    private static final String COLUMN_BD_BUTT = "butt";
+    private static final String COLUMN_BD_WAIST = "waist";
+    private static final String COLUMN_BD_ARM_R = "arm_r";
+    private static final String COLUMN_BD_ARM_L = "arm_l";
+    private static final String COLUMN_BD_LEG_R = "leg_r";
+    private static final String COLUMN_BD_LEG_L = "leg_l";
+
     // Table foods
     private static final String TABLE_PM = "preset_meals";
     private static final String COL_PM_INDEX = "meal_index";
@@ -27,22 +40,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COL_PM_CATEGORY = "category";
     private static final String COL_PM_CALORIES = "calories";
     private static final String COL_PM_FAT = "fat";
-    private static final String COL_PM_FAT_SAT = "fat_saturated";
-    private static final String COL_PM_CARBS = "carbohydrates";
+    private static final String COL_PM_FAT_SAT = "fat_sat";
+    private static final String COL_PM_CARBS = "carbs";
     private static final String COL_PM_SUGAR = "sugar";
     private static final String COL_PM_PROTEIN = "protein";
     private static final String COL_PM_SALT = "salt";
     private static final String COL_PM_FIBER = "fiber";
-    private static final String COL_PM_CHOL = "cholesterol";
+    private static final String COL_PM_CHOL = "chol";
     private static final String COL_PM_CREATINE = "creatine";
-    private static final String COL_PM_CA = "calcium";
-    private static final String COL_PM_FE = "iron";
-    private static final String COL_PM_K = "potassium";
-    private static final String COL_PM_MG = "magnesium";
-    private static final String COL_PM_MN = "manganese";
-    private static final String COL_PM_NA = "sodium";
-    private static final String COL_PM_P = "phosphorus";
-    private static final String COL_PM_ZN = "zinc";
+    private static final String COL_PM_CA = "ca";
+    private static final String COL_PM_FE = "fe";
+    private static final String COL_PM_K = "k";
+    private static final String COL_PM_MG = "mg";
+    private static final String COL_PM_MN = "mn";
+    private static final String COL_PM_NA = "na";
+    private static final String COL_PM_P = "p";
+    private static final String COL_PM_ZN = "zn";
     private static final String COL_PM_VIT_A = "vit_a";
     private static final String COL_PM_VIT_B1 = "vit_b1";
     private static final String COL_PM_VIT_B2 = "vit_b2";
@@ -66,19 +79,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COL_CM_INDEX = "meal_index";  // Refers to uuid-index of a food from foods-table
     private static final String COL_CM_AMOUNT = "amount";
 
-    // Table body-data
-    private static final String TABLE_BD = "bodydata";
-    private static final String COLUMN_BD_DATE = "date";
-    private static final String COLUMN_BD_WEIGHT = "weight";
-    private static final String COLUMN_BD_CHEST = "chest";
-    private static final String COLUMN_BD_BELLY = "belly";
-    private static final String COLUMN_BD_BUTT = "butt";
-    private static final String COLUMN_BD_WAIST = "waist";
-    private static final String COLUMN_BD_ARM_R = "arm_right";
-    private static final String COLUMN_BD_ARM_L = "arm_left";
-    private static final String COLUMN_BD_LEG_R = "leg_right";
-    private static final String COLUMN_BD_LEG_L = "leg_left";
-
     // Table exercises
     private static final String TABLE_WP = "workout_plans";
     private static final String COL_WP_NAME = "plan_name";
@@ -87,12 +87,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COL_WR_PLAN_NAME = "plan_name";
     private static final String COL_WR_ROUTINE_NAME = "routine_name";
 
-    private static final String TABLE_WE = "exercises";
+    private static final String TABLE_WE = "workout_exercises";
     private static final String COL_WE_PLAN_NAME = "plan_name";
-    private static final String COL_WE_ROUTINE_NAME = "routine";
+    private static final String COL_WE_ROUTINE_NAME = "routine_name";
     private static final String COL_WE_EXERCISE_NAME = "exercise_name";
     private static final String COL_WE_SETS = "sets";
-    private static final String COL_WE_REPETITIONS = "repetitions";
+    private static final String COL_WE_REPETITIONS = "reps";
     private static final String COL_WE_WEIGHT = "weight";
 
     // Table settings
@@ -302,7 +302,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             db.execSQL("INSERT OR IGNORE INTO " + TABLE_WP + " VALUES('Example Workout Plan');");
             db.execSQL("INSERT OR IGNORE INTO " + TABLE_WR + " VALUES('Example Workout Plan', 'LEG DAY');");
-            db.execSQL("INSERT OR IGNORE INTO " + TABLE_WR + " VALUES('Example Workout Plan', 'PULL DAY');");
+            db.execSQL("INSERT OR IGNORE INTO " + TABLE_WP + " VALUES('Example Workout Plan', 'PULL DAY');");
             db.execSQL("INSERT OR IGNORE INTO " + TABLE_WR + " VALUES('Example Workout Plan', 'PUSH DAY');");
 
             db.execSQL("INSERT OR IGNORE INTO " + TABLE_S_LANG + " VALUES(1, 'en');");

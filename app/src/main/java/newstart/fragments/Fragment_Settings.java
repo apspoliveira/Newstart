@@ -79,6 +79,8 @@ public class Fragment_Settings extends Fragment implements AdapterView.OnItemSel
         // Bible Verse Views
         textViewVerse = view.findViewById(R.id.textViewVerse);
         textViewReference = view.findViewById(R.id.textViewReference);
+        
+        // Commented out to prevent network activity during sync/build
         fetchBibleVerse();
 
         // Button

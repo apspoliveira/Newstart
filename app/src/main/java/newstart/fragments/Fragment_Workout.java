@@ -3,10 +3,15 @@ package newstart.fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
+import android.widget.TextSwitcher;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +31,19 @@ public class Fragment_Workout extends Fragment {
 
     private String date;
     private SharedPreferences sharedPreferences;
+
+    private TextSwitcher textSwitcherHints;
+    private final String[] workoutHints = {
+            "Regular exercise strengthens your heart and improves circulation.",
+            "Aim for at least 30 minutes of moderate activity most days of the week.",
+            "Strength training helps maintain bone density and muscle mass.",
+            "Consistency is more important than intensity when starting out.",
+            "Don't forget to warm up before and cool down after your workout.",
+            "Find an activity you enjoy to make exercise a lifelong habit."
+    };
+    private int currentHintIdx = 0;
+    private final Handler hintHandler = new Handler();
+    private Runnable hintRunnable;
 
     // Video IDs for each category
     private final String[] videoIdsStrength = {"3vS6-O7Yy8Y", "UItWltVZZmE"};
@@ -66,6 +84,22 @@ public class Fragment_Workout extends Fragment {
         checkBoxCardio.setChecked(sharedPreferences.getBoolean("workout_cardio_" + date, false));
         checkBoxFlexibility.setChecked(sharedPreferences.getBoolean("workout_flexibility_" + date, false));
 
+        // Sliding Hints Logic
+        textSwitcherHints = view.findViewById(R.id.textSwitcherWorkoutHints);
+        textSwitcherHints.setFactory(() -> {
+            TextView textView = new TextView(getContext());
+            textView.setGravity(Gravity.START);
+            textView.setTextColor(getResources().getColor(android.R.color.white));
+            textView.setTextSize(16);
+            textView.setTypeface(null, android.graphics.Typeface.BOLD);
+            return textView;
+        });
+
+        textSwitcherHints.setInAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left));
+        textSwitcherHints.setOutAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right));
+
+        startHintsSliding();
+
         // Randomly select one video ID for each player
         Random random = new Random();
         String videoIdStrength = videoIdsStrength[random.nextInt(videoIdsStrength.length)];
@@ -84,6 +118,28 @@ public class Fragment_Workout extends Fragment {
                 sharedPreferences.edit().putBoolean("workout_cardio_" + date, isChecked).apply());
         checkBoxFlexibility.setOnCheckedChangeListener((buttonView, isChecked) ->
                 sharedPreferences.edit().putBoolean("workout_flexibility_" + date, isChecked).apply());
+    }
+
+    private void startHintsSliding() {
+        textSwitcherHints.setText(workoutHints[currentHintIdx]);
+        hintRunnable = new Runnable() {
+            @Override
+            public void run() {
+                currentHintIdx++;
+                if (currentHintIdx >= workoutHints.length) currentHintIdx = 0;
+                textSwitcherHints.setText(workoutHints[currentHintIdx]);
+                hintHandler.postDelayed(this, 5000); // Change hint every 5 seconds
+            }
+        };
+        hintHandler.postDelayed(hintRunnable, 5000);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (hintHandler != null && hintRunnable != null) {
+            hintHandler.removeCallbacks(hintRunnable);
+        }
     }
 
     private void setupPlayer(YouTubePlayerView playerView, String videoId) {

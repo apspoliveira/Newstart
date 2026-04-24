@@ -3,11 +3,15 @@ package newstart.fragments;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +36,19 @@ public class Fragment_Nutrition extends Fragment {
     private String todayBreakfast = "";
     private String todayLunch = "";
     private String todayDinner = "";
+
+    private TextSwitcher textSwitcherHints;
+    private final String[] nutritionHints = {
+            "Eat a variety of colorful fruits and vegetables every day.",
+            "Choose whole grains over refined grains for better fiber intake.",
+            "Plant-based proteins like lentils and beans are great for heart health.",
+            "Limit processed foods and added sugars in your diet.",
+            "Chew your food thoroughly to aid digestion and nutrient absorption.",
+            "A healthy breakfast provides energy and stabilizes blood sugar."
+    };
+    private int currentHintIdx = 0;
+    private final Handler hintHandler = new Handler();
+    private Runnable hintRunnable;
 
     // Meal Suggestions following NEWSTART principles (Plant-based, Whole foods)
     private final String[][] mealSuggestions = {
@@ -69,6 +86,22 @@ public class Fragment_Nutrition extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         updateMealSuggestions(view);
+
+        // Sliding Hints Logic
+        textSwitcherHints = view.findViewById(R.id.textSwitcherNutritionHints);
+        textSwitcherHints.setFactory(() -> {
+            TextView textView = new TextView(getContext());
+            textView.setGravity(Gravity.START);
+            textView.setTextColor(getResources().getColor(android.R.color.white));
+            textView.setTextSize(16);
+            textView.setTypeface(null, android.graphics.Typeface.BOLD);
+            return textView;
+        });
+
+        textSwitcherHints.setInAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left));
+        textSwitcherHints.setOutAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right));
+
+        startHintsSliding();
 
         ImageView buttonCalendar = view.findViewById(R.id.buttonNutritionCalendar);
         if (buttonCalendar != null) {
@@ -176,6 +209,28 @@ public class Fragment_Nutrition extends Fragment {
         if (breakfastSum != null) breakfastSum.setOnClickListener(summaryClickListener);
         if (lunchSum != null) lunchSum.setOnClickListener(summaryClickListener);
         if (dinnerSum != null) dinnerSum.setOnClickListener(summaryClickListener);
+    }
+
+    private void startHintsSliding() {
+        textSwitcherHints.setText(nutritionHints[currentHintIdx]);
+        hintRunnable = new Runnable() {
+            @Override
+            public void run() {
+                currentHintIdx++;
+                if (currentHintIdx >= nutritionHints.length) currentHintIdx = 0;
+                textSwitcherHints.setText(nutritionHints[currentHintIdx]);
+                hintHandler.postDelayed(this, 5000); // Change hint every 5 seconds
+            }
+        };
+        hintHandler.postDelayed(hintRunnable, 5000);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (hintHandler != null && hintRunnable != null) {
+            hintHandler.removeCallbacks(hintRunnable);
+        }
     }
 
     private void showRecipe(String title) {

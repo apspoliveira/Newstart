@@ -3,10 +3,15 @@ package newstart.fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
+import android.widget.TextSwitcher;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +31,19 @@ public class Fragment_Air extends Fragment {
 
     private String date;
     private SharedPreferences sharedPreferences;
+
+    private TextSwitcher textSwitcherHints;
+    private final String[] airHints = {
+            "Fresh air is vital for a healthy brain and clear thinking.",
+            "Deep breathing outdoors improves lung capacity and oxygenates the blood.",
+            "Ventilate your home and workspace regularly to remove pollutants.",
+            "Sleeping with a slightly open window (if safe) provides fresh air throughout the night.",
+            "Air quality is often better early in the morning and away from heavy traffic.",
+            "Plants in your home can help filter and improve indoor air quality."
+    };
+    private int currentHintIdx = 0;
+    private final Handler hintHandler = new Handler();
+    private Runnable hintRunnable;
 
     // Video IDs for each category
     private final String[] videoIdsFreshAir = {"OM_X52rdeds", "oxO2qotv3wM"};
@@ -71,6 +89,22 @@ public class Fragment_Air extends Fragment {
         checkBoxDeepBreathing.setChecked(sharedPreferences.getBoolean("air_deep_" + date, false));
         checkBoxCleanAir.setChecked(sharedPreferences.getBoolean("air_clean_" + date, false));
 
+        // Sliding Hints Logic
+        textSwitcherHints = view.findViewById(R.id.textSwitcherAirHints);
+        textSwitcherHints.setFactory(() -> {
+            TextView textView = new TextView(getContext());
+            textView.setGravity(Gravity.START);
+            textView.setTextColor(getResources().getColor(android.R.color.white));
+            textView.setTextSize(16);
+            textView.setTypeface(null, android.graphics.Typeface.BOLD);
+            return textView;
+        });
+
+        textSwitcherHints.setInAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left));
+        textSwitcherHints.setOutAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right));
+
+        startHintsSliding();
+
         // Randomly select one video ID for each player
         Random random = new Random();
         String videoIdFreshAir = videoIdsFreshAir[random.nextInt(videoIdsFreshAir.length)];
@@ -93,6 +127,28 @@ public class Fragment_Air extends Fragment {
                 sharedPreferences.edit().putBoolean("air_deep_" + date, isChecked).apply());
         checkBoxCleanAir.setOnCheckedChangeListener((buttonView, isChecked) ->
                 sharedPreferences.edit().putBoolean("air_clean_" + date, isChecked).apply());
+    }
+
+    private void startHintsSliding() {
+        textSwitcherHints.setText(airHints[currentHintIdx]);
+        hintRunnable = new Runnable() {
+            @Override
+            public void run() {
+                currentHintIdx++;
+                if (currentHintIdx >= airHints.length) currentHintIdx = 0;
+                textSwitcherHints.setText(airHints[currentHintIdx]);
+                hintHandler.postDelayed(this, 5000); // Change hint every 5 seconds
+            }
+        };
+        hintHandler.postDelayed(hintRunnable, 5000);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (hintHandler != null && hintRunnable != null) {
+            hintHandler.removeCallbacks(hintRunnable);
+        }
     }
 
     private void setupPlayer(YouTubePlayerView playerView, String videoId) {
