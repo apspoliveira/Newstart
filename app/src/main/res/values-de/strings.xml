@@ -103,10 +103,20 @@
     <string name="button_create_plan">Erstelle neuen Workout-Plan</string>
     <string name="button_create_routines">Erstelle neue Routine</string>
     <string name="button_create_exercises">Erstelle neue Übung</string>
+    <string name="settings">Einstellungen</string>
     <string name="settings_lang">Sprache</string>
     <string name="settings_goals">Tägliche Ziele</string>
 
     <string name="lang_de">Deutsch</string>
     <string name="lang_en">Englisch</string>
+    <string name="lang_pt">Portugiesisch</string>
+
+    <!-- Notifications -->
+    <string name="settings_notifications">Benachrichtigungen</string>
+    <string name="settings_notif_air">Frische Luft</string>
+    <string name="settings_notif_nutrition">Ernährung</string>
+    <string name="settings_notif_sun">Sonnenlicht</string>
+    <string name="settings_notif_water">Wasser</string>
+    <string name="settings_notif_workout">Training</string>
 
 </resources>

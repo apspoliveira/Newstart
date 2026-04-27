@@ -103,12 +103,21 @@
     <string name="button_create_plan">Criar Novo Plano de Treino</string>
     <string name="button_create_routines">Criar Rotinas de Treino</string>
     <string name="button_create_exercises">Criar Exercícios de Treino</string>
+    <string name="settings">Configurações</string>
     <string name="settings_lang">Idioma</string>
     <string name="settings_goals">Objetivos Diários</string>
 
     <string name="lang_de">Alemão</string>
     <string name="lang_en">Inglês</string>
     <string name="lang_pt">Português</string>
+
+    <!-- Notifications -->
+    <string name="settings_notifications">Notificações</string>
+    <string name="settings_notif_air">Ar Puro</string>
+    <string name="settings_notif_nutrition">Nutrição</string>
+    <string name="settings_notif_sun">Luz Solar</string>
+    <string name="settings_notif_water">Água</string>
+    <string name="settings_notif_workout">Exercício</string>
 
     <!-- Bible Verse -->
     <string name="settings_bible_title">Inspiração Diária</string>

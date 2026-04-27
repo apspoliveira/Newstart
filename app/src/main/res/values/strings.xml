@@ -47,6 +47,14 @@
     <string name="lang_en">English</string>
     <string name="lang_pt">Portuguese</string>
 
+    <!-- Notifications -->
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_notif_air">Air</string>
+    <string name="settings_notif_nutrition">Nutrition</string>
+    <string name="settings_notif_sun">Sunlight</string>
+    <string name="settings_notif_water">Water</string>
+    <string name="settings_notif_workout">Workout</string>
+
     <!-- Bible Verse -->
     <string name="settings_bible_title">Daily Inspiration</string>
     <string name="settings_bible_loading">Loading verse...</string>

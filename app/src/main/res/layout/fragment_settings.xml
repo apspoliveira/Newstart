@@ -78,6 +78,67 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <!-- Notifications Section -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:text="@string/settings_notifications"
+                        android:textColor="#7A8B75"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <CheckBox
+                        android:id="@+id/checkNotifAir"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_notif_air"
+                        android:buttonTint="#7A8B75" />
+
+                    <CheckBox
+                        android:id="@+id/checkNotifNutrition"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_notif_nutrition"
+                        android:buttonTint="#7A8B75" />
+
+                    <CheckBox
+                        android:id="@+id/checkNotifSun"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_notif_sun"
+                        android:buttonTint="#7A8B75" />
+
+                    <CheckBox
+                        android:id="@+id/checkNotifWater"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_notif_water"
+                        android:buttonTint="#7A8B75" />
+
+                    <CheckBox
+                        android:id="@+id/checkNotifWorkout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_notif_workout"
+                        android:buttonTint="#7A8B75" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
             <!-- Inspiration Section -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
