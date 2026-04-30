@@ -81,8 +81,6 @@ public class Activity_InitialSetup extends AppCompatActivity {
             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
             String date = formatter.format(new Date());
 
-            dbHelper.addDataBody(date, weight, 0, 0, 0, 0, 0, 0, 0, 0);
-
             // Go to Activity_Main (which will show Nutrition fragment by default)
             Intent intent = new Intent(Activity_InitialSetup.this, Activity_Main.class);
             startActivity(intent);

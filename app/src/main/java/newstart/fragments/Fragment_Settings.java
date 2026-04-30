@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -68,10 +69,12 @@ public class Fragment_Settings extends Fragment implements AdapterView.OnItemSel
             });
 
     private void enableSaveButton() {
-        saveButton.setBackgroundResource(R.drawable.shape_box_round_pop);
-        saveButton.setTextColor(getContext().getColor(R.color.text_high));
-        saveButton.setVisibility(View.VISIBLE);
-        savePossible = true;
+        if (saveButton != null) {
+            saveButton.setBackgroundResource(R.drawable.shape_box_round_pop);
+            saveButton.setTextColor(getContext().getColor(R.color.text_high));
+            saveButton.setVisibility(View.VISIBLE);
+            savePossible = true;
+        }
     }
 
 
@@ -81,6 +84,7 @@ public class Fragment_Settings extends Fragment implements AdapterView.OnItemSel
 
         // Languages
         languages = new String[] {
+                getResources().getString(R.string.lang_de),
                 getResources().getString(R.string.lang_en),
                 getResources().getString(R.string.lang_pt)
         };
@@ -99,7 +103,6 @@ public class Fragment_Settings extends Fragment implements AdapterView.OnItemSel
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         // Language settings spinner
         Spinner spinner = view.findViewById(R.id.spinnerLanguages);
-        spinner.setOnItemSelectedListener(this);
         ArrayAdapter adapterCategories = new ArrayAdapter(getContext(), R.layout.spinner_item_purple_middle, languages);
         adapterCategories.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapterCategories);
@@ -134,6 +137,19 @@ public class Fragment_Settings extends Fragment implements AdapterView.OnItemSel
         checkWater.setOnClickListener(notifClickListener);
         checkWorkout.setOnClickListener(notifClickListener);
 
+        // Load saved language and set spinner position
+        Cursor cursor = ((Activity_Main) requireActivity()).databaseHelper.getSettingsLanguage();
+        if (cursor != null && cursor.moveToFirst()) {
+            currentLanguage = cursor.getString(1); // Column 1 is language code
+            int selection = 1; // Default to English
+            if ("de".equals(currentLanguage)) selection = 0;
+            else if ("pt".equals(currentLanguage)) selection = 2;
+            spinner.setSelection(selection);
+            cursor.close();
+        }
+
+        spinner.setOnItemSelectedListener(this);
+
         // Button
         saveButton = view.findViewById(R.id.buttonSaveSettings);
         saveButton.setVisibility(View.INVISIBLE);
@@ -149,7 +165,7 @@ public class Fragment_Settings extends Fragment implements AdapterView.OnItemSel
                     ((Activity_Main) requireContext()).databaseHelper.setSettingsLanguage(currentLanguage);
                     
                     saveNotificationSettings();
-                    Toast.makeText(getContext(), "Settings saved", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Settings saved. Please restart the app to apply language changes.", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -186,7 +202,7 @@ public class Fragment_Settings extends Fragment implements AdapterView.OnItemSel
     private void updateAlarms() {
         scheduleAlarm("air", checkAir.isChecked(), 9, 0); // 9:00 AM
         scheduleAlarm("nutrition", checkNutrition.isChecked(), 12, 30); // 12:30 PM
-        scheduleAlarm("sun", checkSun.isChecked(), 11, 40); // 10:00 AM
+        scheduleAlarm("sun", checkSun.isChecked(), 11, 40); // 11:40 AM
         scheduleAlarm("water", checkWater.isChecked(), 15, 0); // 3:00 PM
         scheduleAlarm("workout", checkWorkout.isChecked(), 17, 30); // 5:30 PM
     }

@@ -67,7 +67,7 @@ public class Activity_Main extends AppCompatActivity {
 
     private static void updateLanguage(Context context, String language) {
 
-        if (language.equals("system")) {
+        if (language == null || language.equals("system")) {
             return;
         }
 
@@ -85,19 +85,19 @@ public class Activity_Main extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
         // Database
         databaseHelper = new DatabaseHelper(Activity_Main.this);
 
-        // Update language
+        // Update language before super.onCreate to ensure layout is inflated with correct language
         Cursor cursor = databaseHelper.getSettingsLanguage();
-        if (cursor.getCount() > 0) {
-            cursor.moveToFirst();
-            updateLanguage(this, cursor.getString(0));
+        if (cursor != null && cursor.moveToFirst()) {
+            // Index 0 is the ID, Index 1 is the language string
+            updateLanguage(this, cursor.getString(1));
+            cursor.close();
         }
-        cursor.close();
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         // -----------------------------------------------------------------------------------------
         // Get data if activity was started by another activity

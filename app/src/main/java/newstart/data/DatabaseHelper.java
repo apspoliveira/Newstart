@@ -5,95 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    /**
-     * This class contains all methods to access the database.
-     */
-
     private Context context;
     private static final String DATABASE_NAME = "newstart.db";
-    private static final int DATABASE_VERSION = 53;
-
-    // Table body-data
-    private static final String TABLE_BD = "body_data";
-    private static final String COLUMN_BD_DATE = "date";
-    private static final String COLUMN_BD_WEIGHT = "weight";
-    private static final String COLUMN_BD_CHEST = "chest";
-    private static final String COLUMN_BD_BELLY = "belly";
-    private static final String COLUMN_BD_BUTT = "butt";
-    private static final String COLUMN_BD_WAIST = "waist";
-    private static final String COLUMN_BD_ARM_R = "arm_r";
-    private static final String COLUMN_BD_ARM_L = "arm_l";
-    private static final String COLUMN_BD_LEG_R = "leg_r";
-    private static final String COLUMN_BD_LEG_L = "leg_l";
-
-    // Table foods
-    private static final String TABLE_PM = "preset_meals";
-    private static final String COL_PM_INDEX = "meal_index";
-    private static final String COL_PM_NAME = "name";
-    private static final String COL_PM_CATEGORY = "category";
-    private static final String COL_PM_CALORIES = "calories";
-    private static final String COL_PM_FAT = "fat";
-    private static final String COL_PM_FAT_SAT = "fat_sat";
-    private static final String COL_PM_CARBS = "carbs";
-    private static final String COL_PM_SUGAR = "sugar";
-    private static final String COL_PM_PROTEIN = "protein";
-    private static final String COL_PM_SALT = "salt";
-    private static final String COL_PM_FIBER = "fiber";
-    private static final String COL_PM_CHOL = "chol";
-    private static final String COL_PM_CREATINE = "creatine";
-    private static final String COL_PM_CA = "ca";
-    private static final String COL_PM_FE = "fe";
-    private static final String COL_PM_K = "k";
-    private static final String COL_PM_MG = "mg";
-    private static final String COL_PM_MN = "mn";
-    private static final String COL_PM_NA = "na";
-    private static final String COL_PM_P = "p";
-    private static final String COL_PM_ZN = "zn";
-    private static final String COL_PM_VIT_A = "vit_a";
-    private static final String COL_PM_VIT_B1 = "vit_b1";
-    private static final String COL_PM_VIT_B2 = "vit_b2";
-    private static final String COL_PM_VIT_B3 = "vit_b3";
-    private static final String COL_PM_VIT_B5 = "vit_b5";
-    private static final String COL_PM_VIT_B6 = "vit_b6";
-    private static final String COL_PM_VIT_B7 = "vit_b7";
-    private static final String COL_PM_VIT_B11 = "vit_b11";
-    private static final String COL_PM_VIT_B12 = "vit_b12";
-    private static final String COL_PM_VIT_C = "vit_c";
-    private static final String COL_PM_VIT_E = "vit_e";
-    private static final String COL_PM_VIT_K = "vit_k";
-    private static final String COL_PM_VIT_H = "vit_h";
-
-    private static final String TABLE_PMC = "meal_categories";
-    private static final String COL_PMC_NAME = "name";
-
-    // Table meals per day
-    private static final String TABLE_CM = "consumed_meals";
-    private static final String COL_CM_DATE = "date";
-    private static final String COL_CM_INDEX = "meal_index";  // Refers to uuid-index of a food from foods-table
-    private static final String COL_CM_AMOUNT = "amount";
-
-    // Table exercises
-    private static final String TABLE_WP = "workout_plans";
-    private static final String COL_WP_NAME = "plan_name";
-
-    private static final String TABLE_WR = "workout_routines";
-    private static final String COL_WR_PLAN_NAME = "plan_name";
-    private static final String COL_WR_ROUTINE_NAME = "routine_name";
-
-    private static final String TABLE_WE = "workout_exercises";
-    private static final String COL_WE_PLAN_NAME = "plan_name";
-    private static final String COL_WE_ROUTINE_NAME = "routine_name";
-    private static final String COL_WE_EXERCISE_NAME = "exercise_name";
-    private static final String COL_WE_SETS = "sets";
-    private static final String COL_WE_REPETITIONS = "reps";
-    private static final String COL_WE_WEIGHT = "weight";
+    private static final int DATABASE_VERSION = 76;
 
     // Table settings
     private static final String TABLE_S_GOAL = "settings_goals";
@@ -104,454 +23,300 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COL_S_GOAL_PROTEIN = "goal_protein";
 
     private static final String TABLE_S_LANG = "settings_lang";
-    private static final String COL_S_LANG = "language";
+    private static final String COL_S_INDEX_L = "settings_index";
 
     // Table recipes/articles
     private static final String TABLE_RECIPES = "recipes";
     private static final String COL_RECIPE_TITLE = "title";
     private static final String COL_RECIPE_CONTENT = "content";
 
+    // Schema constants
+    private static final String TABLE_BD = "body_data";
+    private static final String TABLE_PM = "preset_meals";
+    private static final String TABLE_PMC = "meal_categories";
+    private static final String TABLE_CM = "consumed_meals";
+    private static final String TABLE_WE = "workout_exercises";
+    private static final String TABLE_WP = "workout_plans";
+    private static final String TABLE_WR = "workout_routines";
 
-    // Constructor ---------------------------------------------------------------------------------
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
     }
 
-    // Class default overwrite methods -------------------------------------------------------------
-
-    /** This method will be called upon creation of the database. This method will create all the
-     * necessary tables inside the database and prepopulate some tables.
-     *
-     * @param sqLiteDatabase: SQLiteDatabase that is created
-     */
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        // Create table body-data
-        sqLiteDatabase.execSQL(
-                "CREATE TABLE " + TABLE_BD + " ("
-                        + COLUMN_BD_DATE + " TEXT PRIMARY KEY, "
-                        + COLUMN_BD_WEIGHT + " REAL, "
-                        + COLUMN_BD_CHEST + " REAL, "
-                        + COLUMN_BD_BELLY + " REAL, "
-                        + COLUMN_BD_BUTT + " REAL, "
-                        + COLUMN_BD_WAIST + " REAL, "
-                        + COLUMN_BD_ARM_R + " REAL, "
-                        + COLUMN_BD_ARM_L + " REAL, "
-                        + COLUMN_BD_LEG_R + " REAL, "
-                        + COLUMN_BD_LEG_L + " REAL);"
-        );
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_BD + " (date TEXT PRIMARY KEY, weight REAL, chest REAL, belly REAL, butt REAL, waist REAL, arm_r REAL, arm_l REAL, leg_r REAL, leg_l REAL);");
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_PM + " (meal_index TEXT PRIMARY KEY, name TEXT, category TEXT, calories REAL, fat REAL, fat_sat REAL, carbs REAL, sugar REAL, protein REAL, salt REAL, fiber REAL, chol REAL, creatine REAL, ca REAL, fe REAL, k REAL, mg REAL, mn REAL, na REAL, p REAL, zn REAL, vit_a REAL, vit_b1 REAL, vit_b2 REAL, vit_b3 REAL, vit_b5 REAL, vit_b6 REAL, vit_b7 REAL, vit_b11 REAL, vit_b12 REAL, vit_c REAL, vit_e REAL, vit_k REAL, vit_h REAL);");
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_PMC + " (name TEXT PRIMARY KEY);");
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_CM + " (date TEXT, meal_index TEXT, amount REAL, PRIMARY KEY (date, meal_index, amount));");
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_WE + " (plan_name TEXT, routine_name TEXT, exercise_name TEXT, sets INTEGER, reps INTEGER, weight REAL);");
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_WP + " (plan_name TEXT PRIMARY KEY);");
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_WR + " (plan_name TEXT, routine_name TEXT, PRIMARY KEY (plan_name, routine_name));");
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_S_GOAL + " (" + COL_S_INDEX + " INTEGER PRIMARY KEY, " + COL_S_GOAL_CALORIES + " REAL, " + COL_S_GOAL_FAT + " REAL, " + COL_S_GOAL_CARBS + " REAL, " + COL_S_GOAL_PROTEIN + " REAL);");
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_S_LANG + " (" + COL_S_INDEX_L + " INTEGER PRIMARY KEY, language TEXT);");
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_RECIPES + " (" + COL_RECIPE_TITLE + " TEXT PRIMARY KEY, " + COL_RECIPE_CONTENT + " TEXT);");
 
-        // Create table food-data
-        sqLiteDatabase.execSQL(
-                "CREATE TABLE " + TABLE_PM + " ("
-                        + COL_PM_INDEX + " TEXT PRIMARY KEY, "
-                        + COL_PM_NAME + " TEXT, "
-                        + COL_PM_CATEGORY + " TEXT, "
-                        + COL_PM_CALORIES + " REAL, "
-                        + COL_PM_FAT + " REAL, "
-                        + COL_PM_FAT_SAT + " REAL, "
-                        + COL_PM_CARBS + " REAL, "
-                        + COL_PM_SUGAR + " REAL, "
-                        + COL_PM_PROTEIN + " REAL, "
-                        + COL_PM_SALT + " REAL, "
-                        + COL_PM_FIBER + " REAL, "
-                        + COL_PM_CHOL + " REAL, "
-                        + COL_PM_CREATINE + " REAL, "
-                        + COL_PM_CA + " REAL, "
-                        + COL_PM_FE + " REAL, "
-                        + COL_PM_K + " REAL, "
-                        + COL_PM_MG + " REAL, "
-                        + COL_PM_MN + " REAL, "
-                        + COL_PM_NA + " REAL, "
-                        + COL_PM_P + " REAL, "
-                        + COL_PM_ZN + " REAL, "
-                        + COL_PM_VIT_A + " REAL, "
-                        + COL_PM_VIT_B1 + " REAL, "
-                        + COL_PM_VIT_B2 + " REAL, "
-                        + COL_PM_VIT_B3 + " REAL, "
-                        + COL_PM_VIT_B5 + " REAL, "
-                        + COL_PM_VIT_B6 + " REAL, "
-                        + COL_PM_VIT_B7 + " REAL, "
-                        + COL_PM_VIT_B11 + " REAL, "
-                        + COL_PM_VIT_B12 + " REAL, "
-                        + COL_PM_VIT_C + " REAL, "
-                        + COL_PM_VIT_E + " REAL, "
-                        + COL_PM_VIT_K + " REAL, "
-                        + COL_PM_VIT_H + " REAL);"
-        );
+        sqLiteDatabase.execSQL("INSERT OR IGNORE INTO " + TABLE_PMC + " VALUES('Fruits and Vegetables')");
+        sqLiteDatabase.execSQL("INSERT OR IGNORE INTO " + TABLE_PMC + " VALUES('Meat and Fish')");
+        sqLiteDatabase.execSQL("INSERT OR IGNORE INTO " + TABLE_PMC + " VALUES('Dairy and Eggs')");
+        sqLiteDatabase.execSQL("INSERT OR IGNORE INTO " + TABLE_PMC + " VALUES('Bakery and Grains')");
+        sqLiteDatabase.execSQL("INSERT OR IGNORE INTO " + TABLE_PMC + " VALUES('Drinks')");
+        sqLiteDatabase.execSQL("INSERT OR IGNORE INTO " + TABLE_PMC + " VALUES('Others')");
 
-        sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_PMC + " (" + COL_PMC_NAME + " TEXT PRIMARY KEY);");
+        insertInitialRecipes(sqLiteDatabase);
 
-        // Create table dailymeals
-        sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_CM + " ("
-                + COL_CM_DATE + " TEXT, "
-                + COL_CM_INDEX + " TEXT, "
-                + COL_CM_AMOUNT + " REAL, " +
-                "PRIMARY KEY (" + COL_CM_DATE + ", " + COL_CM_INDEX + ", " + COL_CM_AMOUNT + "));"
-        );
+        sqLiteDatabase.execSQL("INSERT OR IGNORE INTO " + TABLE_S_LANG + " VALUES(1, 'en');");
+        sqLiteDatabase.execSQL("INSERT OR IGNORE INTO " + TABLE_S_GOAL + " VALUES(1, 2000, 65, 250, 50);");
+    }
 
-        // Create tables exercises
-        sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_WE + " ("
-                + COL_WE_PLAN_NAME + " TEXT, "
-                + COL_WE_ROUTINE_NAME + " TEXT, "
-                + COL_WE_EXERCISE_NAME + " TEXT, "
-                + COL_WE_SETS + " INTEGER, "
-                + COL_WE_REPETITIONS + " INTEGER, "
-                + COL_WE_WEIGHT + " REAL"
-                + ");");
+    private void insertInitialRecipes(SQLiteDatabase db) {
+        // EN Recipes - Breakfasts
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Oatmeal with Blueberries and Walnuts', '<h1>Oatmeal with Blueberries and Walnuts</h1><h3>Ingredients</h3><ul><li>1/2 cup rolled oats</li><li>1 cup plant milk</li><li>1/2 cup blueberries</li><li>1/4 cup walnuts</li></ul><h3>Instructions</h3><p>Cook oats with milk for 5-7 mins. Top with blueberries and walnuts.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Whole Grain Pancakes with Fresh Fruit', '<h1>Whole Grain Pancakes with Fresh Fruit</h1><h3>Ingredients</h3><ul><li>1 cup whole wheat flour</li><li>1 tbsp baking powder</li><li>1 cup almond milk</li><li>Fresh fruit</li></ul><h3>Instructions</h3><p>Mix ingredients and cook portions on a non-stick pan. Serve with fruit.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Fruit Smoothie with Flax Seeds', '<h1>Fruit Smoothie</h1><h3>Ingredients</h3><ul><li>1 banana</li><li>1 cup frozen berries</li><li>1 tbsp flax seeds</li><li>1 cup plant milk</li></ul><h3>Instructions</h3><p>Blend everything until smooth.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Buckwheat Porridge with Almonds', '<h1>Buckwheat Porridge</h1><h3>Ingredients</h3><ul><li>1/2 cup buckwheat</li><li>1.5 cups water</li><li>Almonds</li></ul><h3>Instructions</h3><p>Simmer buckwheat for 15-20 mins. Serve with almonds.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Chia Pudding with Mango', '<h1>Chia Pudding</h1><h3>Ingredients</h3><ul><li>3 tbsp chia seeds</li><li>1 cup coconut milk</li><li>Mango</li></ul><h3>Instructions</h3><p>Mix chia and milk. Chill for 4 hours. Top with mango.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Whole Wheat Toast with Avocado', '<h1>Avocado Toast</h1><h3>Ingredients</h3><ul><li>2 slices whole wheat bread</li><li>1 avocado</li></ul><h3>Instructions</h3><p>Toast bread and spread mashed avocado on top.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Whole Grain Toast with Hummus', '<h1>Hummus Toast</h1><h3>Ingredients</h3><ul><li>2 slices whole grain bread</li><li>1/2 cup hummus</li><li>Cucumber</li></ul><h3>Instructions</h3><p>Toast bread. Spread hummus and top with cucumber slices.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Millet with Dates and Cashews', '<h1>Millet</h1><h3>Ingredients</h3><ul><li>1/2 cup millet</li><li>1.5 cups plant milk</li><li>Dates, cashews</li></ul><h3>Instructions</h3><p>Cook millet in milk for 20 mins. Mix in dates and cashews.</p>');");
+        
+        String tofuScrambleEn = "<h1>Tofu Scramble with Vegetables</h1><h3>Ingredients (serves 2):</h3><ul><li>1 block of firm tofu (approx. 250g)</li><li>1 tbsp olive oil</li><li>Various vegetables: onion, garlic, spinach, mushrooms</li><li>1/2 tsp turmeric powder, salt, pepper</li></ul><h3>Instructions:</h3><ol><li>Crumble tofu.</li><li>Sauté veggies.</li><li>Add tofu and spices, cook 5 mins.</li></ol>";
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Tofu Scramble with Spinach', '" + tofuScrambleEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Tofu and Veggie Hash', '" + tofuScrambleEn + "');");
+        
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Acai Bowl with Homemade Granola', '<h1>Acai Bowl</h1><h3>Ingredients:</h3><ul><li>Acai pulp</li><li>1 banana</li><li>1/2 cup granola</li></ul><h3>Instructions:</h3><p>Blend acai and banana. Top with granola.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Breakfast Burrito (Beans/Veg)', '<h1>Breakfast Burrito</h1><h3>Ingredients:</h3><ul><li>1 whole wheat tortilla</li><li>1/2 cup black beans</li><li>Bell peppers</li></ul><h3>Instructions:</h3><p>Sauté peppers. Wrap with beans in a warm tortilla.</p>');");
 
-        sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_WP + " ("+ COL_WP_NAME + " TEXT PRIMARY KEY);");
-        sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_WR + " ("+ COL_WR_PLAN_NAME + " TEXT, " + COL_WR_ROUTINE_NAME + " TEXT, PRIMARY KEY (" + COL_WR_PLAN_NAME + ", " + COL_WR_ROUTINE_NAME + "));");
+        String quinoaSaladEn = "<h1>Quinoa Salad with Roasted Vegetables</h1><h3>Ingredients:</h3><ul><li>1 cup cooked quinoa</li><li>1 small eggplant, 1 zucchini, 1 red bell pepper</li><li>Olive oil, salt, pepper, herbs</li><li>Juice of 1/2 lemon</li></ul><h3>Preparation:</h3><ol><li>Roast veggies at 200°C for 25 min.</li><li>Mix with quinoa and lemon juice.</li></ol>";
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Quinoa Salad with Roasted Vegetables', '" + quinoaSaladEn + "');");
 
-        // Create table settings
-        sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_S_GOAL + " ("
-                + COL_S_INDEX + " INTEGER PRIMARY KEY, "
-                + COL_S_GOAL_CALORIES + " REAL, "
-                + COL_S_GOAL_FAT + " REAL, "
-                + COL_S_GOAL_CARBS + " REAL, "
-                + COL_S_GOAL_PROTEIN + " REAL);");
+        String tacosEn = "<h1>Black Bean and Corn Tacos</h1><h3>Ingredients:</h3><ul><li>4 corn tortillas</li><li>1 can black beans</li><li>1 cup sweet corn</li><li>Avocado, cilantro, lime</li><li>Cmin, paprika, salt</li></ul><h3>Preparation:</h3><ol><li>Warm beans and corn with spices.</li><li>Fill tortillas and top with avocado.</li></ol>";
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Black Bean and Corn Tacos', '" + tacosEn + "');");
 
-        sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_S_LANG + " ("
-                + COL_S_INDEX + " INTEGER PRIMARY KEY, "
-                + COL_S_LANG + " TEXT);");
+        String curryEn = "<h1>Chickpea Curry with Brown Rice</h1><h3>Ingredients:</h3><ul><li>2 cups cooked chickpeas</li><li>1 can coconut milk</li><li>1 tbsp curry powder</li><li>Cooked brown rice</li><li>Onion and garlic</li></ul><h3>Preparation:</h3><ol><li>Sauté onion and garlic, add curry powder.</li><li>Simmer with chickpeas and coconut milk for 10-15 min.</li></ol>";
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Chickpea Curry with Brown Rice', '" + curryEn + "');");
 
-        // Create table recipes
-        sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_RECIPES + " ("
-                + COL_RECIPE_TITLE + " TEXT PRIMARY KEY, "
-                + COL_RECIPE_CONTENT + " TEXT);");
+        String stewEn = "<h1>Lentil and Vegetable Stew</h1><h3>Ingredients:</h3><ul><li>1 cup dried lentils</li><li>2 carrots, 2 potatoes, 1 onion</li><li>800ml vegetable broth</li><li>Bay leaf and olive oil</li></ul><h3>Preparation:</h3><ol><li>Base: Sauté onion and garlic. Add diced carrots and potatoes.</li><li>Cook: Add lentils, bay leaf, and broth.</li><li>Time: Cover and simmer for 25-30 min until lentils are tender.</li></ol>";
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Lentil and Vegetable Stew', '" + stewEn + "');");
 
-        // Add preset data to tables ---------------------------------------------------------------
+        String tabouliEn = "<h1>Tabouli with Extra Parsley</h1><h3>Ingredients:</h3><ul><li>Bulgur wheat, fresh parsley, mint, tomatoes, cucumber</li><li>Olive oil, lemon juice</li></ul><h3>Preparation:</h3><p>Hydrate bulgur. Mix with chopped herbs and veggies. Season with oil and lemon.</p>";
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Tabouli with Extra Parsley', '" + tabouliEn + "');");
 
-        // Preset meals
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000000', 'Apple (100 g)', 'Fruits and Vegetables', 52, 0.17, 0, 13.81, 10.39, 0.26, 0, 2.4, 0, 0, 6, 0.12, 107, 5, 0.035, 1, 11, 0.04, 0.003, 0.017, 0.026, 0.091, 0.061, 0.041, 0, 0, 0, 4.6, 0.18, 0.022, 0)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000001', 'Banana (100 g)', 'Fruits and Vegetables', 95.0, 0.33, 0.0, 22.84, 12.23, 1.0, 0.0, 2.6, 0.0, 0.0, 5.0, 0.26, 358.0, 27.0, 0.0, 0.0, 22.0, 0.15, 0.003, 0.031, 0.073, 0.665, 0.334, 0.367, 0.0, 0.0, 0.0, 8.7, 0.0, 0.0, 0.0)");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PM + " VALUES('000000002', 'Watermelon (100 g)', 'Fruits and Vegetables', 38.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)");
+        String generalLunchEn = "<h1>Recipe</h1><p>Preparation details coming soon. Enjoy your healthy meal!</p>";
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Hummus and Veggie Wrap', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Sweet Potato and Black Bean Chili', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Zucchini Noodles with Pesto', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Quinoa and Black Bean Bowl', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Farro Salad with Dried Cranberries', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Red Lentil Pasta with Marinara', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Lentil Shepherd''s Pie (Vegan)', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Buddha Bowl with Chickpeas', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Vegetable Barley Soup', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Falafel Wrap with Hummus', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Split Pea Soup', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Minestrone Soup', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Black-Eyed Pea Salad', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Vegetable Paella', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Cabbage Soup with Potatoes', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Mediterranean Chickpea Salad', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Vegetable Korma', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('White Bean and Kale Soup', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Green Lentil and Rice (Mujadara)', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Roasted Chickpea Salad', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Three Bean Chili', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Brown Rice and Veggie Sushi', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Tomato and Lentil Stew', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Quinoa with Pomegranate', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Barley and Mushroom Soup', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Tofu and Broccoli with Peanut Sauce', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Mexican Quinoa Bowl', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Steamed Broccoli and Baked Tofu', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Lentil Soup with Kale', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Mixed Green Salad with Seeds', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Vegetable Stir-fry with Tempeh', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Roasted Cauliflower with Tahini', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Baked Sweet Potato with Greens', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Roasted Roots with Garlic Dip', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Kale and Quinoa Salad', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Baked Asparagus with Almonds', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Stuffed Peppers with Wild Rice', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Mushroom Risotto (Brown Rice)', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Eggplant Lasagna (No-Cheese)', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Sweet and Sour Tofu', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Brussels Sprouts with Balsamic', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Stir-fried Bok Choy and Tempeh', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Baked Squash with Quinoa', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Grilled Portobello Steaks', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Spiced Cauliflower Steaks', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Broccoli and Cashew Stir-fry', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Balsamic Glazed Beets', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Cabbage and Carrot Slaw', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Steamed Artichokes', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Baked Sweet Potato Wedges', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Garlic Sauteed Green Beans', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Miso Soup with Tofu', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Stir-fried Snap Peas', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Zucchini and Corn Sauté', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Steamed Mixed Vegetables', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Baked Acorn Squash', '" + generalLunchEn + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Sautéed Swiss Chard with Garlic', '" + generalLunchEn + "');");
 
-        // Add categories
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PMC + " VALUES('Fruits and Vegetables')");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PMC + " VALUES('Meat and Fish')");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PMC + " VALUES('Dairy and Eggs')");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PMC + " VALUES('Bakery and Grains')");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PMC + " VALUES('Drinks')");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_PMC + " VALUES('Others')");
+        // PT Recipes - Breakfasts
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Aveia com Mirtilos e Nozes', '<h1>Aveia com Mirtilos e Nozes</h1><h3>Ingredientes</h3><ul><li>1/2 xícara de aveia</li><li>1 xícara de leite vegetal</li><li>1/2 xícara de mirtilos</li><li>1/4 xícara de nozes</li></ul><h3>Instruções</h3><p>Cozinhe a aveia por 5-7 min. Cubra com mirtilos e nozes.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Panquecas Integrais com Frutas Frescas', '<h1>Panquecas Integrais com Frutas Frescas</h1><h3>Ingredientes</h3><ul><li>1 xícara farinha integral</li><li>1 c. sopa fermento</li><li>Leite vegetal e fruta</li></ul><h3>Instruções</h3><p>Misture e cozinhe. Sirva com fruta fresca.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Smoothie de Frutas com Sementes de Linhaça', '<h1>Smoothie de Frutas com Sementes de Linhaça</h1><h3>Ingredientes</h3><ul><li>1 banana</li><li>1 xícara frutos vermelhos</li><li>1 c. sopa linhaça</li></ul><h3>Instruções</h3><p>Bata tudo no liquidificador até ficar cremoso.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Papa de Trigo Sarraceno com Amêndoas', '<h1>Papa de Trigo Sarraceno com Amêndoas</h1><h3>Ingredientes</h3><ul><li>1/2 xícara trigo sarraceno</li><li>1.5 xícaras leite vegetal</li><li>Amêndoas</li></ul><h3>Instruções</h3><p>Cozinhe o trigo no leite por 15-20 min. Sirva com amêndoas.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Pudim de Chia com Manga', '<h1>Pudim de Chia com Manga</h1><h3>Ingredientes</h3><ul><li>3 c. sopa chia</li><li>1 xícara leite vegetal</li><li>Manga</li></ul><h3>Instruções</h3><p>Misture chia e leite. Leve ao frio por 4h. Junte a manga.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Torrada Integral com Abacate', '<h1>Torrada Integral com Abacate</h1><h3>Ingredientes</h3><ul><li>2 fatias pão integral</li><li>1 abacate</li></ul><h3>Instruções</h3><p>Torre o pão e barre com abacate esmagado.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Torrada Integral com Húmus', '<h1>Torrada Integral com Húmus</h1><h3>Ingredientes</h3><ul><li>2 fatias de pão integral</li><li>1/2 xícara de húmus</li><li>Fatias de pepino</li></ul><h3>Instruções</h3><ol><li>Torre o pão até ficar dourado.</li><li>Espalhe o húmus generosamente em cada fatia.</li><li>Cubra com pepino e sirva.</li></ol>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Painço com Tâmaras e Caju', '<h1>Painço com Tâmaras e Caju</h1><h3>Ingredientes</h3><ul><li>1/2 xícara painço</li><li>1.5 xícaras leite vegetal</li><li>Tâmaras e caju</li></ul><h3>Instruções</h3><p>Cozinhe o painço no leite por 20 min. Junte as tâmaras e caju.</p>');");
+        
+        String tofuScramblePt = "<h1>Mexido de Tofu com Vegetais</h1><h3>Ingredientes (para 2 pessoas):</h3><ul><li>1 bloco de tofu firme (aprox. 250g)</li><li>1 colher de sopa de azeite</li><li>Vegetais variados a gosto (ex: 1/2 cebola picada, 1 dente de alho, algumas folhas de espinafres, cogumelos laminados ou 1/2 curgete ralada)</li><li>1/2 colher de chá de açafrão-das-índias (curcuma) em pó</li><li>1 pitada de sal (pode usar sal negro/kala namak para simular o sabor a ovo)</li><li>Pimenta preta moída q.b.</li><li>Opcional: Levedura nutricional ou ervas frescas</li></ul><h3>Preparação:</h3><ol><li><b>Prepare o tofu:</b> Retire o excesso de água do tofu pressionando-o levemente com um guardanapo ou pano limpo. De seguida, esfarele-o com as mãos ou com a ajuda de um garfo.</li><li><b>Salteie os vegetais:</b> Numa frigideira, aqueça o azeite e salteie a cebola e o alho até dourarem. Adicione os restantes vegetais (como cogumelos e curgete) e deixe cozinhar até ficarem macios.</li><li><b>Junte o tofu:</b> Adicione o tofu esfarelado à frigideira e envolva tudo.</li><li><b>Tempere:</b> Polvilhe com o açafrão-das-índias, o sal e a pimenta preta. Misture bem e deixe cozinhar por cerca de 3 a 5 minutos, mexendo sempre.</li><li><b>Finalize:</b> Se preferir mais cremoso, pode juntar umas gotas de bebida vegetal ou água. Adicione levedura nutricional ou ervas frescas, se desejar.</li></ol>";
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Mexido de Tofu com Espinafres', '" + tofuScramblePt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Mexido de Tofu e Vegetais', '" + tofuScramblePt + "');");
 
-        // Add initial recipes
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_RECIPES + " VALUES('Garden Lentil Stew', '<h1>Garden Lentil Stew</h1><p>A hearty and nutritious stew packed with lentils and fresh vegetables.</p><h3>Ingredients</h3><ul><li>1 cup brown lentils</li><li>1 onion, chopped</li><li>2 carrots, sliced</li><li>2 stalks celery, sliced</li><li>3 cloves garlic, minced</li><li>1 can diced tomatoes</li><li>4 cups vegetable broth</li><li>1 tsp thyme</li><li>1 tsp oregano</li><li>Salt and pepper to taste</li><li>2 cups spinach</li></ul><h3>Instructions</h3><ol><li>In a large pot, sauté onion, carrots, and celery until softened.</li><li>Add garlic and cook for 1 minute.</li><li>Stir in lentils, tomatoes, broth, thyme, and oregano.</li><li>Bring to a boil, then reduce heat and simmer for 30-40 minutes until lentils are tender.</li><li>Stir in spinach and cook until wilted.</li><li>Season with salt and pepper.</li></ol>');");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_RECIPES + " VALUES('Oatmeal with Blueberries and Walnuts', '<h1>Oatmeal with Blueberries and Walnuts</h1><h3>Ingredients (1 Serving)</h3><ul><li><b>Oats:</b> 1/2 cup rolled oats or steel-cut.</li><li><b>Liquid:</b> 1 cup milk (dairy or non-dairy) or water.</li><li><b>Blueberries:</b> 1/2 cup fresh or frozen.</li><li><b>Walnuts:</b> 1/4 cup chopped.</li><li><b>Sweetener/Spices:</b> 1 tsp maple syrup or honey, 1/2 tsp ground cinnamon, and a pinch of salt.</li></ul><h3>Instructions</h3><ol><li><b>Boil:</b> In a small saucepan, bring the milk or water to a boil.</li><li><b>Cook:</b> Add the oats and a pinch of salt. Reduce heat to low, cover, and simmer for 5–7 minutes (or 20+ mins for steel-cut), stirring occasionally until creamy.</li><li><b>Mix-ins:</b> Remove from heat and stir in cinnamon and maple syrup.</li><li><b>Top & Serve:</b> Transfer to a bowl and top with blueberries and walnuts.</li></ol>');");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_RECIPES + " VALUES('Quinoa Salad with Roasted Vegetables', '<h1>Quinoa Salad with Roasted Vegetables</h1><h3>Ingredients</h3><ul><li><b>Quinoa:</b> 1 cup uncooked (rinsed), cooked in 2 cups water or vegetable broth.</li><li><b>Vegetables:</b> 1 diced red bell pepper, 1 diced zucchini, 1/2 red onion (cubed), 1 cup cherry tomatoes, or 1 cup broccoli florets.</li><li><b>Dressing:</b> 3-4 tbsp olive oil, 1-2 tbsp lemon juice or balsamic vinegar, 1 tsp dried herbs (origano or thyme), 1 minced garlic clove, salt, and pepper.</li><li><b>Optional Toppings:</b> 1/2 cup crumbled feta or goat cheese, toasted pine nuts, fresh parsley or cilantro.</li></ul><h3>Instructions</h3><ol><li><b>Roast Veggies:</b> Preheat oven to 400°F–425°F (200°C–220°C). Toss diced vegetables with olive oil, salt, pepper, and dried herbs on a baking sheet. Roast for 20-30 minutes until tender and slightly browned.</li><li><b>Cook Quinoa:</b> Rinse quinoa, then combine with 2 cups water/broth in a saucepan. Bring to a boil, reduce to a simmer, cover, and cook for 15 minutes, or until water is absorbed. Fluff with a fork.</li><li><b>Prepare Dressing:</b> Whisk olive oil, lemon juice/balsamic, garlic, and herbs together.</li><li><b>Assemble:</b> Combine quinoa and roasted vegetables in a large bowl. Drizzle with dressing and toss to combine. Top with feta and fresh herbs.</li></ol>');");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_RECIPES + " VALUES('Steared Broccoli and Baked Tofu', '<h1>Steamed Broccoli and Baked Tofu</h1><h3>Ingredients</h3><ul><li><b>Tofu:</b> 1 block (14-16 oz) extra-firm tofu, pressed and cubed.</li><li><b>Broccoli:</b> 1 large head, cut into florets.</li><li><b>Coating/Oil:</b> 2 tbsp olive oil or sesame oil, 1-2 tbsp cornstarch (for crispiness).</li><li><b>Flavorings:</b> 2-3 tbsp soy sauce or tamari, 2 cloves garlic (minced), 1 tsp garlic powder, salt, and pepper to taste.</li><li><b>Optional Sauce:</b> 1 tbsp maple syrup or honey, 1 tbsp rice vinegar, 1 tsp ginger.</li></ul><h3>Instructions</h3><ol><li><b>Prep the Tofu:</b> Preheat oven to 400°F (200°C). Press tofu for 15-30 minutes to remove excess water, then cube.</li><li><b>Coat Tofu:</b> Toss cubed tofu with cornstarch, 1 tbsp soy sauce, and 1 tbsp oil until evenly coated.</li><li><b>Arrange and Bake:</b> Spread tofu on a parchment-lined baking sheet. Bake for 15-20 minutes.</li><li><b>Prepare Broccoli:</b> While tofu bakes, toss broccoli florets with 1 tbsp oil, garlic, and salt.</li><li><b>Roast Together:</b> Remove baking sheet, move tofu to one side, and add broccoli to the other, or mix together. Bake for another 10-15 minutes until tofu is golden and broccoli is tender.</li><li><b>Serve:</b> Toss with additional soy sauce or a quick sauce (maple syrup/vinegar) if desired, and garnish with sesame seeds.</li></ol><h3>Quick Tips</h3><ul><li>Pressing the tofu is key for a better texture!</li></ul>');");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_RECIPES + " VALUES('Whole Grain Pancakes with Fresh Fruit', '<h1>Whole Grain Pancakes with Fresh Fruit</h1><h3>Ingredients</h3><ul><li><b>Dry:</b> 1 cup whole wheat flour (or white whole wheat), 2 tsp baking powder, 1/2 tsp salt, 1/2 tsp cinnamon (optional).</li><li><b>Wet:</b> 1 cup milk (dairy or almond), 1 large egg, 2 tbsp melted butter or oil, 1 tsp vanilla extract, 1 tbsp honey or maple syrup (optional).</li><li><b>Fruit/Toppings:</b> 1 cup fresh blueberries, sliced bananas, or diced strawberries.</li></ul><h3>Instructions</h3><ol><li><b>Mix Dry Ingredients:</b> In a large bowl, whisk together the whole wheat flour, baking powder, salt, and cinnamon.</li><li><b>Combine Wet Ingredients:</b> In a separate bowl, whisk the egg, milk, oil/butter, honey, and vanilla.</li><li><b>Create Batter:</b> Pour the wet ingredients into the dry ingredients and stir gently until just combined. The batter should be slightly lumpy; overmixing makes them tough.</li><li><b>Heat Pan:</b> Preheat a griddle or non-stick skillet over medium heat and lightly grease with oil or butter.</li><li><b>Cook:</b> Pour 1/4 cup of batter for each pancake. If adding fruit into the batter, add them now, or place them on top of the pancake immediately after pouring.</li><li><b>Flip:</b> Cook for 2–4 minutes until bubbles form on the surface and the edges look dry, then flip and cook for another 1–2 minutes until golden brown.</li><li><b>Serve:</b> Serve warm with fresh fruit on top, maple syrup, or yogurt.</li></ol>');");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_RECIPES + " VALUES('Black Bean and Corn Tacos', '<h1>Black Bean and Corn Tacos</h1><h3>Ingredients</h3><ul><li><b>Beans/Corn:</b> 1 can (15 oz) black beans (rinsed/drained), 1 cup corn (frozen or fresh).</li><li><b>Aromatics/Fat:</b> 1 tbsp olive oil, 1/2 diced onion, 1-2 cloves minced garlic.</li><li><b>Spices:</b> 1 tsp cumin, 1 tsp chili powder, 1/2 tsp smoked paprika (optional), salt to taste.</li><li><b>Flavor Boosters:</b> 1 tbsp lime juice, 1/4 cup salsa, fresh cilantro.</li><li><b>Tortillas/Toppings:</b> 8 corn or flour tortillas, shredded cheese, sour cream, avocado/guacamole.</li></ul><h3>Instructions</h3><ol><li><b>Sauté Aromatics:</b> Heat olive oil in a skillet over medium heat. Add onion and cook until soft (5-8 mins). Add garlic and spices (cumin/chili powder), cooking for another 30-60 seconds until fragrant.</li><li><b>Cook Filling:</b> Add the black beans and corn to the skillet. Stir in salsa and lime juice, cooking until heated through (3-5 mins).</li><li><b>Mash (Optional):</b> Use a fork or potato masher to mash about half of the beans—this creates a creamier, cohesive texture that stays in the taco better.</li><li><b>Warm Tortillas:</b> Warm tortillas in a dry skillet, over a gas flame, or wrapped in a damp paper towel in the microwave.</li><li><b>Assemble:</b> Spoon the bean mixture into tortillas. Top with cheese, cilantro, and other desired toppings.</li></ol>');");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_RECIPES + " VALUES('Lentil Soup with Kale', '<h1>Lentil Soup with Kale</h1><h3>Ingredients</h3><ul><li>1 tbsp Olive oil</li><li>1 Large onion, diced</li><li>2-3 Garlic cloves, minced</li><li>2-3 Carrots, diced</li><li>2 Celery stalks, diced</li><li>1 cup Brown or Green lentils, rinsed</li><li>4-6 cups Vegetable broth</li><li>1 (14 oz) Can diced tomatoes</li><li>1 tsp Cumin</li><li>1 tsp Dried thyme or Italian seasoning</li><li>1 bunch Kale, stemmed and chopped</li><li>1-2 tsp Lemon juice (optional, for brightness)</li><li>Salt and pepper to taste</li></ul><h3>Instructions</h3><ol><li><b>Sauté Aromatics:</b> Heat olive oil in a large pot or Dutch oven over medium heat. Add onion, carrot, and celery. Sauté for 5-7 minutes until soft. Add garlic and spices (cumin, thyme) and cook for 1 minute until fragrant.</li><li><b>Simmer Soup:</b> Add the rinsed lentils, vegetable broth, and diced tomatoes (with juices). Bring to a boil, then reduce heat to low, cover partially, and simmer for 25-30 minutes, or until the lentils are tender.</li><li><b>Add Kale:</b> Stir in the chopped kale and cook for 3-5 minutes until just wilted.</li><li><b>Finish and Serve:</b> Remove from heat and stir in the lemon juice, if using. Season with additional salt and pepper to taste.</li></ol>');");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_RECIPES + " VALUES('Millet with Dates and Cashews', '<h1>Millet with Dates and Cashews</h1><h3>Ingredients</h3><ul><li><b>Millet:</b> 1/2 cup hulled millet.</li><li><b>Liquid:</b> 1.5 cups water or almond milk.</li><li><b>Dates:</b> 4-5 Medjool dates, pitted and chopped.</li><li><b>Cashews:</b> 1/4 cup raw or roasted cashews.</li><li><b>Spices:</b> 1/4 tsp cardamom or cinnamon.</li></ul><h3>Instructions</h3><ol><li><b>Toast Millet:</b> In a small pot, toast millet over medium heat for 2-3 mins until fragrant.</li><li><b>Cook:</b> Add liquid and bring to a boil. Reduce heat to low, cover, and simmer for 15-20 mins until liquid is absorbed.</li><li><b>Combine:</b> Stir in chopped dates and cashews. Let sit covered for 5 mins.</li><li><b>Serve:</b> Fluff with a fork and serve warm.</li></ol>');");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_RECIPES + " VALUES('Quinoa and Black Bean Bowl', '<h1>Quinoa and Black Bean Bowl</h1><h3>Ingredients</h3><ul><li>1 cup quinoa, rinsed</li><li>2 cups water or vegetable broth</li><li>1 can (15 oz) black beans, rinsed and drained</li><li>1 cup corn (fresh, frozen, or canned)</li><li>1 red bell pepper, diced</li><li>1/4 cup red onion, finely chopped</li><li>1/2 cup fresh cilantro, chopped</li><li>1 avocado, sliced</li></ul><h3>Dressing</h3><ul><li>2 tbsp olive oil</li><li>1 tbsp lime juice</li><li>1 tsp cumin</li><li>Salt and pepper to taste</li></ul><h3>Instructions</h3><ol><li>Cook quinoa in water or broth according to package instructions.</li><li>In a large bowl, combine cooked quinoa, black beans, corn, bell pepper, and onion.</li><li>Whisk together dressing ingredients and pour over the salad.</li><li>Toss to combine. Top with cilantro and avocado before serving.</li></ol>');");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_RECIPES + " VALUES('Baked Sweet Potato with Greens', '<h1>Baked Sweet Potato with Greens</h1><h3>Ingredients</h3><ul><li>2 large sweet potatoes</li><li>2 cups kale or spinach, chopped</li><li>1/2 cup chickpeas, cooked</li><li>1 tbsp olive oil</li><li>1 clove garlic, minced</li><li>Lemon juice for drizzling</li><li>Salt and pepper to taste</li></ul><h3>Instructions</h3><ol><li>Preheat oven to 400°F (200°C). Pierce sweet potatoes with a fork and bake for 45-60 minutes until tender.</li><li>In a skillet, heat olive oil over medium heat. Add garlic and sauté for 1 minute.</li><li>Add greens and chickpeas. Sauté until greens are wilted.</li><li>Cut open baked sweet potatoes and stuff with the greens and chickpea mixture.</li><li>Drizzle with lemon juice and season with salt and pepper.</li></ol>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Taça de Açaí com Granola Caseira', '<h1>Taça de Açaí</h1><p>Bata o açaí com banana. Cubra com granola e fruta.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Quinoa de Pequeno-Almoço com Bagas', '<h1>Quinoa com Bagas</h1><p>Cozinhe quinoa em leite vegetal e junte bagas frescas.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Torrada de Manteiga de Amendoim e Banana', '<h1>Torrada Amendoim</h1><p>Barre manteiga de amendoim no pão e junte banana.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Smoothie Bowl com Frutos Secos', '<h1>Smoothie Bowl</h1><p>Smoothie espesso decorado com frutos secos e sementes.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Papas de Milho', '<h1>Papas de Milho</h1><p>Cozinhe fubá em leite vegetal até engrossar. Use canela.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Aveia com Maçã e Canela', '<h1>Aveia com Maçã</h1><p>Cozinhe aveia com pedaços de maçã e canela.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Burrito de Pequeno-Almoço (Feijão/Veg)', '<h1>Burrito Veg</h1><p>Tortilha com feijão preto e legumes salteados.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Abacate Esmagado em Pão de Centeio', '<h1>Abacate no Pão</h1><p>Esmague abacate sobre pão de centeio torrado.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Quinoa com Pêssegos', '<h1>Quinoa com Pêssego</h1><p>Misture quinoa cozida com fatias de pêssego fresco.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Panquecas de Banana (Farinha de Aveia)', '<h1>Panquecas de Banana</h1><p>Panquecas feitas com banana e farinha de aveia.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Aveia Adormecida com Abóbora', '<h1>Overnight Oats</h1><p>Aveia com puré de abóbora hidratada durante a noite.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Iogurte de Soja com Frutas Vermelhas', '<h1>Iogurte com Fruta</h1><p>Iogurte de soja com mix de frutos vermelhos.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Pão de Espelta com Manteiga de Frutos Secos', '<h1>Pão de Espelta</h1><p>Pão de espelta torrado com manteiga de amêndoa.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Papas de Pera e Noz', '<h1>Papas de Pera</h1><p>Aveia cremosa com pera fatiada e nozes.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Smoothie de Espinafres e Fruta', '<h1>Smoothie Verde</h1><p>Bata espinafres com manga e água.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Trigo Sarraceno com Ervas Aromáticas', '<h1>Trigo Sarraceno</h1><p>Trigo sarraceno cozido com ervas frescas e sal.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Salada de Fruta com Sementes de Cânhamo', '<h1>Salada de Fruta</h1><p>Fruta variada com sementes de cânhamo.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Parfait de Frutas Vermelhas (Vegan)', '<h1>Parfait Vegan</h1><p>Camadas de iogurte, fruta e granola.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Aveia em Grão com Figos', '<h1>Aveia com Figos</h1><p>Aveia integral com figos frescos.</p>');");
 
-        // Add initial workout plan and routines
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_WP + " VALUES('Example Workout Plan');");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_WR + " VALUES('Example Workout Plan', 'LEG DAY');");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_WR + " VALUES('Example Workout Plan', 'PULL DAY');");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_WR + " VALUES('Example Workout Plan', 'PUSH DAY');");
+        // --- PT - ALMOÇOS E JANTARES COMPLETOS ---
+        String quinoaSaladPt = "<h1>Salada de Quinoa com Legumes Assados</h1><h3>Ingredientes:</h3><ul><li>1 chávena de quinoa cozida</li><li>1 beringela pequena, 1 curgete e 1 pimento vermelho</li><li>Azeite, sal, pimenta e ervas da provence</li><li>Sumo de meio limão</li></ul><h3>Preparação:</h3><ol><li><b>Asse os legumes:</b> Corte os legumes em cubos, regue com azeite e ervas, e asse a 200°C por 20-25 min.</li><li><b>Misture:</b> Envolva os legumes assados com a quinoa cozida.</li><li><b>Finalize:</b> Tempere com limão e retifique o sal. Sirva morna ou fria.</li></ol>";
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Salada de Quinoa com Legumes Assados', '" + quinoaSaladPt + "');");
 
-        // Add default settings
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_S_LANG + " VALUES(1, 'en');");
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_S_GOAL + " VALUES(1, 2000, 65, 250, 50);");
+        String tacosPt = "<h1>Tacos de Feijão Preto e Milho</h1><h3>Ingredientes:</h3><ul><li>4 tortilhas de milho</li><li>1 lata de feijão preto cozido</li><li>1 chávena de milho doce</li><li>Abacate, coentros e especiarias (cominhos e páprica)</li></ul><h3>Preparação:</h3><ol><li><b>Aqueça:</b> Aqueça o feijão e o milho com os temperos num tacho.</li><li><b>Monte:</b> Recheie as tortilhas com a mistura de feijão.</li><li><b>Finalize:</b> Adicione fatias de abacate e coentros picados.</li></ol>";
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Tacos de Feijão Preto e Milho', '" + tacosPt + "');");
+
+        String curryPt = "<h1>Caril de Grão-de-Bico com Arroz Integral</h1><h3>Ingredientes:</h3><ul><li>2 chávenas de grão-de-bico cozido</li><li>1 lata de leite de coco</li><li>1 colher de sopa de caril em pó</li><li>Arroz integral cozido</li><li>Cebola e alho picados</li></ul><h3>Preparação:</h3><ol><li><b>Refogado:</b> Refogue a cebola e o alho, junte o caril.</li><li><b>Cozinhe:</b> Adicione o grão e o leite de coco. Deixe apurar em lume brando por 10-15 min.</li><li><b>Sirva:</b> Coloque sobre uma base de arroz integral quente.</li></ol>";
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Caril de Grão-de-Bico com Arroz Integral', '" + curryPt + "');");
+
+        String wrapPt = "<h1>Wrap de Húmus e Vegetais</h1><h3>Ingredientes:</h3><ul><li>1 tortilha grande integral</li><li>3 colheres de sopa de húmus</li><li>Cenoura ralada, alface e pepino em palitos</li></ul><h3>Preparação:</h3><ol><li><b>Barre:</b> Espalhe o húmus no centro da tortilha.</li><li><b>Recheie:</b> Disponha os vegetais frescos por cima.</li><li><b>Enrole:</b> Dobre as pontas e enrole firmemente.</li></ol>";
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Wrap de Húmus e Vegetais', '" + wrapPt + "');");
+
+        String chiliPt = "<h1>Chili de Batata-Doce e Feijão Preto</h1><h3>Ingredientes:</h3><ul><li>2 batatas-doces médias (em cubos)</li><li>1 lata de feijão preto</li><li>1 chávena de polpa de tomate</li><li>Cebola, alho e especiarias (páprica e cominhos)</li></ul><h3>Preparação:</h3><ol><li><b>Cozinhe:</b> Leve a batata-doce ao lume com um pouco de água até amolecer.</li><li><b>Apure:</b> Junte o feijão, o tomate e os temperos.</li><li><b>Tempo:</b> Deixe cozinhar em lume brando por 15 min.</li></ol>";
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Chili de Batata-Doce e Feijão Preto', '" + chiliPt + "');");
+
+        String stewPt = "<h1>Gisado de Lentilhas e Vegetais</h1><h3>Ingredientes:</h3><ul><li>1 chávena de lentilhas secas</li><li>Cenoura, batata e cebola picada</li><li>Caldo de legumes (aprox. 800ml)</li><li>Louro e azeite</li></ul><h3>Preparação:</h3><ol><li><b>Base:</b> Refogue a cebola com o azeite e o louro.</li><li><b>Cozzedura:</b> Adicione os vegetais, as lentilhas e o caldo.</li><li><b>Tempo:</b> Cozinhe tapado por 25-30 min até as lentilhas estarem macias.</li></ol>";
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Gisado de Lentilhas e Vegetais', '" + stewPt + "');");
+
+        String zoodlesPt = "<h1>Zoodles (Abobrinha) com Pesto</h1><h3>Ingredientes:</h3><ul><li>2 curgetes grandes (em espirais)</li><li>1/2 chávena de molho pesto vegan</li><li>Tomates cherry para decorar</li></ul><h3>Preparação:</h3><ol><li><b>Salteie:</b> Leve os zoodles a uma frigideira com um fio de azeite por apenas 2 min.</li><li><b>Misture:</b> Retire do lume e envolva bem no molho pesto.</li><li><b>Finalize:</b> Sirva com os tomates cherry cortados ao meio.</li></ol>";
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Zoodles (Abobrinha) com Pesto', '" + zoodlesPt + "');");
+
+        String tofuBroccoliPt = "<h1>Tofu e Brócolis com Molho de Amendoim</h1><h3>Ingredientes:</h3><ul><li>1 bloco de tofu firme em cubos</li><li>2 chávenas de flores de brócolos</li><li>2 colheres de sopa de manteiga de amendoim</li><li>1 colher de sopa de molho de soja e gengibre</li></ul><h3>Preparação:</h3><ol><li><b>Tofu:</b> Grelhe o tofu numa frigideira até dourar.</li><li><b>Brócolos:</b> Coza os brócolos ao vapor para que fiquem crocantes.</li><li><b>Molho:</b> Misture a manteiga de amendoim, soja, gengibre e um pouco de água.</li><li><b>Envolva:</b> Junte tudo e sirva de imediato.</li></ol>";
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Tofu e Brócolis com Molho de Amendoim', '" + tofuBroccoliPt + "');");
+
+        String soupPt = "<h1>Sopa de Lentilha com Couve</h1><h3>Ingredientes:</h3><ul><li>Lentilhas castanhas</li><li>Couve galega picada</li><li>Cebola e alho</li></ul><h3>Preparação:</h3><ol><li><b>Base:</b> Coza as lentilhas com um refogado de cebola e alho.</li><li><b>Finalize:</b> Quando as lentilhas estiverem quase prontas, junte a couve e cozinhe mais 5 min.</li></ol>";
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Sopa de Lentilha com Couve', '" + soupPt + "');");
+
+        String stirFryPt = "<h1>Salteado de Vegetais com Tempeh</h1><h3>Ingredientes:</h3><ul><li>200g de tempeh em tiras</li><li>Mix de vegetais (pimento, cenoura, brócolos)</li><li>Molho de soja</li></ul><h3>Preparação:</h3><ol><li><b>Tempeh:</b> Doure o tempeh numa frigideira com um pouco de óleo.</li><li><b>Salteie:</b> Adicione os vegetais e cozinhe em lume forte, mexendo sempre.</li><li><b>Tempere:</b> Finalize com molho de soja e sirva.</li></ol>";
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Salteado de Vegetais com Tempeh', '" + stirFryPt + "');");
+
+        String tabulePt = "<h1>Tabule com Salsa Extra</h1><h3>Ingredientes:</h3><ul><li>Trigo bulgur, muita salsa, hortelã, tomate e pepino</li></ul><h3>Preparação:</h3><p>Hidrate o bulgur e misture com as ervas picadas e temperos.</p>";
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Tabule com Salsa Extra', '" + tabulePt + "');");
+
+        String generalLunchPt = "<h1>Receita</h1><p>Modo de preparação detalhado em breve. Desfrute da sua refeição saudável!</p>";
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Bowl de Quinoa e Feijão Preto', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Salada de Farro com Arandos Secos', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Massa de Lentilha Vermelha com Marinara', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Empadão de Lentilha (Vegan)', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Bowl Buddha com Grão-de-Bico', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Sopa de Cevada e Vegetais', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Wrap de Falafel com Húmus', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Sopa de Ervilha', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Sopa Minestrone', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Salada de Feijão Frade', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Paella de Vegetais', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Sopa de Repolho com Batatas', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Salada de Grão Mediterrânea', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Korma de Vegetais', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Sopa de Feijão Branco e Couve', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Lentilha Verde e Arroz (Mujadara)', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Salada de Grão-de-Bico Assado', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Three Bean Chili', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Brown Rice and Veggie Sushi', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Tomato and Lentil Stew', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Quinoa with Pomegranate', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Barley and Mushroom Soup', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Mexican Quinoa Bowl', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Brócolis a Vapor e Tofu Grelhado', '<h1>Tofu com Brócolos</h1><p>Brócolos ao vapor com cubos de tofu grelhados.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Salada Verde Mista com Sementes', '<h1>Salada Mista</h1><p>Mix de folhas verdes com sementes tostadas.</p>');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Couve-Flor Assada com Tahini', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Batata-Doce Assada com Folhas Verdes', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Raízes Assadas com Molho de Alho', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Salada de Couve e Quinoa', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Espargos Assados com Amêndoas', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Pimentos Recheados com Arroz Selvagem', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Risoto de Cogumelos (Arroz Integral)', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Lasanha de Beringela (Sem Queijo)', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Tofu Agridoce', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Couve de Bruxelas com Balsâmico', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Bok Choy Salteado com Tempeh', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Abóbora Assada com Quinoa', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Bifes de Cogumelo Portobello', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Bifes de Couve-Flor Especiados', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Salteado de Brócolis e Caju', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Beterraba Glaciada com Balsâmico', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Salada de Repolho e Cenoura', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Alcachofras ao Vapor', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Batata-Doce em Palitos Assada', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Vagem Salteada com Alho', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Sopa Miso com Tofu', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Ervilhas de Quebrar Salteadas', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Salteado de Abobrinha e Milho', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Mistura de Vegetais ao Vapor', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Abóbora Menina Assada', '" + generalLunchPt + "');");
+        db.execSQL("INSERT OR REPLACE INTO " + TABLE_RECIPES + " VALUES('Acelga Salteada com Alho', '" + generalLunchPt + "');");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (oldVersion < 51) {
-            // Ensure all tables exist
-            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_RECIPES + " ("
-                    + COL_RECIPE_TITLE + " TEXT PRIMARY KEY, "
-                    + COL_RECIPE_CONTENT + " TEXT);");
-
-            db.execSQL("INSERT OR IGNORE INTO " + TABLE_RECIPES + " VALUES('Garden Lentil Stew', '<h1>Garden Lentil Stew</h1><p>A hearty and nutritious stew packed with lentils and fresh vegetables.</p><h3>Ingredients</h3><ul><li>1 cup brown lentils</li><li>1 onion, chopped</li><li>2 carrots, sliced</li><li>2 stalks celery, sliced</li><li>3 cloves garlic, minced</li><li>1 can diced tomatoes</li><li>4 cups vegetable broth</li><li>1 tsp thyme</li><li>1 tsp oregano</li><li>Salt and pepper to taste</li><li>2 cups spinach</li></ul><h3>Instructions</h3><ol><li>In a large pot, sauté onion, carrots, and celery until softened.</li><li>Add garlic and cook for 1 minute.</li><li>Stir in lentils, tomatoes, broth, thyme, and oregano.</li><li>Bring to a boil, then reduce heat and simmer for 30-40 minutes until lentils are tender.</li><li>Stir in spinach and cook until wilted.</li><li>Season with salt and pepper.</li></ol>');");
-            db.execSQL("INSERT OR IGNORE INTO " + TABLE_RECIPES + " VALUES('Oatmeal with Blueberries and Walnuts', '<h1>Oatmeal with Blueberries and Walnuts</h1><h3>Ingredients (1 Serving)</h3><ul><li><b>Oats:</b> 1/2 cup rolled oats or steel-cut.</li><li><b>Liquid:</b> 1 cup milk (dairy or non-dairy) or water.</li><li><b>Blueberries:</b> 1/2 cup fresh or frozen.</li><li><b>Walnuts:</b> 1/4 cup chopped.</li><li><b>Sweetener/Spices:</b> 1 tsp maple syrup or honey, 1/2 tsp ground cinnamon, and a pinch of salt.</li></ul><h3>Instructions</h3><ol><li><b>Boil:</b> In a small saucepan, bring the milk or water to a boil.</li><li><b>Cook:</b> Add the oats and a pinch of salt. Reduce heat to low, cover, and simmer for 5–7 minutes (or 20+ mins for steel-cut), stirring occasionally until creamy.</li><li><b>Mix-ins:</b> Remove from heat and stir in cinnamon and maple syrup.</li><li><b>Top & Serve:</b> Transfer to a bowl and top with blueberries and walnuts.</li></ol>');");
-            db.execSQL("INSERT OR IGNORE INTO " + TABLE_RECIPES + " VALUES('Quinoa Salad with Roasted Vegetables', '<h1>Quinoa Salad with Roasted Vegetables</h1><h3>Ingredients</h3><ul><li><b>Quinoa:</b> 1 cup uncooked (rinsed), cooked in 2 cups water or vegetable broth.</li><li><b>Vegetables:</b> 1 diced red bell pepper, 1 diced zucchini, 1/2 red onion (cubed), 1 cup cherry tomatoes, or 1 cup broccoli florets.</li><li><b>Dressing:</b> 3-4 tbsp olive oil, 1-2 tbsp lemon juice or balsamic vinegar, 1 tsp dried herbs (oregano or thyme), 1 minced garlic clove, salt, and pepper.</li><li><b>Optional Toppings:</b> 1/2 cup crumbled feta or goat cheese, toasted pine nuts, fresh parsley or cilantro.</li></ul><h3>Instructions</h3><ol><li><b>Roast Veggies:</b> Preheat oven to 400°F–425°F (200°C–220°C). Toss diced vegetables with olive oil, salt, pepper, and dried herbs on a baking sheet. Roast for 20-30 minutes until tender and slightly browned.</li><li><b>Cook Quinoa:</b> Rinse quinoa, then combine with 2 cups water/broth in a saucepan. Bring to a boil, reduce to a simmer, cover, and cook for 15 minutes, or until water is absorbed. Fluff with a fork.</li><li><b>Prepare Dressing:</b> Whisk olive oil, lemon juice/balsamic, garlic, and herbs together.</li><li><b>Assemble:</b> Combine quinoa and roasted vegetables in a large bowl. Drizzle with dressing and toss to combine. Top with feta and fresh herbs.</li></ol>');");
-            db.execSQL("INSERT OR IGNORE INTO " + TABLE_RECIPES + " VALUES('Steared Broccoli and Baked Tofu', '<h1>Steamed Broccoli and Baked Tofu</h1><h3>Ingredients</h3><ul><li><b>Tofu:</b> 1 block (14-16 oz) extra-firm tofu, pressed and cubed.</li><li><b>Broccoli:</b> 1 large head, cut into florets.</li><li><b>Coating/Oil:</b> 2 tbsp olive oil or sesame oil, 1-2 tbsp cornstarch (for crispiness).</li><li><b>Flavorings:</b> 2-3 tbsp soy sauce or tamari, 2 cloves garlic (minced), 1 tsp garlic powder, salt, and pepper to taste.</li><li><b>Optional Sauce:</b> 1 tbsp maple syrup or honey, 1 tbsp rice vinegar, 1 tsp ginger.</li></ul><h3>Instructions</h3><ol><li><b>Prep the Tofu:</b> Preheat oven to 400°F (200°C). Press tofu for 15-30 minutes to remove excess water, then cube.</li><li><b>Coat Tofu:</b> Toss cubed tofu with cornstarch, 1 tbsp soy sauce, and 1 tbsp oil until evenly coated.</li><li><b>Arrange and Bake:</b> Spread tofu on a parchment-lined baking sheet. Bake for 15-20 minutes.</li><li><b>Prepare Broccoli:</b> While tofu bakes, toss broccoli florets with 1 tbsp oil, garlic, and salt.</li><li><b>Roast Together:</b> Remove baking sheet, move tofu to one side, and add broccoli to the other, or mix together. Bake for another 10-15 minutes until tofu is golden and broccoli is tender.</li><li><b>Serve:</b> Toss with additional soy sauce or a quick sauce (maple syrup/vinegar) if desired, and garnish with sesame seeds.</li></ol><h3>Quick Tips</h3><ul><li>Pressing the tofu is key for a better texture!</li></ul>');");
-            db.execSQL("INSERT OR IGNORE INTO " + TABLE_RECIPES + " VALUES('Whole Grain Pancakes with Fresh Fruit', '<h1>Whole Grain Pancakes with Fresh Fruit</h1><h3>Ingredients</h3><ul><li><b>Dry:</b> 1 cup whole wheat flour (or white whole wheat), 2 tsp baking powder, 1/2 tsp salt, 1/2 tsp cinnamon (optional).</li><li><b>Wet:</b> 1 cup milk (dairy or almond), 1 large egg, 2 tbsp melted butter or oil, 1 tsp vanilla extract, 1 tbsp honey or maple syrup (optional).</li><li><b>Fruit/Toppings:</b> 1 cup fresh blueberries, sliced bananas, or diced strawberries.</li></ul><h3>Instructions</h3><ol><li><b>Mix Dry Ingredients:</b> In a large bowl, whisk together the whole wheat flour, baking powder, salt, and cinnamon.</li><li><b>Combine Wet Ingredients:</b> In a separate bowl, whisk the egg, milk, oil/butter, honey, and vanilla.</li><li><b>Create Batter:</b> Pour the wet ingredients into the dry ingredients and stir gently until just combined. The batter should be slightly lumpy; overmixing makes them tough.</li><li><b>Heat Pan:</b> Preheat a griddle or non-stick skillet over medium heat and lightly grease with oil or butter.</li><li><b>Cook:</b> Pour 1/4 cup of batter for each pancake. If adding fruit into the batter, add them now, or place them on top of the pancake immediately after pouring.</li><li><b>Flip:</b> Cook for 2–4 minutes until bubbles form on the surface and the edges look dry, then flip and cook for another 1–2 minutes until golden brown.</li><li><b>Serve:</b> Serve warm with fresh fruit on top, maple syrup, or yogurt.</li></ol>');");
-            db.execSQL("INSERT OR IGNORE INTO " + TABLE_RECIPES + " VALUES('Black Bean and Corn Tacos', '<h1>Black Bean and Corn Tacos</h1><h3>Ingredients</h3><ul><li><b>Beans/Corn:</b> 1 can (15 oz) black beans (rinsed/drained), 1 cup corn (frozen or fresh).</li><li><b>Aromatics/Fat:</b> 1 tbsp olive oil, 1/2 diced onion, 1-2 cloves minced garlic.</li><li><b>Spices:</b> 1 tsp cumin, 1 tsp chili powder, 1/2 tsp smoked paprika (optional), salt to taste.</li><li><b>Flavor Boosters:</b> 1 tbsp lime juice, 1/4 cup salsa, fresh cilantro.</li><li><b>Tortillas/Toppings:</b> 8 corn or flour tortillas, shredded cheese, sour cream, avocado/guacamole.</li></ul><h3>Instructions</h3><ol><li><b>Sauté Aromatics:</b> Heat olive oil in a skillet over medium heat. Add onion and cook until soft (5-8 mins). Add garlic and spices (cumin/chili powder), cooking for another 30-60 seconds until fragrant.</li><li><b>Cook Filling:</b> Add the black beans and corn to the skillet. Stir in salsa and lime juice, cooking until heated through (3-5 mins).</li><li><b>Mash (Optional):</b> Use a fork or potato masher to mash about half of the beans—this creates a creamier, cohesive texture that stays in the taco better.</li><li><b>Warm Tortillas:</b> Warm tortillas in a dry skillet, over a gas flame, or wrapped in a damp paper towel in the microwave.</li><li><b>Assemble:</b> Spoon the bean mixture into tortillas. Top with cheese, cilantro, and other desired toppings.</li></ol>');");
-            db.execSQL("INSERT OR IGNORE INTO " + TABLE_RECIPES + " VALUES('Lentil Soup with Kale', '<h1>Lentil Soup with Kale</h1><h3>Ingredients</h3><ul><li>1 tbsp Olive oil</li><li>1 Large onion, diced</li><li>2-3 Garlic cloves, minced</li><li>2-3 Carrots, diced</li><li>2 Celery stalks, diced</li><li>1 cup Brown or Green lentils, rinsed</li><li>4-6 cups Vegetable broth</li><li>1 (14 oz) Can diced tomatoes</li><li>1 tsp Cumin</li><li>1 tsp Dried thyme or Italian seasoning</li><li>1 bunch Kale, stemmed and chopped</li><li>1-2 tsp Lemon juice (optional, for brightness)</li><li>Salt and pepper to taste</li></ul><h3>Instructions</h3><ol><li><b>Sauté Aromatics:</b> Heat olive oil in a large pot or Dutch oven over medium heat. Add onion, carrot, and celery. Sauté for 5-7 minutes until soft. Add garlic and spices (cumin, thyme) and cook for 1 minute until fragrant.</li><li><b>Simmer Soup:</b> Add the rinsed lentils, vegetable broth, and diced tomatoes (with juices). Bring to a boil, then reduce heat to low, cover partially, and simmer for 25-30 minutes, or until the lentils are tender.</li><li><b>Add Kale:</b> Stir in the chopped kale and cook for 3-5 minutes until just wilted.</li><li><b>Finish and Serve:</b> Remove from heat and stir in the lemon juice, if using. Season with additional salt and pepper to taste.</li></ol>');");
-            db.execSQL("INSERT OR IGNORE INTO " + TABLE_RECIPES + " VALUES('Millet with Dates and Cashews', '<h1>Millet with Dates and Cashews</h1><h3>Ingredients</h3><ul><li><b>Millet:</b> 1/2 cup hulled millet.</li><li><b>Liquid:</b> 1.5 cups water or almond milk.</li><li><b>Dates:</b> 4-5 Medjool dates, pitted and chopped.</li><li><b>Cashews:</b> 1/4 cup raw or roasted cashews.</li><li><b>Spices:</b> 1/4 tsp cardamom or cinnamon.</li></ul><h3>Instructions</h3><ol><li><b>Toast Millet:</b> In a small pot, toast millet over medium heat for 2-3 mins until fragrant.</li><li><b>Cook:</b> Add liquid and bring to a boil. Reduce heat to low, cover, and simmer for 15-20 mins until liquid is absorbed.</li><li><b>Combine:</b> Stir in chopped dates and cashews. Let sit covered for 5 mins.</li><li><b>Serve:</b> Fluff with a fork and serve warm.</li></ol>');");
-            db.execSQL("INSERT OR IGNORE INTO " + TABLE_RECIPES + " VALUES('Quinoa and Black Bean Bowl', '<h1>Quinoa and Black Bean Bowl</h1><h3>Ingredients</h3><ul><li>1 cup quinoa, rinsed</li><li>2 cups water or vegetable broth</li><li>1 can (15 oz) black beans, rinsed and drained</li><li>1 cup corn (fresh, frozen, or canned)</li><li>1 red bell pepper, diced</li><li>1/4 cup red onion, finely chopped</li><li>1/2 cup fresh cilantro, chopped</li><li>1 avocado, sliced</li></ul><h3>Dressing</h3><ul><li>2 tbsp olive oil</li><li>1 tbsp lime juice</li><li>1 tsp cumin</li><li>Salt and pepper to taste</li></ul><h3>Instructions</h3><ol><li>Cook quinoa in water or broth according to package instructions.</li><li>In a large bowl, combine cooked quinoa, black beans, corn, bell pepper, and onion.</li><li>Whisk together dressing ingredients and pour over the salad.</li><li>Toss to combine. Top with cilantro and avocado before serving.</li></ol>');");
-            db.execSQL("INSERT OR IGNORE INTO " + TABLE_RECIPES + " VALUES('Baked Sweet Potato with Greens', '<h1>Baked Sweet Potato with Greens</h1><h3>Ingredients</h3><ul><li>2 large sweet potatoes</li><li>2 cups kale or spinach, chopped</li><li>1/2 cup chickpeas, cooked</li><li>1 tbsp olive oil</li><li>1 clove garlic, minced</li><li>Lemon juice for drizzling</li><li>Salt and pepper to taste</li></ul><h3>Instructions</h3><ol><li>Preheat oven to 400°F (200°C). Pierce sweet potatoes with a fork and bake for 45-60 minutes until tender.</li><li>In a skillet, heat olive oil over medium heat. Add garlic and sauté for 1 minute.</li><li>Add greens and chickpeas. Sauté until greens are wilted.</li><li>Cut open baked sweet potatoes and stuff with the greens and chickpea mixture.</li><li>Drizzle with lemon juice and season with salt and pepper.</li></ol>');");
-
-            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_WP + " ("+ COL_WP_NAME + " TEXT PRIMARY KEY);");
-            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_WR + " ("+ COL_WR_PLAN_NAME + " TEXT, " + COL_WR_ROUTINE_NAME + " TEXT, PRIMARY KEY (" + COL_WR_PLAN_NAME + ", " + COL_WR_ROUTINE_NAME + "));");
-            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_WE + " ("
-                    + COL_WE_PLAN_NAME + " TEXT, "
-                    + COL_WE_ROUTINE_NAME + " TEXT, "
-                    + COL_WE_EXERCISE_NAME + " TEXT, "
-                    + COL_WE_SETS + " INTEGER, "
-                    + COL_WE_REPETITIONS + " INTEGER, "
-                    + COL_WE_WEIGHT + " REAL"
-                    + ");");
-            
-            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_S_GOAL + " ("
-                    + COL_S_INDEX + " INTEGER PRIMARY KEY, "
-                    + COL_S_GOAL_CALORIES + " REAL, "
-                    + COL_S_GOAL_FAT + " REAL, "
-                    + COL_S_GOAL_CARBS + " REAL, "
-                    + COL_S_GOAL_PROTEIN + " REAL);");
-
-            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_S_LANG + " ("
-                    + COL_S_INDEX + " INTEGER PRIMARY KEY, "
-                    + COL_S_LANG + " TEXT);");
-
-            db.execSQL("INSERT OR IGNORE INTO " + TABLE_WP + " VALUES('Example Workout Plan');");
-            db.execSQL("INSERT OR IGNORE INTO " + TABLE_WR + " VALUES('Example Workout Plan', 'LEG DAY');");
-            db.execSQL("INSERT OR IGNORE INTO " + TABLE_WP + " VALUES('Example Workout Plan', 'PULL DAY');");
-            db.execSQL("INSERT OR IGNORE INTO " + TABLE_WR + " VALUES('Example Workout Plan', 'PUSH DAY');");
-
-            db.execSQL("INSERT OR IGNORE INTO " + TABLE_S_LANG + " VALUES(1, 'en');");
-            db.execSQL("INSERT OR IGNORE INTO " + TABLE_S_GOAL + " VALUES(1, 2000, 65, 250, 50);");
+        if (oldVersion < 76) {
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_RECIPES);
+            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_RECIPES + " (" + COL_RECIPE_TITLE + " TEXT PRIMARY KEY, " + COL_RECIPE_CONTENT + " TEXT);");
+            insertInitialRecipes(db);
         }
     }
-
-    public void addDataBody(String date, double weight, double chest, double belly, double butt,
-                            double waist, double arm_r, double arm_l, double leg_r, double leg_l) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-
-        cv.put(COLUMN_BD_DATE, date);
-        cv.put(COLUMN_BD_WEIGHT, weight);
-        cv.put(COLUMN_BD_CHEST, chest);
-        cv.put(COLUMN_BD_BELLY, belly);
-        cv.put(COLUMN_BD_BUTT, butt);
-        cv.put(COLUMN_BD_WAIST, waist);
-        cv.put(COLUMN_BD_ARM_R, arm_r);
-        cv.put(COLUMN_BD_ARM_L, arm_l);
-        cv.put(COLUMN_BD_LEG_R, leg_r);
-        cv.put(COLUMN_BD_LEG_L, leg_l);
-
-        long result = db.replace(TABLE_BD, null, cv);
-        if (result == -1) {
-            Toast.makeText(context, "Failed to add body data", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public Cursor getPresetMealCategories() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery("SELECT * FROM " + TABLE_PMC, null);
-    }
-
-    public Cursor getPresetMealsSimpleAllCategories() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery("SELECT " + COL_PM_INDEX + ", " + COL_PM_NAME + ", " + COL_PM_CALORIES + " FROM " + TABLE_PM + " ORDER BY " + COL_PM_NAME + " ASC", null);
-    }
-
-    public Cursor getPresetMealsSimpleFromCategory(String category) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery("SELECT " + COL_PM_INDEX + ", " + COL_PM_NAME + ", " + COL_PM_CALORIES + " FROM " + TABLE_PM + " WHERE " + COL_PM_CATEGORY + " = ? ORDER BY " + COL_PM_NAME + " ASC", new String[]{category});
-    }
-
-    public void addOrReplaceConsumedMeal(String date, String mealUUID, double amount) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(COL_CM_DATE, date);
-        cv.put(COL_CM_INDEX, mealUUID);
-        cv.put(COL_CM_AMOUNT, amount);
-        db.replace(TABLE_CM, null, cv);
-    }
-
-    public Cursor getPresetMealDetails(String uuid) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery("SELECT * FROM " + TABLE_PM + " WHERE " + COL_PM_INDEX + " = ?", new String[]{uuid});
-    }
-
-    public void addOrReplacePresetMeal(String uuid, String name, String category, double[] data) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(COL_PM_INDEX, uuid);
-        cv.put(COL_PM_NAME, name);
-        cv.put(COL_PM_CATEGORY, category);
-        cv.put(COL_PM_CALORIES, data[0]);
-        cv.put(COL_PM_FAT, data[1]);
-        cv.put(COL_PM_FAT_SAT, data[2]);
-        cv.put(COL_PM_CARBS, data[3]);
-        cv.put(COL_PM_SUGAR, data[4]);
-        cv.put(COL_PM_PROTEIN, data[5]);
-        cv.put(COL_PM_SALT, data[6]);
-        cv.put(COL_PM_FIBER, data[7]);
-        cv.put(COL_PM_CHOL, data[8]);
-        cv.put(COL_PM_CREATINE, data[9]);
-        cv.put(COL_PM_CA, data[10]);
-        cv.put(COL_PM_FE, data[11]);
-        cv.put(COL_PM_K, data[12]);
-        cv.put(COL_PM_MG, data[13]);
-        cv.put(COL_PM_MN, data[14]);
-        cv.put(COL_PM_NA, data[15]);
-        cv.put(COL_PM_P, data[16]);
-        cv.put(COL_PM_ZN, data[17]);
-        cv.put(COL_PM_VIT_A, data[18]);
-        cv.put(COL_PM_VIT_B1, data[19]);
-        cv.put(COL_PM_VIT_B2, data[20]);
-        cv.put(COL_PM_VIT_B3, data[21]);
-        cv.put(COL_PM_VIT_B5, data[22]);
-        cv.put(COL_PM_VIT_B6, data[23]);
-        cv.put(COL_PM_VIT_B7, data[24]);
-        cv.put(COL_PM_VIT_B11, data[25]);
-        cv.put(COL_PM_VIT_B12, data[26]);
-        cv.put(COL_PM_VIT_C, data[27]);
-        cv.put(COL_PM_VIT_E, data[28]);
-        cv.put(COL_PM_VIT_K, data[29]);
-        cv.put(COL_PM_VIT_H, data[30]);
-        db.replace(TABLE_PM, null, cv);
-    }
-
-    public Cursor getConsumedMeals(String date) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT " + TABLE_CM + "." + COL_CM_INDEX + ", " + COL_CM_AMOUNT + ", " + TABLE_PM + "." + COL_PM_NAME + ", " + TABLE_PM + "." + COL_PM_CALORIES +
-                " FROM " + TABLE_CM +
-                " INNER JOIN " + TABLE_PM + " ON " + TABLE_CM + "." + COL_CM_INDEX + " = " + TABLE_PM + "." + COL_PM_INDEX +
-                " WHERE " + COL_CM_DATE + " = ?";
-        return db.rawQuery(query, new String[]{date});
-    }
-
-    public void removeConsumedMeal(String date, String mealUUID) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_CM, COL_CM_DATE + " = ? AND " + COL_CM_INDEX + " = ?", new String[]{date, mealUUID});
-    }
-
-    // Workout methods -----------------------------------------------------------------------------
-
-    public Cursor getWorkoutPlans() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery("SELECT * FROM " + TABLE_WP, null);
-    }
-
-    public void addWorkoutPlan(String name) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(COL_WP_NAME, name);
-        db.insert(TABLE_WP, null, cv);
-    }
-
-    public void updateWorkoutPlanName(String oldName, String newName) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(COL_WP_NAME, newName);
-        db.update(TABLE_WP, cv, COL_WP_NAME + " = ?", new String[]{oldName});
-
-        ContentValues cvRoutines = new ContentValues();
-        cvRoutines.put(COL_WR_PLAN_NAME, newName);
-        db.update(TABLE_WR, cvRoutines, COL_WR_PLAN_NAME + " = ?", new String[]{oldName});
-
-        ContentValues cvExercises = new ContentValues();
-        cvExercises.put(COL_WE_PLAN_NAME, newName);
-        db.update(TABLE_WE, cvExercises, COL_WE_PLAN_NAME + " = ?", new String[]{oldName});
-    }
-
-    public void deleteWorkoutPlan(String name) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_WP, COL_WP_NAME + " = ?", new String[]{name});
-        db.delete(TABLE_WR, COL_WR_PLAN_NAME + " = ?", new String[]{name});
-        db.delete(TABLE_WE, COL_WE_PLAN_NAME + " = ?", new String[]{name});
-    }
-
-    public Cursor getWorkoutRoutines(String workoutPlanName) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery("SELECT " + COL_WR_ROUTINE_NAME + " FROM " + TABLE_WR + " WHERE " + COL_WR_PLAN_NAME + " = ?", new String[]{workoutPlanName});
-    }
-
-    public void addWorkoutRoutine(String planName, String routineName) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(COL_WR_PLAN_NAME, planName);
-        cv.put(COL_WR_ROUTINE_NAME, routineName);
-        db.insert(TABLE_WR, null, cv);
-    }
-
-    public void updateWorkoutRoutineName(String planName, String oldRoutineName, String newRoutineName) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(COL_WR_ROUTINE_NAME, newRoutineName);
-        db.update(TABLE_WR, cv, COL_WR_PLAN_NAME + " = ? AND " + COL_WR_ROUTINE_NAME + " = ?", new String[]{planName, oldRoutineName});
-
-        ContentValues cvExercises = new ContentValues();
-        cvExercises.put(COL_WE_ROUTINE_NAME, newRoutineName);
-        db.update(TABLE_WE, cvExercises, COL_WE_PLAN_NAME + " = ? AND " + COL_WE_ROUTINE_NAME + " = ?", new String[]{planName, oldRoutineName});
-    }
-
-    public void deleteWorkoutRoutine(String planName, String routineName) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_WR, COL_WR_PLAN_NAME + " = ? AND " + COL_WR_ROUTINE_NAME + " = ?", new String[]{planName, routineName});
-        db.delete(TABLE_WE, COL_WE_PLAN_NAME + " = ? AND " + COL_WE_ROUTINE_NAME + " = ?", new String[]{planName, routineName});
-    }
-
-    public Cursor getWorkoutExercises(String planName, String routineName) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery("SELECT * FROM " + TABLE_WE + " WHERE " + COL_WE_PLAN_NAME + " = ? AND " + COL_WE_ROUTINE_NAME + " = ?", new String[]{planName, routineName});
-    }
-
-    public void addWorkoutExercise(String planName, String routineName, String exerciseName, int sets, int reps, double weight) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(COL_WE_PLAN_NAME, planName);
-        cv.put(COL_WE_ROUTINE_NAME, routineName);
-        cv.put(COL_WE_EXERCISE_NAME, exerciseName);
-        cv.put(COL_WE_SETS, sets);
-        cv.put(COL_WE_REPETITIONS, reps);
-        cv.put(COL_WE_WEIGHT, weight);
-        db.insert(TABLE_WE, null, cv);
-    }
-
-    public void deleteWorkoutExercise(String planName, String routineName, String exerciseName) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_WE, COL_WE_PLAN_NAME + " = ? AND " + COL_WE_ROUTINE_NAME + " = ? AND " + COL_WE_EXERCISE_NAME + " = ?", new String[]{planName, routineName, exerciseName});
-    }
-
-    // Settings methods ----------------------------------------------------------------------------
-
-    public Cursor getSettingsLanguage() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery("SELECT * FROM " + TABLE_S_LANG, null);
-    }
-
-    public void setSettingsLanguage(String lang) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(COL_S_INDEX, 1);
-        cv.put(COL_S_LANG, lang);
-        db.replace(TABLE_S_LANG, null, cv);
-    }
-
-    public Cursor getSettingsGoals() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery("SELECT * FROM " + TABLE_S_GOAL, null);
-    }
-
-    public void setSettingsGoals(double cal, double fat, double carbs, double protein) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(COL_S_INDEX, 1);
-        cv.put(COL_S_GOAL_CALORIES, cal);
-        cv.put(COL_S_GOAL_FAT, fat);
-        cv.put(COL_S_GOAL_CARBS, carbs);
-        cv.put(COL_S_GOAL_PROTEIN, protein);
-        db.replace(TABLE_S_GOAL, null, cv);
-    }
-
-    // Recipe methods ------------------------------------------------------------------------------
 
     public String getRecipeContent(String title) {
         try {
-            SQLiteDatabase db = this.getReadableDatabase();
-            Cursor cursor = db.rawQuery("SELECT " + COL_RECIPE_CONTENT + " FROM " + TABLE_RECIPES + " WHERE " + COL_RECIPE_TITLE + " = ?", new String[]{title});
+            Cursor cursor = this.getReadableDatabase().rawQuery("SELECT " + COL_RECIPE_CONTENT + " FROM " + TABLE_RECIPES + " WHERE " + COL_RECIPE_TITLE + " = ?", new String[]{title});
             String content = null;
             if (cursor != null) {
-                if (cursor.moveToFirst()) {
-                    content = cursor.getString(0);
-                }
+                if (cursor.moveToFirst()) content = cursor.getString(0);
                 cursor.close();
             }
             return content;
         } catch (Exception e) {
-            Log.e("DatabaseHelper", "Error getting recipe content", e);
             return null;
         }
     }
 
+    public Cursor getSettingsLanguage() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_S_LANG + " WHERE " + COL_S_INDEX_L + " = 1";
+        return db.rawQuery(query, null);
+    }
+
+    public void setSettingsLanguage(String language) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("language", language);
+        db.update(TABLE_S_LANG, cv, COL_S_INDEX_L + " = 1", null);
+    }
 }
