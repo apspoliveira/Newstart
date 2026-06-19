@@ -33,13 +33,13 @@ public class Fragment_Workout extends Fragment {
     private SharedPreferences sharedPreferences;
 
     private TextSwitcher textSwitcherHints;
-    private final String[] workoutHints = {
-            "Regular exercise strengthens your heart and improves circulation.",
-            "Aim for at least 30 minutes of moderate activity most days of the week.",
-            "Strength training helps maintain bone density and muscle mass.",
-            "Consistency is more important than intensity when starting out.",
-            "Don't forget to warm up before and cool down after your workout.",
-            "Find an activity you enjoy to make exercise a lifelong habit."
+    private final int[] workoutHints = {
+            R.string.workout_hint_1,
+            R.string.workout_hint_2,
+            R.string.workout_hint_3,
+            R.string.workout_hint_4,
+            R.string.workout_hint_5,
+            R.string.workout_hint_6
     };
     private int currentHintIdx = 0;
     private final Handler hintHandler = new Handler();
@@ -121,13 +121,13 @@ public class Fragment_Workout extends Fragment {
     }
 
     private void startHintsSliding() {
-        textSwitcherHints.setText(workoutHints[currentHintIdx]);
+        textSwitcherHints.setText(getString(workoutHints[currentHintIdx]));
         hintRunnable = new Runnable() {
             @Override
             public void run() {
                 currentHintIdx++;
                 if (currentHintIdx >= workoutHints.length) currentHintIdx = 0;
-                textSwitcherHints.setText(workoutHints[currentHintIdx]);
+                textSwitcherHints.setText(getString(workoutHints[currentHintIdx]));
                 hintHandler.postDelayed(this, 5000); // Change hint every 5 seconds
             }
         };

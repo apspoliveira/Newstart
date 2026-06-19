@@ -20,4 +20,9 @@
     <!-- Card & Progress -->
     <color name="card_bg">#1E273E</color>
     <color name="progress_empty">#2C364D</color>
+
+    <!-- Pink Palette for Settings -->
+    <color name="pink_light">#FCE4EC</color>
+    <color name="pink_medium">#AD1457</color>
+    <color name="pink_dark">#880E4F</color>
 </resources>

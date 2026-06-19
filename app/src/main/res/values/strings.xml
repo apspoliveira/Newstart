@@ -1,79 +1,137 @@
 <resources>
-
     <string name="app_name">Newstart</string>
 
-    <!-- Dashboard Nutrition -->
-    <string name="dn_header_01">Today\'s Overview</string>
-    <string name="dn_header_02">Details</string>
-    <string name="dn_button_add">Add Meal</string>
-    <string name="dn_button_edit">Todays Meals</string>
+    <!-- Navegação -->
+    <string name="nav_exercise">Exercício</string>
+    <string name="nav_air">Ar</string>
+    <string name="nav_water">Água</string>
+    <string name="nav_sun">Sol</string>
+    <string name="nav_meal">Nutrição</string>
+    <string name="nav_settings">Confiança</string>
 
-    <!-- UI -->
-    <string name="button_text_back">Back</string>
-    <string name="button_text_save">Save</string>
-    <string name="button_text_cancel">Cancel</string>
-    <string name="button_text_create_meal">Create new custom meal</string>
-    <string name="title_meal_name">Meal Name</string>
-    <string name="title_name">Name</string>
-    <string name="title_category">Category</string>
-    <string name="title_general_data">General Data</string>
-    <string name="title_details">Details (Optional)</string>
-    <string name="title_select_plan">Select Workout Plan</string>
-    <string name="hint_no_entries">No entries found for today</string>
-    <string name="hint_enter_name_exercise">Enter exercise name here</string>
-    <string name="workout_plans">Plans</string>
-    <string name="workout_routines">Routines</string>
-    <string name="workout_exercises">Exercises</string>
-    <string name="workout_sets">Sets</string>
-    <string name="workout_reps">Repetitions</string>
-    <string name="workout_weight">Weight [kg]</string>
-    <string name="button_edit_plans">Edit Workout Plans</string>
-    <string name="button_edit_routines">Edit Workout Routines</string>
-    <string name="button_edit_exercises">Edit Workout Exercises</string>
-    <string name="button_add_plans">Add Workout Plans</string>
-    <string name="button_add_routines">Add Workout Routines</string>
-    <string name="button_add_routine">Add Workout Routine</string>
-    <string name="button_add_exercises">Add Workout Exercises</string>
-    <string name="button_create_plans">Create Workout Plans</string>
-    <string name="button_create_plan">Create New Workout Plan</string>
-    <string name="button_create_routines">Create Workout Routines</string>
-    <string name="button_create_exercises">Create Workout Exercises</string>
-    <string name="settings">Settings</string>
-    <string name="settings_lang">Language</string>
-    <string name="settings_goals">Daily Goals</string>
-    <string name="health_hint_label">HEALTH HINT</string>
+    <!-- UI e Botões -->
+    <string name="button_text_back">Voltar</string>
+    <string name="button_text_save">Salvar Alterações</string>
+    <string name="button_text_cancel">Cancelar</string>
+    <string name="settings">Configurações</string>
+    <string name="settings_lang">Idioma</string>
+    <string name="settings_goals">Objetivos</string>
+    <string name="health_hint_label">DICA DE SAÚDE</string>
+    <string name="loading">A carregar...</string>
+    <string name="no_internet_error">Sem ligação à internet. Verifique o seu Wi-Fi.</string>
 
-    <string name="lang_de">German</string>
-    <string name="lang_en">English</string>
-    <string name="lang_pt">Portuguese</string>
+    <!-- Notificações -->
+    <string name="settings_notifications">Notificações</string>
+    <string name="settings_notif_air">Ar Puro</string>
+    <string name="settings_notif_nutrition">Nutrição</string>
+    <string name="settings_notif_sun">Sol</string>
+    <string name="settings_notif_water">Água</string>
+    <string name="settings_notif_workout">Exercício</string>
 
-    <!-- Notifications -->
-    <string name="settings_notifications">Notifications</string>
-    <string name="settings_notif_air">Air</string>
-    <string name="settings_notif_nutrition">Nutrition</string>
-    <string name="settings_notif_sun">Sunlight</string>
-    <string name="settings_notif_water">Water</string>
-    <string name="settings_notif_workout">Workout</string>
+    <!-- Dicas - Nutrição -->
+    <string name="hint_nutr_1">Consuma uma variedade de frutas e vegetais coloridos todos os dias.</string>
+    <string name="hint_nutr_2">Escolha cereais integrais em vez de refinados para melhor ingestão de fibras.</string>
+    <string name="hint_nutr_3">Proteínas vegetais como lentilhas e feijões são ótimas para o coração.</string>
+    <string name="hint_nutr_4">Limite alimentos processados e açúcares adicionados na sua dieta.</string>
+    <string name="hint_nutr_5">Mastigue bem os alimentos para ajudar na digestão e absorção.</string>
+    <string name="hint_nutr_6">Um pequeno-almoço saudável fornece energia e estabiliza o açúcar.</string>
+
+    <!-- Dicas - Sol -->
+    <string name="hint_sun_1">A luz solar é a melhor fonte natural de Vitamina D.</string>
+    <string name="hint_sun_2">15-20 minutos de exposição solar diária são ideais.</string>
+    <string name="hint_sun_3">A luz do sol ajuda a regular o seu sono e o ritmo circadiano.</string>
+    <string name="hint_sun_4">A exposição solar melhora o humor através da serotonina.</string>
+    <string name="hint_sun_5">O sol da manhã é o mais seguro e benéfico.</string>
+
+    <!-- Dicas - Ar -->
+    <string name="hint_air_1">O ar puro é vital para um cérebro saudável e pensamento claro.</string>
+    <string name="hint_air_2">Respiração profunda ao ar livre oxigena o sangue.</string>
+    <string name="hint_air_3">Ventile a sua casa regularmente para remover poluentes.</string>
+    <string name="hint_air_4">Dormir com a janela aberta fornece ar fresco à noite.</string>
+    <string name="hint_air_5">Plantas em casa ajudam a filtrar a qualidade do ar interior.</string>
+
+    <!-- Dicas - Água -->
+    <string name="hint_water_1">Beber água ajuda a manter a concentração e o foco.</string>
+    <string name="hint_water_2">A água é essencial para a desintoxicação do corpo.</string>
+    <string name="hint_water_3">Beba água antes de sentir sede para evitar a desidratação.</string>
+    <string name="hint_water_4">A água ajuda a regular a temperatura do corpo.</string>
+    <string name="hint_water_5">Substitua refrigerantes por água pura e fresca.</string>
+
+    <!-- Exercício -->
+    <string name="workout_title">Exercício</string>
+    <string name="workout_strength_training">TREINO DE FORÇA</string>
+    <string name="workout_cardio_exercise">EXERCÍCIO CARDIO</string>
+    <string name="workout_flexibility_stretching">FLEXIBILIDADE E ALONGAMENTO</string>
+    <string name="workout_hint_1">O exercício fortalece o coração e melhora a circulação.</string>
+    <string name="workout_hint_2">Tente 30 minutos de atividade na maioria dos dias.</string>
+    <string name="workout_hint_3">O treino de força mantém os ossos e músculos saudáveis.</string>
+    <string name="workout_hint_4">Consistência é mais importante do que intensidade no início.</string>
+    <string name="workout_hint_5">Aqueça antes do treino e arrefeça depois.</string>
+    <string name="workout_hint_6">Escolha uma atividade que lhe dê prazer para manter a motivação.</string>
 
     <!-- Bible Verse -->
-    <string name="settings_bible_title">Daily Inspiration</string>
-    <string name="settings_bible_loading">Loading verse...</string>
-    <string name="settings_bible_error">Could not load verse. Please check your connection.</string>
+    <string name="settings_bible_title">Inspiração Diária</string>
+    <string name="settings_bible_loading">Carregando versículo...</string>
+    <string name="settings_bible_error">Não foi possível carregar o versículo. Verifique sua conexão.</string>
     <string name="bible_verse_format">\"%1$s\"</string>
     <string name="bible_reference_format">- %1$s</string>
 
+    <!-- Idiomas -->
+    <string name="lang_de">Alemão</string>
+    <string name="lang_en">Inglês</string>
+    <string name="lang_pt">Português</string>
+
+    <!-- NEWSTART Air -->
+    <string name="air_title">Ar Puro</string>
+    <string name="air_spend_time">PASSAR TEMPO AO AR LIVRE</string>
+    <string name="air_keep_windows">MANTER JANELAS ABERTAS</string>
+    <string name="air_deep_breathing">PRATICAR RESPIRAÇÃO PROFUNDA</string>
+    <string name="air_avoid_polluted">EVITAR AMBIENTES POLUÍDOS</string>
+
+    <!-- NEWSTART Sun -->
+    <string name="sun_title">Luz Solar</string>
+    <string name="sun_exposure_label">EXPOSIÇÃO SOLAR</string>
+    <string name="sun_minutes_format">%1$d minutos</string>
+    <string name="sun_goal_format">Meta: %1$d min</string>
+    <string name="sun_benefits_label">BENEFÍCIOS DA LUZ SOLAR</string>
+    <string name="sun_vitamin_d_label">VITAMINA D E SAÚDE</string>
+
     <!-- NEWSTART Water -->
-    <string name="nav_water">Water</string>
-    <string name="water_title">Water</string>
-    <string name="water_drink">Drink at least 8 glasses of water</string>
-    <string name="water_hydro">Take a contrast shower (hot/cold)</string>
-    <string name="water_morning">Drink 2 glasses upon waking</string>
-    <string name="water_pure">Choose pure water over sugary drinks</string>
+    <string name="water_title">Água Pura</string>
+    <string name="water_drink">Beba pelo menos 8 copos de água</string>
+    <string name="water_hydro">Tome um duche de contraste (quente/frio)</string>
+    <string name="water_glasses_format">%1$d copos</string>
+    <string name="water_glass_format">%1$d copo</string>
 
-    <!-- NEWSTART Sunlight -->
-    <string name="sun_title">Sunlight</string>
-    <string name="sun_exposure">Sun Exposure: %1$d minutes</string>
-    <string name="sun_benefits">SOAK UP THE SUN. BOOST YOUR MOOD.</string>
-    <string name="sun_goal">Daily sun goal (mins)</string>
+    <!-- Nutrition Screen -->
+    <string name="nutrition_title">Refeição</string>
+    <string name="nutrition_suggested_menu">MENU SUGERIDO PARA HOJE</string>
+    <string name="nutrition_breakfast">Pequeno-almoço:</string>
+    <string name="nutrition_lunch">Almoço:</string>
+    <string name="nutrition_dinner">Jantar:</string>
+    <string name="nutrition_breakfast_title">PEQUENO-ALMOÇO DO DIA</string>
+    <string name="nutrition_lunch_title">ALMOÇO DO DIA</string>
+    <string name="nutrition_dinner_title">JANTAR DO DIA</string>
+    <string name="nutrition_view_recipe">VER RECEITA</string>
+    <string name="nutrition_breakfast_desc">Comece o seu dia com energia. Esta refeição segue princípios nutricionais ideais.</string>
+    <string name="nutrition_lunch_desc">Abasteça o seu corpo com um almoço nutritivo baseado em alimentos integrais de origem vegetal.</string>
+    <string name="nutrition_dinner_desc">Um jantar leve e cedo é o melhor para a digestão e um sono de qualidade.</string>
+    <string name="nutrition_player_loading_error">A carregar o reprodutor, tente novamente.</string>
+    <string name="nutrition_video_soon_format">Vídeo brevemente disponível para: %1$s</string>
+    <string name="nutrition_recipe_soon_title">Receita em breve!</string>
+    <string name="nutrition_recipe_soon_desc_format">Estamos a trabalhar para adicionar %1$s à nossa base de dados.</string>
 
+    <!-- Initial Setup -->
+    <string name="setup_welcome">Bem-vindo!</string>
+    <string name="setup_subtitle">Vamos configurar o seu perfil</string>
+    <string name="setup_hint_name">Nome</string>
+    <string name="setup_hint_age">Idade</string>
+    <string name="setup_hint_height">Altura (cm)</string>
+    <string name="setup_hint_weight">Peso (kg)</string>
+    <string name="setup_button_start">Começar</string>
+    <string name="water_morning">Beba 2 copos ao acordar</string>
+    <string name="water_pure">Escolha água pura em vez de bebidas açucaradas</string>
+    <string name="sun_exposure">Exposição Solar: %1$d minutos</string>
+    <string name="sun_benefits">APROVEITE O SOL. MELHORE O SEU HUMOR.</string>
+    <string name="sun_goal">Meta solar diária (mins)</string>
 </resources>

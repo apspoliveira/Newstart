@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F0">
+    android:background="#FFF3E0">
 
     <RelativeLayout
         android:id="@+id/header"
@@ -16,8 +16,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="Air"
-            android:textColor="#333333"
+            android:text="@string/air_title"
+            android:textColor="#E65100"
             android:textSize="22sp"
             android:textStyle="bold" />
 
@@ -27,7 +27,7 @@
             android:layout_alignParentEnd="true"
             android:padding="8dp"
             android:src="@drawable/ic_baseline_air_24"
-            app:tint="#C5A070" />
+            app:tint="#EF6C00" />
     </RelativeLayout>
 
     <ScrollView
@@ -49,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="#C5A070"
+                app:cardBackgroundColor="#FF9800"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp">
 
@@ -62,7 +62,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="HEALTH HINT"
+                        android:text="@string/health_hint_label"
                         android:textColor="#FFFFFF"
                         android:textSize="12sp"
                         android:textStyle="bold"
@@ -81,7 +81,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="#525B4D"
+                app:cardBackgroundColor="#F57C00"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp">
 
@@ -102,24 +102,17 @@
                             android:id="@+id/checkBoxFreshAir"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:buttonTint="#D4A017" />
+                            android:buttonTint="#FFE0B2" />
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="SPEND TIME OUTDOORS DAILY"
-                            android:textColor="#E0E0E0"
+                            android:text="@string/air_spend_time"
+                            android:textColor="#FFFFFF"
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/progressText1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="3 / 5"
-                            android:textColor="#E0E0E0"
-                            android:textSize="12sp" />
                     </LinearLayout>
 
                     <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
@@ -135,7 +128,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="#525B4D"
+                app:cardBackgroundColor="#F57C00"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp">
 
@@ -156,13 +149,13 @@
                             android:id="@+id/checkBoxVentilation"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:buttonTint="#D4A017" />
+                            android:buttonTint="#FFE0B2" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="KEEP WINDOWS OPEN"
-                            android:textColor="#E0E0E0"
+                            android:text="@string/air_keep_windows"
+                            android:textColor="#FFFFFF"
                             android:textSize="14sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -180,7 +173,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="#525B4D"
+                app:cardBackgroundColor="#F57C00"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp">
 
@@ -201,13 +194,13 @@
                             android:id="@+id/checkBoxDeepBreathing"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:buttonTint="#D4A017" />
+                            android:buttonTint="#FFE0B2" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="PRACTICE DEEP BREATHING"
-                            android:textColor="#E0E0E0"
+                            android:text="@string/air_deep_breathing"
+                            android:textColor="#FFFFFF"
                             android:textSize="14sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -225,7 +218,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="#525B4D"
+                app:cardBackgroundColor="#F57C00"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp">
 
@@ -246,13 +239,13 @@
                             android:id="@+id/checkBoxCleanAir"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:buttonTint="#D4A017" />
+                            android:buttonTint="#FFE0B2" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="AVOID POLLUTED ENVIRONMENTS"
-                            android:textColor="#E0E0E0"
+                            android:text="@string/air_avoid_polluted"
+                            android:textColor="#FFFFFF"
                             android:textSize="14sp"
                             android:textStyle="bold" />
                     </LinearLayout>

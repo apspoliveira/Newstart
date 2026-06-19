@@ -36,13 +36,12 @@ public class Fragment_Water extends Fragment {
     private TextView textViewWaterGlasses;
 
     private TextSwitcher textSwitcherHints;
-    private final String[] waterHints = {
-            "Drink at least 8 glasses of water a day for optimal hydration.",
-            "Starting your day with two glasses of water jump-starts your metabolism.",
-            "Water helps transport nutrients and oxygen to your cells.",
-            "Hydration is key for healthy skin and proper digestion.",
-            "Thirst is often mistaken for hunger. Drink water first!",
-            "Drinking water can help improve concentration and energy levels."
+    private final int[] waterHints = {
+            R.string.hint_water_1,
+            R.string.hint_water_2,
+            R.string.hint_water_3,
+            R.string.hint_water_4,
+            R.string.hint_water_5
     };
     private int currentHintIdx = 0;
     private final Handler hintHandler = new Handler();
@@ -129,14 +128,14 @@ public class Fragment_Water extends Fragment {
     }
 
     private void startHintsSliding() {
-        textSwitcherHints.setText(waterHints[currentHintIdx]);
+        if (textSwitcherHints == null) return;
+        textSwitcherHints.setText(getString(waterHints[currentHintIdx]));
         hintRunnable = new Runnable() {
             @Override
             public void run() {
-                currentHintIdx++;
-                if (currentHintIdx >= waterHints.length) currentHintIdx = 0;
-                textSwitcherHints.setText(waterHints[currentHintIdx]);
-                hintHandler.postDelayed(this, 5000); // Change hint every 5 seconds
+                currentHintIdx = (currentHintIdx + 1) % waterHints.length;
+                textSwitcherHints.setText(getString(waterHints[currentHintIdx]));
+                hintHandler.postDelayed(this, 5000);
             }
         };
         hintHandler.postDelayed(hintRunnable, 5000);
@@ -151,7 +150,7 @@ public class Fragment_Water extends Fragment {
     }
 
     private void updateWaterText() {
-        textViewWaterGlasses.setText(waterGlasses + (waterGlasses == 1 ? " glass" : " glasses"));
+        textViewWaterGlasses.setText(waterGlasses + (waterGlasses == 1 ? " copo" : " copos"));
     }
 
     private void saveWaterGlasses() {

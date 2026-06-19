@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F0">
+    android:background="#F8F0FA">
 
     <RelativeLayout
         android:id="@+id/header"
@@ -17,8 +17,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="Nutrition"
-            android:textColor="#333333"
+            android:text="@string/nutrition_title"
+            android:textColor="#311B92"
             android:textSize="22sp"
             android:textStyle="bold" />
 
@@ -30,7 +30,7 @@
             android:padding="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_baseline_calendar_month_24"
-            app:tint="#C5A070" />
+            app:tint="#7B1FA2" />
     </RelativeLayout>
 
     <ScrollView
@@ -52,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="#C5A070"
+                app:cardBackgroundColor="#9C27B0"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp">
 
@@ -65,7 +65,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="HEALTH HINT"
+                        android:text="@string/health_hint_label"
                         android:textColor="#FFFFFF"
                         android:textSize="12sp"
                         android:textStyle="bold"
@@ -97,8 +97,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="TODAY'S SUGGESTED MENU"
-                        android:textColor="#7A8B75"
+                        android:text="@string/nutrition_suggested_menu"
+                        android:textColor="#6A1B9A"
                         android:textSize="14sp"
                         android:textStyle="bold"
                         android:layout_marginBottom="12dp"/>
@@ -109,9 +109,9 @@
                         android:orientation="horizontal"
                         android:layout_marginBottom="8dp">
                         <TextView
-                            android:layout_width="80dp"
+                            android:layout_width="100dp"
                             android:layout_height="wrap_content"
-                            android:text="Breakfast:"
+                            android:text="@string/nutrition_breakfast"
                             android:textColor="#333333"
                             android:textStyle="bold"
                             android:textSize="14sp"/>
@@ -130,9 +130,9 @@
                         android:orientation="horizontal"
                         android:layout_marginBottom="8dp">
                         <TextView
-                            android:layout_width="80dp"
+                            android:layout_width="100dp"
                             android:layout_height="wrap_content"
-                            android:text="Lunch:"
+                            android:text="@string/nutrition_lunch"
                             android:textColor="#333333"
                             android:textStyle="bold"
                             android:textSize="14sp"/>
@@ -150,9 +150,9 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <TextView
-                            android:layout_width="80dp"
+                            android:layout_width="100dp"
                             android:layout_height="wrap_content"
-                            android:text="Dinner:"
+                            android:text="@string/nutrition_dinner"
                             android:textColor="#333333"
                             android:textStyle="bold"
                             android:textSize="14sp"/>
@@ -174,7 +174,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="#525B4D"
+                app:cardBackgroundColor="#4A148C"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp">
 
@@ -193,13 +193,13 @@
                         <CheckBox
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:buttonTint="#D4A017"
+                            android:buttonTint="#E1BEE7"
                             android:checked="true" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="BREAKFAST OF THE DAY"
+                            android:text="@string/nutrition_breakfast_title"
                             android:textColor="#E0E0E0"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -270,10 +270,10 @@
                             android:layout_height="36dp"
                             android:layout_gravity="bottom|center_horizontal"
                             android:layout_marginBottom="8dp"
-                            android:backgroundTint="#C5A070"
+                            android:backgroundTint="#7B1FA2"
                             android:paddingStart="16dp"
                             android:paddingEnd="16dp"
-                            android:text="VIEW RECIPE"
+                            android:text="@string/nutrition_view_recipe"
                             android:textColor="#FFFFFF"
                             android:textSize="12sp" />
 
@@ -283,8 +283,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:text="Start your day with energy. This meal follows optimal nutrition principles."
-                        android:textColor="#E0E0E0"
+                        android:text="@string/nutrition_breakfast_desc"
+                        android:textColor="#E1BEE7"
                         android:textSize="13sp" />
 
                 </LinearLayout>
@@ -296,7 +296,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="#6B7A68"
+                app:cardBackgroundColor="#6A1B9A"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp">
 
@@ -315,13 +315,13 @@
                         <CheckBox
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:buttonTint="#D4A017"
+                            android:buttonTint="#E1BEE7"
                             android:checked="true" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="LUNCH OF THE DAY"
+                            android:text="@string/nutrition_lunch_title"
                             android:textColor="#E0E0E0"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -392,10 +392,10 @@
                             android:layout_height="36dp"
                             android:layout_gravity="bottom|center_horizontal"
                             android:layout_marginBottom="8dp"
-                            android:backgroundTint="#7A8B75"
+                            android:backgroundTint="#8E24AA"
                             android:paddingStart="16dp"
                             android:paddingEnd="16dp"
-                            android:text="VIEW RECIPE"
+                            android:text="@string/nutrition_view_recipe"
                             android:textColor="#FFFFFF"
                             android:textSize="12sp" />
 
@@ -405,8 +405,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:text="Fuel your body with a nutritious, whole-food plant-based lunch."
-                        android:textColor="#E0E0E0"
+                        android:text="@string/nutrition_lunch_desc"
+                        android:textColor="#E1BEE7"
                         android:textSize="13sp" />
 
                 </LinearLayout>
@@ -418,7 +418,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="#525B4D"
+                app:cardBackgroundColor="#4A148C"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp">
 
@@ -437,13 +437,13 @@
                         <CheckBox
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:buttonTint="#D4A017"
+                            android:buttonTint="#E1BEE7"
                             android:checked="true" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="DINNER OF THE DAY"
+                            android:text="@string/nutrition_dinner_title"
                             android:textColor="#E0E0E0"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -514,10 +514,10 @@
                             android:layout_height="36dp"
                             android:layout_gravity="bottom|center_horizontal"
                             android:layout_marginBottom="8dp"
-                            android:backgroundTint="#7A8B75"
+                            android:backgroundTint="#7B1FA2"
                             android:paddingStart="16dp"
                             android:paddingEnd="16dp"
-                            android:text="VIEW RECIPE"
+                            android:text="@string/nutrition_view_recipe"
                             android:textColor="#FFFFFF"
                             android:textSize="12sp" />
 
@@ -527,51 +527,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:text="A light, early dinner is best for digestion and quality sleep."
-                        android:textColor="#E0E0E0"
+                        android:text="@string/nutrition_dinner_desc"
+                        android:textColor="#E1BEE7"
                         android:textSize="13sp" />
 
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!-- Cooking Principles Card -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardBackgroundColor="#FFFFFF"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="COOKING PRINCIPLES"
-                        android:textColor="#7A8B75"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Learn the foundations of healthful, simple, and delicious plant-based cooking."
-                        android:textColor="#555555"
-                        android:textSize="14sp" />
-
-                    <Button
-                        android:id="@+id/buttonViewArticle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:backgroundTint="#7A8B75"
-                        android:text="READ ARTICLE"
-                        android:textColor="#FFFFFF" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

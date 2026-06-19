@@ -32,15 +32,15 @@ public class Fragment_Sun extends Fragment {
     private int sunMinutes = 0;
     private SharedPreferences sharedPreferences;
     private TextView textViewSunMinutes;
+    private TextView textViewSunGoal;
 
     private TextSwitcher textSwitcherHints;
-    private final String[] sunHints = {
-            "Sunlight is the best source of Vitamin D.",
-            "15-20 minutes of sun exposure daily is ideal for most people.",
-            "Sunlight helps regulate your circadian rhythm for better sleep.",
-            "Exposure to sun can improve your mood by boosting serotonin levels.",
-            "Morning sun is often considered the safest and most beneficial.",
-            "Sunlight helps strengthen your immune system."
+    private final int[] sunHints = {
+            R.string.hint_sun_1,
+            R.string.hint_sun_2,
+            R.string.hint_sun_3,
+            R.string.hint_sun_4,
+            R.string.hint_sun_5
     };
     private int currentHintIdx = 0;
     private final Handler hintHandler = new Handler();
@@ -61,6 +61,7 @@ public class Fragment_Sun extends Fragment {
         date = formatter.format(new Date());
 
         textViewSunMinutes = view.findViewById(R.id.textViewSunMinutes);
+        textViewSunGoal = view.findViewById(R.id.textViewSunGoal);
         Button buttonPlus = view.findViewById(R.id.buttonPlusSun);
         Button buttonMinus = view.findViewById(R.id.buttonMinusSun);
 
@@ -110,14 +111,14 @@ public class Fragment_Sun extends Fragment {
     }
 
     private void startHintsSliding() {
-        textSwitcherHints.setText(sunHints[currentHintIdx]);
+        if (textSwitcherHints == null) return;
+        textSwitcherHints.setText(getString(sunHints[currentHintIdx]));
         hintRunnable = new Runnable() {
             @Override
             public void run() {
-                currentHintIdx++;
-                if (currentHintIdx >= sunHints.length) currentHintIdx = 0;
-                textSwitcherHints.setText(sunHints[currentHintIdx]);
-                hintHandler.postDelayed(this, 5000); // Change hint every 5 seconds
+                currentHintIdx = (currentHintIdx + 1) % sunHints.length;
+                textSwitcherHints.setText(getString(sunHints[currentHintIdx]));
+                hintHandler.postDelayed(this, 5000);
             }
         };
         hintHandler.postDelayed(hintRunnable, 5000);
@@ -132,7 +133,10 @@ public class Fragment_Sun extends Fragment {
     }
 
     private void updateSunText() {
-        textViewSunMinutes.setText(sunMinutes + " minutes");
+        textViewSunMinutes.setText(getString(R.string.sun_minutes_format, sunMinutes));
+        if (textViewSunGoal != null) {
+            textViewSunGoal.setText(getString(R.string.sun_goal_format, 20));
+        }
     }
 
     private void saveSunMinutes() {

@@ -119,4 +119,19 @@
     <string name="settings_notif_water">Wasser</string>
     <string name="settings_notif_workout">Training</string>
 
+    <!-- NEWSTART Air -->
+    <string name="air_title">Frische Luft</string>
+    <string name="air_spend_time">ZEIT IM FREIEN VERBRINGEN</string>
+    <string name="air_keep_windows">FENSTER OFFEN HALTEN</string>
+    <string name="air_deep_breathing">TIEF DURCHATMEN</string>
+    <string name="air_avoid_polluted">VERSCHMUTZTE UMGEBUNG MEIDEN</string>
+
+    <!-- Workout Hints -->
+    <string name="workout_hint_1">Bewegung stärkt das Herz und verbessert die Durchblutung.</string>
+    <string name="workout_hint_2">Versuchen Sie, an den meisten Tagen 30 Minuten aktiv zu sein.</string>
+    <string name="workout_hint_3">Krafttraining hält Knochen und Muskeln gesund.</string>
+    <string name="workout_hint_4">Beständigkeit ist am Anfang wichtiger als Intensität.</string>
+    <string name="workout_hint_5">Wärmen Sie sich vor dem Training auf und kühlen Sie sich danach ab.</string>
+    <string name="workout_hint_6">Wählen Sie eine Aktivität, die Ihnen Spaß macht, um motiviert zu bleiben.</string>
+
 </resources>

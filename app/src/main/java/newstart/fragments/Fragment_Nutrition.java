@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
@@ -27,6 +26,7 @@ import newstart.R;
 import newstart.activities.Activity_Calendar;
 import newstart.activities.Activity_FullContent;
 import newstart.data.DatabaseHelper;
+import newstart.data.MealConstants;
 
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
@@ -50,13 +50,13 @@ public class Fragment_Nutrition extends Fragment {
     private YouTubePlayer breakfastPlayer, lunchPlayer, dinnerPlayer;
 
     private TextSwitcher textSwitcherHints;
-    private final String[] nutritionHints = {
-            "Eat a variety of colorful fruits and vegetables every day.",
-            "Choose whole grains over refined grains for better fiber intake.",
-            "Plant-based proteins like lentils and beans are great for heart health.",
-            "Limit processed foods and added sugars in your diet.",
-            "Chew your food thoroughly to aid digestion and nutrient absorption.",
-            "A healthy breakfast provides energy and stabilizes blood sugar."
+    private final int[] nutritionHints = {
+            R.string.hint_nutr_1,
+            R.string.hint_nutr_2,
+            R.string.hint_nutr_3,
+            R.string.hint_nutr_4,
+            R.string.hint_nutr_5,
+            R.string.hint_nutr_6
     };
     private int currentHintIdx = 0;
     private final Handler hintHandler = new Handler();
@@ -98,228 +98,65 @@ public class Fragment_Nutrition extends Fragment {
     };
 
     private final String[][] mealSuggestionsPt = {
-            {"Aveia com Mirtilos e Nozes", "Salada de Quinoa com Legumes Assados", "Brócolis a Vapor e Tofu Grelhado"},
-            {"Panquecas Integrais com Frutas Frescas", "Tacos de Feijão Preto e Milho", "Sopa de Lentilha com Couve"},
-            {"Smoothie de Frutas com Sementes de Linhaça", "Caril de Grão-de-Bico com Arroz Integral", "Salada Verde Mista com Sementes"},
-            {"Papa de Trigo Sarraceno com Amêndoas", "Wrap de Húmus e Vegetais", "Salteado de Vegetais com Tempeh"},
-            {"Pudim de Chia com Manga", "Chili de Batata-Doce e Feijão Preto", "Couve-Flor Assada com Tahini"},
-            {"Torrada Integral com Abacate", "Gisado de Lentilhas e Vegetais", "Zoodles (Abobrinha) com Pesto"},
-            {"Painço com Tâmaras e Caju", "Bowl de Quinoa e Feijão Preto", "Batata-Doce Assada com Folhas Verdes"},
-            {"Mexido de Tofu com Espinafres", "Salada de Farro com Arandos Secos", "Raízes Assadas com Molho de Alho"},
-            {"Taça de Açaí com Granola Caseira", "Massa de Lentilha Vermelha com Marinara", "Salada de Couve e Quinoa"},
-            {"Quinoa de Pequeno-Almoço com Bagas", "Empadão de Lentilha (Vegan)", "Espargos Assados com Amêndoas"},
-            {"Torrada de Manteiga de Amendoim e Banana", "Bowl Buddha com Grão-de-Bico", "Pimentos Recheados com Arroz Selvagem"},
-            {"Smoothie Bowl com Frutos Secos", "Sopa de Cevada e Vegetais", "Risoto de Cogumelos (Arroz Integral)"},
-            {"Papas de Milho", "Wrap de Falafel com Húmus", "Lasanha de Beringela (Sem Queijo)"},
-            {"Aveia com Maçã e Canela", "Sopa de Ervilha", "Tofu Agridoce"},
-            {"Burrito de Pequeno-Almoço (Feijão/Veg)", "Tabule com Salsa Extra", "Couve de Bruxelas com Balsâmico"},
-            {"Granola com Leite de Amêndoas", "Sopa Minestrone", "Bok Choy Salteado com Tempeh"},
-            {"Abacate Esmagado em Pão de Centeio", "Salada de Feijão Frade", "Abóbora Assada com Quinoa"},
-            {"Muesli de Frutas e Frutos Secos", "Paella de Vegetais", "Bifes de Cogumelo Portobello"},
-            {"Quinoa com Pêssegos", "Sopa de Repolho com Batatas", "Bifes de Couve-Flor Especiados"},
-            {"Panquecas de Banana (Farinha de Aveia)", "Salada de Grão Mediterrânea", "Salteado de Brócolis e Caju"},
-            {"Aveia Adormecida com Abóbora", "Korma de Vegetais", "Beterraba Glaciada com Balsâmico"},
-            {"Iogurte de Soja com Frutas Vermelhas", "Sopa de Feijão Branco e Couve", "Salada de Repolho e Cenoura"},
-            {"Pão de Espelta com Manteiga de Frutos Secos", "Lentilha Verde e Arroz (Mujadara)", "Alcachofras ao Vapor"},
-            {"Mexido de Tofu e Vegetais", "Salada de Grão-de-Bico Assado", "Batata-Doce em Palitos Assada"},
-            {"Papas de Pera e Noz", "Chili de Três Feijões", "Vagem Salteada com Alho"},
-            {"Smoothie de Espinafres e Fruta", "Sushi Veggie de Arroz Integral", "Sopa Miso com Tofu"},
-            {"Trigo Sarraceno com Ervas Aromáticas", "Gisado de Tomate e Lentilhas", "Ervilhas de Quebrar Salteadas"},
-            {"Salada de Fruta com Sementes de Cânhamo", "Quinoa com Romã", "Salteado de Abobrinha e Milho"},
-            {"Torrada Integral com Húmus", "Sopa de Cevada e Cogumelos", "Mistura de Vegetais ao Vapor"},
-            {"Parfait de Frutas Vermelhas (Vegan)", "Tofu e Brócolis com Molho de Amendoim", "Abóbora Menina Assada"},
-            {"Aveia em Grão com Figos", "Bowl de Quinoa Mexicano", "Acelga Salteada com Alho"}
+            {MealConstants.PT_AVEIA_MIRTILOS, MealConstants.PT_SALADA_QUINOA_LEGUMES, MealConstants.PT_BROCOLIS_TOFU_GRELHADO},
+            {MealConstants.PT_PANQUECAS_INTEGRAIS, MealConstants.PT_TACOS_FEIJAO_MILHO, MealConstants.PT_SOPA_LENTILHA_COUVE},
+            {MealConstants.PT_SMOOTHIE_LINHACA, MealConstants.PT_CARIL_GRAO_BICO, MealConstants.PT_SALADA_VERDE_SEMENTES},
+            {MealConstants.PT_PAPA_SARRACENO, MealConstants.PT_WRAP_HUMUS, MealConstants.PT_SALTEADO_TEMPEH},
+            {MealConstants.PT_PUDIM_CHIA, MealConstants.PT_CHILI_BATATA_DOCE, MealConstants.PT_COUVE_FLOR_TAHINI},
+            {MealConstants.PT_TORRADA_ABACATE, MealConstants.PT_GISADO_LENTILHAS, MealConstants.PT_ZOODLES_PESTO},
+            {MealConstants.PT_PAINCO_CAJU, MealConstants.PT_BOWL_QUINOA_FEIJAO, MealConstants.PT_BATATA_DOCE_FOLHAS_VERDES},
+            {MealConstants.PT_MEXIDO_TOFU_ESPINAFRES, MealConstants.PT_SALADA_FARRO, MealConstants.PT_RAIZES_ASSADAS_ALHO},
+            {MealConstants.PT_TACA_ACAI, MealConstants.PT_MASSA_LENTILHA_MARINARA, MealConstants.PT_SALADA_COUVE_QUINOA},
+            {MealConstants.PT_QUINOA_PEQUENO_ALMOCO, MealConstants.PT_EMPADAO_LENTILHA, MealConstants.PT_ESPARGOS_ASSADOS},
+            {MealConstants.PT_TORRADA_AMENDOIM_BANANA, MealConstants.PT_BOWL_BUDDHA_GRAO, MealConstants.PT_PIMENTOS_RECHEADOS},
+            {MealConstants.PT_SMOOTHIE_BOWL_FRUTOS_SECOS, MealConstants.PT_SOPA_CEVADA_VEGETAIS, MealConstants.PT_RISOTO_COGUMELOS},
+            {MealConstants.PT_PAPAS_MILHO, MealConstants.PT_WRAP_FALAFEL, MealConstants.PT_LASANHA_BERINGELA},
+            {MealConstants.PT_AVEIA_MACA_CANELA, MealConstants.PT_SOPA_ERVILHA, MealConstants.PT_TOFU_AGRIDOCE},
+            {MealConstants.PT_BURRITO_VEG, MealConstants.PT_TABULE_SALSA, MealConstants.PT_COUVE_BRUXELAS_BALSAMICO},
+            {MealConstants.PT_GRANOLA_LEITE_AMENDOAS, MealConstants.PT_SOPA_MINESTRONE, MealConstants.PT_BOK_CHOY_TEMPEH},
+            {MealConstants.PT_ABACATE_CENTEIO, MealConstants.PT_SALADA_FEIJAO_FRADE, MealConstants.PT_ABOBORA_ASSADA_QUINOA},
+            {MealConstants.PT_MUESLI_FRUTAS, MealConstants.PT_PAELLA_VEGETAIS, MealConstants.PT_BIFES_PORTOBELLO},
+            {MealConstants.PT_QUINOA_PESSEGOS, MealConstants.PT_SOPA_REPOLHO_BATATAS, MealConstants.PT_BIFES_COUVE_FLOR},
+            {MealConstants.PT_PANQUECAS_BANANA, MealConstants.PT_SALADA_GRAO_MEDITERRANEA, MealConstants.PT_SALTEADO_BROCOLIS_CAJU},
+            {MealConstants.PT_AVEIA_ABOBORA, MealConstants.PT_KORMA_VEGETAIS, MealConstants.PT_BETERRABA_GLACIADA},
+            {MealConstants.PT_IOGURTE_SOJA_FRUTAS, MealConstants.PT_SOPA_FEIJAO_BRANCO, MealConstants.PT_SALADA_REPOLHO_CENOURA},
+            {MealConstants.PT_PAO_ESPELTA_MANTEIGA, MealConstants.PT_LENTILHA_ARROZ_MUJADARA, MealConstants.PT_ALCACHOFRAS_VAPOR},
+            {MealConstants.PT_MEXIDO_TOFU_VEGETAIS, MealConstants.PT_SALADA_GRAO_ASSADO, MealConstants.PT_PALITOS_BATATA_DOCE},
+            {MealConstants.PT_PAPAS_PERA_NOZ, MealConstants.PT_CHILI_TRES_FEIJOES, MealConstants.PT_VAGEM_ALHO},
+            {MealConstants.PT_SMOOTHIE_ESPINAFRES, MealConstants.PT_SUSHI_VEGGIE, MealConstants.PT_SOPA_MISO_TOFU},
+            {MealConstants.PT_SARRACENO_ERVAS, MealConstants.PT_GISADO_TOMATE_LENTILHAS, MealConstants.PT_ERVILHAS_QUEBRAR_SALTEADAS},
+            {MealConstants.PT_SALADA_FRUTA_CANHAMO, MealConstants.PT_QUINOA_ROMA, MealConstants.PT_SALTEADO_ABOBORINHA_MILHO},
+            {MealConstants.PT_TORRADA_HUMUS, MealConstants.PT_SOPA_CEVADA_COGUMELOS, MealConstants.PT_VEGETAIS_VAPOR},
+            {MealConstants.PT_PARFAIT_VEGAN, MealConstants.PT_TOFU_BROCOLIS_AMENDOIM, MealConstants.PT_ABOBORA_MENINA_ASSADA},
+            {MealConstants.PT_AVEIA_FIGOS, MealConstants.PT_BOWL_QUINOA_MEXICANO, MealConstants.PT_ACELGA_ALHO}
     };
 
     private static final Map<String, String> mealVideos = new HashMap<>();
     static {
         // Breakfasts
-        mealVideos.put("Oatmeal with Blueberries and Walnuts", "UiKWttnKz2c");
-        mealVideos.put("Aveia com Mirtilos e Nozes", "UiKWttnKz2c");
+        mealVideos.put("Oatmeal with Blueberries and Walnuts", "41Xy3SihQfs");
+        mealVideos.put(MealConstants.PT_AVEIA_MIRTILOS, "41Xy3SihQfs");
         mealVideos.put("Whole Grain Pancakes with Fresh Fruit", "FcvDYecIcAs");
-        mealVideos.put("Panquecas Integrais com Frutas Frescas", "FcvDYecIcAs");
+        mealVideos.put(MealConstants.PT_PANQUECAS_INTEGRAIS, "FcvDYecIcAs");
         mealVideos.put("Fruit Smoothie with Flax Seeds", "DLgJF2jV_mU");
-        mealVideos.put("Smoothie de Frutas com Sementes de Linhaça", "DLgJF2jV_mU");
+        mealVideos.put(MealConstants.PT_SMOOTHIE_LINHACA, "DLgJF2jV_mU");
         mealVideos.put("Buckwheat Porridge with Almonds", "q_Q-7Mv3Uu0");
-        mealVideos.put("Papa de Trigo Sarraceno com Amêndoas", "q_Q-7Mv3Uu0");
+        mealVideos.put(MealConstants.PT_PAPA_SARRACENO, "q_Q-7Mv3Uu0");
         mealVideos.put("Chia Pudding with Mango", "o0iN3n-pP7w");
-        mealVideos.put("Pudim de Chia com Manga", "o0iN3n-pP7w");
+        mealVideos.put(MealConstants.PT_PUDIM_CHIA, "o0iN3n-pP7w");
         mealVideos.put("Whole Wheat Toast with Avocado", "L6Xo9xGfL-M");
-        mealVideos.put("Torrada Integral com Abacate", "L6Xo9xGfL-M");
+        mealVideos.put(MealConstants.PT_TORRADA_ABACATE, "L6Xo9xGfL-M");
         mealVideos.put("Millet with Dates and Cashews", "eFf_y4C0E78");
-        mealVideos.put("Painço com Tâmaras e Caju", "eFf_y4C0E78");
+        mealVideos.put(MealConstants.PT_PAINCO_CAJU, "eFf_y4C0E78");
         mealVideos.put("Tofu Scramble with Spinach", "zH_hI5N_G4M");
-        mealVideos.put("Mexido de Tofu com Espinafres", "zH_hI5N_G4M");
-        mealVideos.put("Acai Bowl with Homemade Granola", "7w0uX2qD-fE");
-        mealVideos.put("Taça de Açaí com Granola Caseira", "7w0uX2qD-fE");
-        mealVideos.put("Breakfast Quinoa with Berries", "L-9A3uX9m_o");
-        mealVideos.put("Quinoa de Pequeno-Almoço com Bagas", "L-9A3uX9m_o");
-        mealVideos.put("Peanut Butter Banana Toast", "uS9f9M8w9fI");
-        mealVideos.put("Torrada de Manteiga de Amendoim e Banana", "uS9f9M8w9fI");
-        mealVideos.put("Smoothie Bowl with Nuts", "f9f9j-9f9M8");
-        mealVideos.put("Cornmeal Porridge", "g9f9j-9f9M8");
-        mealVideos.put("Papas de Milho", "g9f9j-9f9M8");
-        mealVideos.put("Apple Cinnamon Oats", "h9f9j-9f9M8");
-        mealVideos.put("Aveia com Maçã e Canela", "h9f9j-9f9M8");
-        mealVideos.put("Breakfast Burrito (Beans/Veg)", "i9f9j-9f9M8");
-        mealVideos.put("Burrito de Pequeno-Almoço (Feijão/Veg)", "i9f9j-9f9M8");
-        mealVideos.put("Granola with Almond Milk", "j9f9j-9f9M8");
-        mealVideos.put("Mashed Avocado on Rye", "k9f9j-9f9M8");
-        mealVideos.put("Abacate Esmagado em Pão de Centeio", "k9f9j-9f9M8");
-        mealVideos.put("Fruit and Nut Muesli", "l9f9j-9f9M8");
-        mealVideos.put("Quinoa with Peaches", "m9f9j-9f9M8");
-        mealVideos.put("Quinoa com Pêssegos", "m9f9j-9f9M8");
-        mealVideos.put("Banana Pancakes (Oat Flour)", "n9f9j-9f9M8");
-        mealVideos.put("Panquecas de Banana (Farinha de Aveia)", "n9f9j-9f9M8");
-        mealVideos.put("Overnight Oats with Pumpkin", "o9f9j-9f9M8");
-        mealVideos.put("Aveia Adormecida com Abóbora", "o9f9j-9f9M8");
-        mealVideos.put("Soy Yogurt with Mixed Berries", "p9f9j-9f9M8");
-        mealVideos.put("Iogurte de Soja com Frutas Vermelhas", "p9f9j-9f9M8");
-        mealVideos.put("Spelt Bread with Nut Butter", "q9f9j-9f9M8");
-        mealVideos.put("Pão de Espelta com Manteiga de Frutos Secos", "q9f9j-9f9M8");
-        mealVideos.put("Tofu and Veggie Hash", "r9f9j-9f9M8");
-        mealVideos.put("Mexido de Tofu e Vegetais", "r9f9j-9f9M8");
-        mealVideos.put("Pear and Walnut Porridge", "s9f9j-9f9M8");
-        mealVideos.put("Papas de Pera e Noz", "s9f9j-9f9M8");
-        mealVideos.put("Smoothie with Spinach/Fruit", "t9f9j-9f9M8");
-        mealVideos.put("Smoothie de Espinafres e Fruta", "t9f9j-9f9M8");
-        mealVideos.put("Buckwheat with Savory Herbs", "u9f9j-9f9M8");
-        mealVideos.put("Trigo Sarraceno com Ervas Aromáticas", "u9f9j-9f9M8");
-        mealVideos.put("Fruit Salad with Hemp Seeds", "7W49A_uX7U0");
-        mealVideos.put("Salada de Fruta com Sementes de Cânhamo", "7W49A_uX7U0");
-        mealVideos.put("Whole Grain Toast with Hummus", "w9f9j-9f9M8");
-        mealVideos.put("Torrada Integral com Húmus", "w9f9j-9f9M8");
-        mealVideos.put("Mixed Berry Parfait (Vegan)", "x9f9j-9f9M8");
-        mealVideos.put("Parfait de Frutas Vermelhas (Vegan)", "x9f9j-9f9M8");
-        mealVideos.put("Steel Cut Oats with Figs", "y9f9j-9f9M8");
-        mealVideos.put("Aveia em Grão com Figos", "y9f9j-9f9M8");
+        mealVideos.put(MealConstants.PT_MEXIDO_TOFU_ESPINAFRES, "zH_hI5N_G4M");
 
         // Lunches
-        mealVideos.put("Quinoa Salad with Roasted Vegetables", "8k2_kGf7oQc");
-        mealVideos.put("Salada de Quinoa com Legumes Assados", "8k2_kGf7oQc");
-        mealVideos.put("Black Bean and Corn Tacos", "83uY7n0-nIk");
-        mealVideos.put("Tacos de Feijão Preto e Milho", "83uY7n0-nIk");
-        mealVideos.put("Chickpea Curry with Brown Rice", "f7VvC-7I-Uo");
-        mealVideos.put("Caril de Grão-de-Bico com Arroz Integral", "f7VvC-7I-Uo");
-        mealVideos.put("Hummus and Veggie Wrap", "Ym9v9vU4k9k");
-        mealVideos.put("Wrap de Húmus e Vegetais", "Ym9v9vU4k9k");
-        mealVideos.put("Sweet Potato and Black Bean Chili", "p5p58Gg4f7Q");
-        mealVideos.put("Chili de Batata-Doce e Feijão Preto", "p5p58Gg4f7Q");
-        mealVideos.put("Lentil and Vegetable Stew", "uR3W4n-89-w");
-        mealVideos.put("Gisado de Lentilhas e Vegetais", "uR3W4n-89-w");
-        mealVideos.put("Quinoa and Black Bean Bowl", "T7Y-V3w-8j8");
-        mealVideos.put("Bowl de Quinoa e Feijão Preto", "T7Y-V3w-8j8");
-        mealVideos.put("Farro Salad with Dried Cranberries", "P1g8W6E8m_o");
-        mealVideos.put("Salada de Farro com Arandos Secos", "P1g8W6E8m_o");
-        mealVideos.put("Red Lentil Pasta with Marinara", "jVzT-v9-f9c");
-        mealVideos.put("Massa de Lentilha Vermelha com Marinara", "jVzT-v9-f9c");
-        mealVideos.put("Lentil Shepherd's Pie (Vegan)", "rR3-w-9f9M8");
-        mealVideos.put("Empadão de Lentilha (Vegan)", "rR3-w-9f9M8");
-        mealVideos.put("Buddha Bowl with Chickpeas", "sR3-w-9f9M8");
-        mealVideos.put("Bowl Buddha com Grão-de-Bico", "sR3-w-9f9M8");
-        mealVideos.put("Vegetable Barley Soup", "tR3-w-9f9M8");
-        mealVideos.put("Sopa de Cevada e Vegetais", "tR3-w-9f9M8");
-        mealVideos.put("Falafel Wrap with Hummus", "uR3-w-9f9M8");
-        mealVideos.put("Wrap de Falafel com Húmus", "uR3-w-9f9M8");
-        mealVideos.put("Split Pea Soup", "vR3-w-9f9M8");
-        mealVideos.put("Sopa de Ervilha", "vR3-w-9f9M8");
-        mealVideos.put("Tabouli with Extra Parsley", "wR3-w-9f9M8");
-        mealVideos.put("Tabule com Salsa Extra", "wR3-w-9f9M8");
-        mealVideos.put("Minestrone Soup", "xR3-w-9f9M8");
-        mealVideos.put("Sopa Minestrone", "xR3-w-9f9M8");
-        mealVideos.put("Black-Eyed Pea Salad", "yR3-w-9f9M8");
-        mealVideos.put("Salada de Feijão Frade", "yR3-w-9f9M8");
-        mealVideos.put("Vegetable Paella", "zR3-w-9f9M8");
-        mealVideos.put("Paella de Vegetais", "zR3-w-9f9M8");
-        mealVideos.put("Cabbage Soup with Potatoes", "1R3-w-9f9M8");
-        mealVideos.put("Sopa de Repolho com Batatas", "1R3-w-9f9M8");
-        mealVideos.put("Mediterranean Chickpea Salad", "2R3-w-9f9M8");
-        mealVideos.put("Salada de Grão Mediterrânea", "2R3-w-9f9M8");
-        mealVideos.put("Vegetable Korma", "3R3-w-9f9M8");
-        mealVideos.put("Korma de Vegetais", "3R3-w-9f9M8");
-        mealVideos.put("White Bean and Kale Soup", "4R3-w-9f9M8");
-        mealVideos.put("Sopa de Feijão Branco e Couve", "4R3-w-9f9M8");
-        mealVideos.put("Green Lentil and Rice (Mujadara)", "5R3-w-9f9M8");
-        mealVideos.put("Lentilha Verde e Arroz (Mujadara)", "5R3-w-9f9M8");
-        mealVideos.put("Roasted Chickpea Salad", "6R3-w-9f9M8");
-        mealVideos.put("Salada de Grão-de-Bico Assado", "6R3-w-9f9M8");
-        mealVideos.put("Three Bean Chili", "7R3-w-9f9M8");
-        mealVideos.put("Chili de Três Feijões", "7R3-w-9f9M8");
-        mealVideos.put("Brown Rice and Veggie Sushi", "8R3-w-9f9M8");
-        mealVideos.put("Sushi Veggie de Arroz Integral", "8R3-w-9f9M8");
-        mealVideos.put("Tomato and Lentil Stew", "9R3-w-9f9M8");
-        mealVideos.put("Gisado de Tomate e Lentilhas", "9R3-w-9f9M8");
-        mealVideos.put("Quinoa with Pomegranate", "0R3-w-9f9M8");
-        mealVideos.put("Quinoa com Romã", "0R3-w-9f9M8");
-        mealVideos.put("Barley and Mushroom Soup", "aR3-w-9f9M8");
-        mealVideos.put("Sopa de Cevada e Cogumelos", "aR3-w-9f9M8");
-        mealVideos.put("Tofu and Broccoli with Peanut Sauce", "bR3-w-9f9M8");
-        mealVideos.put("Tofu e Brócolis com Molho de Amendoim", "bR3-w-9f9M8");
-        mealVideos.put("Mexican Quinoa Bowl", "cR3-w-9f9M8");
-        mealVideos.put("Bowl de Quinoa Mexicano", "cR3-w-9f9M8");
+        mealVideos.put(MealConstants.PT_SALADA_QUINOA_LEGUMES, "8k2_kGf7oQc");
+        mealVideos.put(MealConstants.PT_TACOS_FEIJAO_MILHO, "83uY7n0-nIk");
 
         // Dinners
-        mealVideos.put("Steamed Broccoli and Baked Tofu", "S-u-8j9f-fI");
-        mealVideos.put("Brócolis a Vapor e Tofu Grelhado", "S-u-8j9f-fI");
-        mealVideos.put("Lentil Soup with Kale", "u5-f9f9j-98");
-        mealVideos.put("Sopa de Lentilha com Couve", "u5-f9f9j-98");
-        mealVideos.put("Mixed Green Salad with Seeds", "j8-9f9-9f9I");
-        mealVideos.put("Salada Verde Mista com Sementes", "j8-9f9-9f9I");
-        mealVideos.put("Vegetable Stir-fry with Tempeh", "m8-f9f-f9jI");
-        mealVideos.put("Salteado de Vegetais com Tempeh", "m8-f9f-f9jI");
-        mealVideos.put("Roasted Cauliflower with Tahini", "p8-f9j-f9-8");
-        mealVideos.put("Couve-Flor Assada com Tahini", "p8-f9j-f9-8");
-        mealVideos.put("Zucchini Noodles with Pesto", "r8-f9j-f9-9");
-        mealVideos.put("Zoodles (Abobrinha) com Pesto", "r8-f9j-f9-9");
-        mealVideos.put("Baked Sweet Potato with Greens", "s8-f9j-f9-0");
-        mealVideos.put("Batata-Doce Assada com Folhas Verdes", "s8-f9j-f9-0");
-        mealVideos.put("Roasted Roots with Garlic Dip", "t8-f9j-f9-1");
-        mealVideos.put("Raízes Assadas com Molho de Alho", "t8-f9j-f9-1");
-        mealVideos.put("Kale and Quinoa Salad", "u8-f9j-f9-2");
-        mealVideos.put("Salada de Couve e Quinoa", "u8-f9j-f9-2");
-        mealVideos.put("Baked Asparagus with Almonds", "v8-f9j-f9-3");
-        mealVideos.put("Espargos Assados com Amêndoas", "v8-f9j-f9-3");
-        mealVideos.put("Stuffed Peppers with Wild Rice", "w8-f9j-f9-4");
-        mealVideos.put("Pimentos Recheados com Arroz Selvagem", "w8-f9j-f9-4");
-        mealVideos.put("Mushroom Risotto (Brown Rice)", "x8-f9j-f9-5");
-        mealVideos.put("Risoto de Cogumelos (Arroz Integral)", "x8-f9j-f9-5");
-        mealVideos.put("Eggplant Lasagna (No-Cheese)", "y8-f9j-f9-6");
-        mealVideos.put("Lasanha de Beringela (Sem Queijo)", "y8-f9j-f9-6");
-        mealVideos.put("Sweet and Sour Tofu", "z8-f9j-f9-7");
-        mealVideos.put("Tofu Agridoce", "z8-f9j-f9-7");
-        mealVideos.put("Brussels Sprouts with Balsamic", "A8-f9j-f9-8");
-        mealVideos.put("Couve de Bruxelas com Balsâmico", "A8-f9j-f9-8");
-        mealVideos.put("Stir-fried Bok Choy and Tempeh", "B8-f9j-f9-9");
-        mealVideos.put("Bok Choy Salteado com Tempeh", "B8-f9j-f9-9");
-        mealVideos.put("Baked Squash with Quinoa", "C8-f9j-f9-0");
-        mealVideos.put("Abóbora Assada com Quinoa", "C8-f9j-f9-0");
-        mealVideos.put("Grilled Portobello Steaks", "D8-f9j-f9-1");
-        mealVideos.put("Bifes de Cogumelo Portobello", "D8-f9j-f9-1");
-        mealVideos.put("Spiced Cauliflower Steaks", "E8-f9j-f9-2");
-        mealVideos.put("Bifes de Couve-Flor Especiados", "E8-f9j-f9-2");
-        mealVideos.put("Broccoli and Cashew Stir-fry", "F8-f9j-f9-3");
-        mealVideos.put("Salteado de Brócolis e Caju", "F8-f9j-f9-3");
-        mealVideos.put("Balsamic Glazed Beets", "G8-f9j-f9-4");
-        mealVideos.put("Beterraba Glaciada com Balsâmico", "G8-f9j-f9-4");
-        mealVideos.put("Salada de Repolho e Cenoura", "H8-f9j-f9-5");
-        mealVideos.put("Steamed Artichokes", "I8-f9j-f9-6");
-        mealVideos.put("Alcachofras ao Vapor", "I8-f9j-f9-6");
-        mealVideos.put("Baked Sweet Potato Wedges", "J8-f9j-f9-7");
-        mealVideos.put("Batata-Doce em Palitos Assada", "J8-f9j-f9-7");
-        mealVideos.put("Garlic Sauteed Green Beans", "K8-f9j-f9-8");
-        mealVideos.put("Vagem Salteada com Alho", "K8-f9j-f9-8");
-        mealVideos.put("Sopa Miso with Tofu", "L8-f9j-f9-9");
-        mealVideos.put("Sopa Miso com Tofu", "L8-f9j-f9-9");
-        mealVideos.put("Stir-fried Snap Peas", "M8-f9j-f9-0");
-        mealVideos.put("Ervilhas de Quebrar Salteadas", "M8-f9j-f9-0");
-        mealVideos.put("Zucchini and Corn Sauté", "N8-f9j-f9-1");
-        mealVideos.put("Salteado de Abobrinha e Milho", "N8-f9j-f9-1");
-        mealVideos.put("Steamed Mixed Vegetables", "O8-f9j-f9-2");
-        mealVideos.put("Mistura de Vegetais ao Vapor", "O8-f9j-f9-2");
-        mealVideos.put("Baked Acorn Squash", "P8-f9j-f9-3");
-        mealVideos.put("Abóbora Menina Assada", "P8-f9j-f9-3");
-        mealVideos.put("Sautéed Swiss Chard with Garlic", "Q8-f9j-f9-4");
-        mealVideos.put("Acelga Salteada com Alho", "Q8-f9j-f9-4");
+        mealVideos.put(MealConstants.PT_BROCOLIS_TOFU_GRELHADO, "S-u-8j9f-fI");
     }
 
     @Override
@@ -449,19 +286,6 @@ public class Fragment_Nutrition extends Fragment {
             playDinner.setOnClickListener(v -> playDinnerVideo(view));
         }
 
-        Button buttonViewArticle = view.findViewById(R.id.buttonViewArticle);
-        if (buttonViewArticle != null) {
-            buttonViewArticle.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getContext(), Activity_FullContent.class);
-                    intent.putExtra("title", "Healthful Cooking Principles");
-                    intent.putExtra("url", "https://www.google.com");
-                    startActivity(intent);
-                }
-            });
-        }
-
         // Handle clicks on top suggestions summary list
         View.OnClickListener summaryClickListener = new View.OnClickListener() {
             @Override
@@ -556,18 +380,18 @@ public class Fragment_Nutrition extends Fragment {
                 Toast.makeText(getContext(), "A carregar o reprodutor, tente novamente.", Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(getContext(), "Vídeo não disponível para " + mealName, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Vídeo brevemente disponível para: " + mealName, Toast.LENGTH_SHORT).show();
         }
     }
 
     private void startHintsSliding() {
-        textSwitcherHints.setText(nutritionHints[currentHintIdx]);
+        textSwitcherHints.setText(getString(nutritionHints[currentHintIdx]));
         hintRunnable = new Runnable() {
             @Override
             public void run() {
                 currentHintIdx++;
                 if (currentHintIdx >= nutritionHints.length) currentHintIdx = 0;
-                textSwitcherHints.setText(nutritionHints[currentHintIdx]);
+                textSwitcherHints.setText(getString(nutritionHints[currentHintIdx]));
                 hintHandler.postDelayed(this, 5000); // Change hint every 5 seconds
             }
         };
@@ -589,11 +413,11 @@ public class Fragment_Nutrition extends Fragment {
         String htmlContent = db.getRecipeContent(title);
 
         Intent intent = new Intent(getContext(), Activity_FullContent.class);
-        intent.putExtra("title", title + " Recipe");
+        intent.putExtra("title", title);
         if (htmlContent != null) {
             intent.putExtra("content", htmlContent);
         } else {
-            intent.putExtra("content", "<h1>Recipe coming soon!</h1><p>We are still working on adding " + title + " to our database.</p>");
+            intent.putExtra("content", "<h1>Receita em breve!</h1><p>Estamos a trabalhar para adicionar " + title + " à nossa base de dados.</p>");
         }
         startActivity(intent);
     }
@@ -607,8 +431,8 @@ public class Fragment_Nutrition extends Fragment {
                 cal.setTime(dateObj);
                 int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
                 
-                String lang = Locale.getDefault().getLanguage();
-                String[][] currentSuggestions = lang.equals("pt") ? mealSuggestionsPt : mealSuggestionsEn;
+                // Sempre usar Português como padrão para as sugestões
+                String[][] currentSuggestions = mealSuggestionsPt;
                 
                 int suggestionIndex = (dayOfMonth - 1) % currentSuggestions.length;
 

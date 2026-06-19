@@ -74,6 +74,7 @@
     <string name="dn_button_edit">Refeições de Hoje</string>
 
     <!-- UI -->
+    <string name="nav_settings">Confiança</string>
     <string name="button_text_back">Voltar</string>
     <string name="button_text_save">Salvar</string>
     <string name="button_text_cancel">Cancelar</string>
@@ -106,16 +107,18 @@
     <string name="settings">Configurações</string>
     <string name="settings_lang">Idioma</string>
     <string name="settings_goals">Objetivos Diários</string>
+    <string name="health_hint_label">DICA DE SAÚDE</string>
 
     <string name="lang_de">Alemão</string>
     <string name="lang_en">Inglês</string>
     <string name="lang_pt">Português</string>
 
     <!-- Notifications -->
+    <string name="no_internet_error">Sem ligação à internet. Verifique o seu Wi-Fi.</string>
     <string name="settings_notifications">Notificações</string>
     <string name="settings_notif_air">Ar Puro</string>
     <string name="settings_notif_nutrition">Nutrição</string>
-    <string name="settings_notif_sun">Luz Solar</string>
+    <string name="settings_notif_sun">Sol</string>
     <string name="settings_notif_water">Água</string>
     <string name="settings_notif_workout">Exercício</string>
 
@@ -125,5 +128,96 @@
     <string name="settings_bible_error">Não foi possível carregar o versículo. Verifique sua conexão.</string>
     <string name="bible_verse_format">\"%1$s\"</string>
     <string name="bible_reference_format">- %1$s</string>
+
+    <!-- NEWSTART Water -->
+    <string name="nav_air">Ar</string>
+    <string name="nav_water">Água</string>
+    <string name="sun_vitamin_d_label">VITAMINA D E SAÚDE</string>
+    <string name="water_title">Água</string>
+    <string name="water_drink">Beba pelo menos 8 copos de água</string>
+    <string name="water_hydro">Tome um duche de contraste (quente/frio)</string>
+    <string name="setup_button_start">Começar</string>
+    <string name="water_morning">Beba 2 copos ao acordar</string>
+    <string name="water_pure">Escolha água pura em vez de bebidas açucaradas</string>
+
+    <!-- NEWSTART Sunlight -->
+    <string name="sun_title">Luz Solar</string>
+    <string name="sun_exposure">Exposição Solar: %1$d minutos</string>
+    <string name="sun_benefits">APROVEITE O SOL. MELHORE O SEU HUMOR.</string>
+    <string name="sun_goal">Meta solar diária (mins)</string>
+
+    <!-- NEWSTART Air -->
+    <string name="air_title">Ar Puro</string>
+    <string name="air_spend_time">PASSAR TEMPO AO AR LIVRE</string>
+    <string name="air_keep_windows">MANTER JANELAS ABERTAS</string>
+    <string name="air_deep_breathing">PRATICAR RESPIRAÇÃO PROFUNDA</string>
+    <string name="air_avoid_polluted">EVITAR AMBIENTES POLUÍDOS</string>
+
+    <!-- Exercício -->
+    <string name="workout_flexibility_stretching">FLEXIBILIDADE E ALONGAMENTO</string>
+    <string name="workout_hint_1">O exercício fortalece o coração e melhora a circulação.</string>
+    <string name="workout_hint_2">Tente 30 minutos de atividade na maioria dos dias.</string>
+    <string name="workout_hint_3">O treino de força mantém os ossos e músculos saudáveis.</string>
+    <string name="workout_hint_4">Consistência é mais importante do que intensidade no início.</string>
+    <string name="workout_hint_5">Aqueça antes do treino e arrefeça depois.</string>
+    <string name="workout_hint_6">Escolha uma atividade que lhe dê prazer para manter a motivação.</string>
+
+    <!-- Nutrition Screen -->
+    <string name="water_glass_format">%1$d copo</string>
+    <string name="nutrition_title">Refeição</string>
+    <string name="nutrition_suggested_menu">MENU SUGERIDO PARA HOJE</string>
+    <string name="nutrition_breakfast">Pequeno-almoço:</string>
+    <string name="nutrition_lunch">Almoço:</string>
+    <string name="nutrition_dinner">Jantar:</string>
+    <string name="nutrition_breakfast_title">PEQUENO-ALMOÇO DO DIA</string>
+    <string name="nutrition_lunch_title">ALMOÇO DO DIA</string>
+    <string name="nutrition_dinner_title">JANTAR DO DIA</string>
+    <string name="nutrition_view_recipe">VER RECEITA</string>
+    <string name="nutrition_breakfast_desc">Comece o seu dia com energia. Esta refeição segue princípios nutricionais ideais.</string>
+    <string name="nutrition_lunch_desc">Abasteça o seu corpo com um almoço nutritivo baseado em alimentos integrais de origem vegetal.</string>
+    <string name="nutrition_dinner_desc">Um jantar leve e cedo é o melhor para a digestão e um sono de qualidade.</string>
+    <string name="nav_exercise">Exercício</string>
+    <string name="nav_sun">Sol</string>
+    <string name="nav_meal">Nutrição</string>
+    <string name="loading">A carregar...</string>
+    <string name="hint_water_5">Substitua refrigerantes por água pura e fresca.</string>
+    <string name="workout_title">Exercício</string>
+    <string name="workout_strength_training">TREINO DE FORÇA</string>
+    <string name="workout_cardio_exercise">EXERCÍCIO CARDIO</string>
+    <string name="hint_nutr_1">Consuma uma variedade de frutas e vegetais coloridos todos os dias.</string>
+    <string name="hint_nutr_2">Escolha cereais integrais em vez de refinados para melhor ingestão de fibras.</string>
+    <string name="hint_nutr_3">Proteínas vegetais como lentilhas e feijões são ótimas para o coração.</string>
+    <string name="hint_nutr_4">Limite alimentos processados e açúcares adicionados na sua dieta.</string>
+    <string name="hint_nutr_5">Mastigue bem os alimentos para ajudar na digestão e absorção.</string>
+    <string name="hint_nutr_6">Um pequeno-almoço saudável fornece energia e estabiliza o açúcar.</string>
+    <string name="hint_sun_1">A luz solar é a melhor fonte natural de Vitamina D.</string>
+    <string name="hint_sun_2">15-20 minutos de exposição solar diária são ideais.</string>
+    <string name="hint_sun_3">A luz do sol ajuda a regular o seu sono e o ritmo circadiano.</string>
+    <string name="hint_sun_4">A exposição solar melhora o humor através da serotonina.</string>
+    <string name="hint_sun_5">O sol da manhã é o mais seguro e benéfico.</string>
+    <string name="hint_air_1">O ar puro é vital para um cérebro saudável e pensamento claro.</string>
+    <string name="hint_air_2">Respiração profunda ao ar livre oxigena o sangue.</string>
+    <string name="hint_air_3">Ventile a sua casa regularmente para remover poluentes.</string>
+    <string name="hint_air_4">Dormir com a janela aberta fornece ar fresco à noite.</string>
+    <string name="hint_air_5">Plantas em casa ajudam a filtrar a qualidade do ar interior.</string>
+    <string name="hint_water_1">Beber água ajuda a manter a concentração e o foco.</string>
+    <string name="hint_water_2">A água é essencial para a desintoxicação do corpo.</string>
+    <string name="hint_water_3">Beba água antes de sentir sede para evitar a desidratação.</string>
+    <string name="hint_water_4">A água ajuda a regular a temperatura do corpo.</string>
+    <string name="nutrition_player_loading_error">A carregar o reprodutor, tente novamente.</string>
+    <string name="nutrition_video_soon_format">Vídeo brevemente disponível para: %1$s</string>
+    <string name="nutrition_recipe_soon_title">Receita em breve!</string>
+    <string name="nutrition_recipe_soon_desc_format">Estamos a trabalhar para adicionar %1$s à nossa base de dados.</string>
+    <string name="sun_exposure_label">EXPOSIÇÃO SOLAR</string>
+    <string name="sun_minutes_format">%1$d minutos</string>
+    <string name="sun_goal_format">Meta: %1$d min</string>
+    <string name="sun_benefits_label">BENEFÍCIOS DA LUZ SOLAR</string>
+    <string name="water_glasses_format">%1$d copos</string>
+    <string name="setup_welcome">Bem-vindo!</string>
+    <string name="setup_subtitle">Vamos configurar o seu perfil</string>
+    <string name="setup_hint_name">Nome</string>
+    <string name="setup_hint_age">Idade</string>
+    <string name="setup_hint_height">Altura (cm)</string>
+    <string name="setup_hint_weight">Peso (kg)</string>
 
 </resources>

@@ -33,13 +33,12 @@ public class Fragment_Air extends Fragment {
     private SharedPreferences sharedPreferences;
 
     private TextSwitcher textSwitcherHints;
-    private final String[] airHints = {
-            "Fresh air is vital for a healthy brain and clear thinking.",
-            "Deep breathing outdoors improves lung capacity and oxygenates the blood.",
-            "Ventilate your home and workspace regularly to remove pollutants.",
-            "Sleeping with a slightly open window (if safe) provides fresh air throughout the night.",
-            "Air quality is often better early in the morning and away from heavy traffic.",
-            "Plants in your home can help filter and improve indoor air quality."
+    private final int[] airHints = {
+            R.string.hint_air_1,
+            R.string.hint_air_2,
+            R.string.hint_air_3,
+            R.string.hint_air_4,
+            R.string.hint_air_5
     };
     private int currentHintIdx = 0;
     private final Handler hintHandler = new Handler();
@@ -130,14 +129,14 @@ public class Fragment_Air extends Fragment {
     }
 
     private void startHintsSliding() {
-        textSwitcherHints.setText(airHints[currentHintIdx]);
+        if (textSwitcherHints == null) return;
+        textSwitcherHints.setText(getString(airHints[currentHintIdx]));
         hintRunnable = new Runnable() {
             @Override
             public void run() {
-                currentHintIdx++;
-                if (currentHintIdx >= airHints.length) currentHintIdx = 0;
-                textSwitcherHints.setText(airHints[currentHintIdx]);
-                hintHandler.postDelayed(this, 5000); // Change hint every 5 seconds
+                currentHintIdx = (currentHintIdx + 1) % airHints.length;
+                textSwitcherHints.setText(getString(airHints[currentHintIdx]));
+                hintHandler.postDelayed(this, 5000);
             }
         };
         hintHandler.postDelayed(hintRunnable, 5000);
