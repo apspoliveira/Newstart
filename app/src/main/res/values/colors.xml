@@ -1,28 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Pro Max Design System Colors -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="dark_navy_bg">#0F1424</color>
+    <color name="hint_card_bg">#1E273E</color>
+    <color name="text_high">#E0E6ED</color>
+    <color name="text_middle">#8A96A8</color>
+    <color name="text_low">#5C6B82</color>
 
-    <!-- Primary Backgrounds -->
-    <color name="dark_purple">#0F1424</color>  <!-- Main App Background -->
-    <color name="middle_purple">#1E273E</color>  <!-- NavBar, Card base -->
-    <color name="light_purple">#2A3752</color>  <!-- Secondary elements -->
+    <!-- NEWSTART Category Palette (Updated to match the Poster Image) -->
+    <color name="nutrition_primary">#9C27B0</color> <!-- N - Purple -->
+    <color name="workout_primary">#1565C0</color>   <!-- E - Royal Blue -->
+    <color name="water_primary">#03A9F4</color>     <!-- W - Light Blue -->
+    <color name="sun_primary">#8BC34A</color>       <!-- S - Light Green (Matches Poster) -->
+    <color name="temperance_primary">#FFB300</color> <!-- T - Amber/Gold -->
+    <color name="air_primary">#F4511E</color>       <!-- A - Deep Orange -->
+    <color name="rest_primary">#E53935</color>      <!-- R - Red -->
+    <color name="trust_primary">#D81B60</color>     <!-- T - Pink/Magenta (Matches Poster) -->
+    <color name="settings_primary">#607D8B</color>
 
-    <!-- Text Colors -->
-    <color name="text_high">#E0E6ED</color>  <!-- High priority text (Titles) -->
-    <color name="text_middle">#8A96A8</color>  <!-- Middle priority text (Subtitles) -->
-    <color name="text_low">#5B6676</color>  <!-- Low priority text (Progress labels) -->
+    <!-- UI Component Colors -->
+    <color name="pro_max_card_bg">#F8F4F8</color>
+    <color name="pro_max_text_disabled">#D1D5DB</color>
 
-    <!-- Accent Colors -->
-    <color name="accent_teal">#4DB6AC</color>  <!-- Progress bars, Icons -->
-    <color name="pop_orange">#F97141</color>  <!-- Keep for compatibility or specific accents -->
+    <!-- On-Container Colors (White for better contrast on category backgrounds) -->
+    <color name="on_sun_container">#FFFFFF</color>
+    <color name="on_water_container">#FFFFFF</color>
+    <color name="on_nutrition_container">#FFFFFF</color>
+    <color name="on_workout_container">#FFFFFF</color>
+    <color name="on_rest_container">#FFFFFF</color>
+    <color name="on_air_container">#FFFFFF</color>
+    <color name="on_temperance_container">#FFFFFF</color>
+    <color name="on_trust_container">#FFFFFF</color>
 
-    <!-- Card & Progress -->
-    <color name="card_bg">#1E273E</color>
-    <color name="progress_empty">#2C364D</color>
-
-    <!-- Pink Palette for Settings -->
-    <color name="pink_light">#FCE4EC</color>
-    <color name="pink_medium">#AD1457</color>
-    <color name="pink_dark">#880E4F</color>
+    <!-- Legacy Support -->
+    <color name="accent_teal">#4DB6AC</color>
+    <color name="dark_purple">#0F1424</color>
+    <color name="middle_purple">#1E273E</color>
+    <color name="light_purple">#2A3752</color>
+    <color name="card_bg">@color/hint_card_bg</color>
+    <color name="progress_empty">#2A3752</color>
+    <color name="pop_orange">#FF9800</color>
+    <color name="dark_surface">@color/dark_navy_bg</color>
+    <color name="md_theme_dark_surfaceVariant">@color/hint_card_bg</color>
+    <color name="primary_teal">@color/accent_teal</color>
 </resources>

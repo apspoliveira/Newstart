@@ -10,16 +10,13 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -32,29 +29,15 @@ import newstart.Activity_Main;
 import newstart.R;
 import newstart.notifications.NotificationReceiver;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Calendar;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-
-public class Fragment_Settings extends Fragment implements AdapterView.OnItemSelectedListener {
+public class Fragment_Settings extends Fragment {
 
     private String[] languages;
     private String currentLanguage = "pt";
-    private boolean firstSelect = true;
 
     private Button saveButton;
-    private TextView textViewVerse;
-    private TextView textViewReference;
-
-    private CheckBox checkAir, checkNutrition, checkSun, checkWater, checkWorkout;
+    private CheckBox checkAir, checkNutrition, checkSun, checkWater, checkWorkout, checkTrust, checkTemperance, checkRest;
     private SharedPreferences sharedPrefs;
 
     private final ActivityResultLauncher<String> requestPermissionLauncher =
@@ -70,7 +53,6 @@ public class Fragment_Settings extends Fragment implements AdapterView.OnItemSel
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Alterado para Português ser o primeiro da lista
         languages = new String[] {
                 getString(R.string.lang_pt),
                 getString(R.string.lang_en),
@@ -86,27 +68,27 @@ public class Fragment_Settings extends Fragment implements AdapterView.OnItemSel
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        Spinner spinner = view.findViewById(R.id.spinnerLanguages);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_purple_middle, languages);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        AutoCompleteTextView spinner = view.findViewById(R.id.spinnerLanguages);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.spinner_item_purple_middle, languages);
         spinner.setAdapter(adapter);
-
-        textViewVerse = view.findViewById(R.id.textViewVerse);
-        textViewReference = view.findViewById(R.id.textViewReference);
-        
-        fetchBibleVerse();
 
         checkAir = view.findViewById(R.id.checkNotifAir);
         checkNutrition = view.findViewById(R.id.checkNotifNutrition);
         checkSun = view.findViewById(R.id.checkNotifSun);
         checkWater = view.findViewById(R.id.checkNotifWater);
         checkWorkout = view.findViewById(R.id.checkNotifWorkout);
+        checkTrust = view.findViewById(R.id.checkNotifTrust);
+        checkTemperance = view.findViewById(R.id.checkNotifTemperance);
+        checkRest = view.findViewById(R.id.checkNotifRest);
 
         checkAir.setChecked(sharedPrefs.getBoolean("notif_air", false));
         checkNutrition.setChecked(sharedPrefs.getBoolean("notif_nutrition", false));
         checkSun.setChecked(sharedPrefs.getBoolean("notif_sun", false));
         checkWater.setChecked(sharedPrefs.getBoolean("notif_water", false));
         checkWorkout.setChecked(sharedPrefs.getBoolean("notif_workout", false));
+        checkTrust.setChecked(sharedPrefs.getBoolean("notif_trust", false));
+        checkTemperance.setChecked(sharedPrefs.getBoolean("notif_temp", false));
+        checkRest.setChecked(sharedPrefs.getBoolean("notif_rest", false));
 
         View.OnClickListener notifClickListener = v -> checkAndRequestNotificationPermission();
         checkAir.setOnClickListener(notifClickListener);
@@ -114,33 +96,39 @@ public class Fragment_Settings extends Fragment implements AdapterView.OnItemSel
         checkSun.setOnClickListener(notifClickListener);
         checkWater.setOnClickListener(notifClickListener);
         checkWorkout.setOnClickListener(notifClickListener);
+        checkTrust.setOnClickListener(notifClickListener);
+        checkTemperance.setOnClickListener(notifClickListener);
+        checkRest.setOnClickListener(notifClickListener);
 
         Cursor cursor = ((Activity_Main) requireActivity()).databaseHelper.getSettingsLanguage();
         if (cursor != null && cursor.moveToFirst()) {
             currentLanguage = cursor.getString(1);
-            int selection = 0; // Default PT (agora no índice 0)
+            int selection = 0; // Default PT
             if ("en".equals(currentLanguage)) selection = 1;
             else if ("de".equals(currentLanguage)) selection = 2;
-            spinner.setSelection(selection);
+            spinner.setText(languages[selection], false);
             cursor.close();
         } else {
-            // Se não houver configuração, garante que o Português (índice 0) está selecionado
-            spinner.setSelection(0);
+            spinner.setText(languages[0], false);
         }
 
-        spinner.setOnItemSelectedListener(this);
+        spinner.setOnItemClickListener((parent, v, position, id) -> {
+            switch (position) {
+                case 0: currentLanguage = "pt"; break;
+                case 1: currentLanguage = "en"; break;
+                case 2: currentLanguage = "de"; break;
+            }
+        });
 
         saveButton = view.findViewById(R.id.buttonSaveSettings);
-        saveButton.setVisibility(View.VISIBLE); 
         saveButton.setOnClickListener(v -> {
-            ((Activity_Main) requireContext()).databaseHelper.setSettingsLanguage(currentLanguage);
+            ((Activity_Main) requireActivity()).databaseHelper.setSettingsLanguage(currentLanguage);
             saveNotificationSettings();
             Toast.makeText(getContext(), "Configurações salvas!", Toast.LENGTH_SHORT).show();
-            // Recarrega a atividade para aplicar idioma
-            Intent intent = new Intent(getActivity(), Activity_Main.class);
-            intent.putExtra("fragmentID", 3);
+            Intent intent = new Intent(requireActivity(), Activity_Main.class);
+            intent.putExtra("fragmentID", 8); // Settings fragment
             startActivity(intent);
-            getActivity().finish();
+            requireActivity().finish();
         });
     }
 
@@ -158,6 +146,9 @@ public class Fragment_Settings extends Fragment implements AdapterView.OnItemSel
         checkSun.setChecked(false);
         checkWater.setChecked(false);
         checkWorkout.setChecked(false);
+        checkTrust.setChecked(false);
+        checkTemperance.setChecked(false);
+        checkRest.setChecked(false);
     }
 
     private void saveNotificationSettings() {
@@ -167,6 +158,9 @@ public class Fragment_Settings extends Fragment implements AdapterView.OnItemSel
                 .putBoolean("notif_sun", checkSun.isChecked())
                 .putBoolean("notif_water", checkWater.isChecked())
                 .putBoolean("notif_workout", checkWorkout.isChecked())
+                .putBoolean("notif_trust", checkTrust.isChecked())
+                .putBoolean("notif_temp", checkTemperance.isChecked())
+                .putBoolean("notif_rest", checkRest.isChecked())
                 .apply();
         updateAlarms();
     }
@@ -177,6 +171,9 @@ public class Fragment_Settings extends Fragment implements AdapterView.OnItemSel
         scheduleAlarm("sun", checkSun.isChecked(), 11, 40);
         scheduleAlarm("water", checkWater.isChecked(), 15, 0);
         scheduleAlarm("workout", checkWorkout.isChecked(), 17, 30);
+        scheduleAlarm("temp", checkTemperance.isChecked(), 10, 0);
+        scheduleAlarm("rest", checkRest.isChecked(), 22, 0);
+        scheduleAlarm("trust", checkTrust.isChecked(), 20, 0);
     }
 
     private void scheduleAlarm(String type, boolean enable, int hour, int minute) {
@@ -191,57 +188,14 @@ public class Fragment_Settings extends Fragment implements AdapterView.OnItemSel
             calendar.set(Calendar.MINUTE, minute);
             calendar.set(Calendar.SECOND, 0);
             if (calendar.getTimeInMillis() <= System.currentTimeMillis()) calendar.add(Calendar.DAY_OF_YEAR, 1);
-            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !alarmManager.canScheduleExactAlarms()) {
+                alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            } else {
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            }
         } else {
             alarmManager.cancel(pendingIntent);
         }
     }
-
-    private void fetchBibleVerse() {
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(() -> {
-            try {
-                URL url = new URL("https://www.abibliadigital.com.br/api/verses/nvi/random");
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");
-                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                StringBuilder response = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null) response.append(line);
-                reader.close();
-
-                JSONObject jsonObject = new JSONObject(response.toString());
-                String verseText = jsonObject.getString("text");
-                String bookName = jsonObject.getJSONObject("book").getString("name");
-                String ref = bookName + " " + jsonObject.getInt("chapter") + ":" + jsonObject.getInt("number");
-
-                if (getActivity() != null) {
-                    getActivity().runOnUiThread(() -> {
-                        textViewVerse.setText(getString(R.string.bible_verse_format, verseText));
-                        textViewReference.setText(getString(R.string.bible_reference_format, ref));
-                    });
-                }
-            } catch (Exception e) {
-                if (getActivity() != null) {
-                    getActivity().runOnUiThread(() -> {
-                        textViewVerse.setText("O Senhor é o meu pastor, nada me faltará.");
-                        textViewReference.setText("- Salmos 23:1");
-                    });
-                }
-            }
-        });
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-        if (firstSelect) { firstSelect = false; return; }
-        switch (position) {
-            case 0: currentLanguage = "pt"; break;
-            case 1: currentLanguage = "en"; break;
-            case 2: currentLanguage = "de"; break;
-        }
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {}
 }

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import newstart.R;
@@ -27,6 +29,10 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
 
+/**
+ * Fragment_Air - Optimized with Material 3 and UI/UX Pro Max standards.
+ * Implements haptic feedback for interactions and high-contrast accessible typography.
+ */
 public class Fragment_Air extends Fragment {
 
     private String date;
@@ -64,36 +70,19 @@ public class Fragment_Air extends Fragment {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
         date = formatter.format(new Date());
 
-        // Checkboxes
-        CheckBox checkBoxFreshAir = view.findViewById(R.id.checkBoxFreshAir);
-        CheckBox checkBoxVentilation = view.findViewById(R.id.checkBoxVentilation);
-        CheckBox checkBoxDeepBreathing = view.findViewById(R.id.checkBoxDeepBreathing);
-        CheckBox checkBoxCleanAir = view.findViewById(R.id.checkBoxCleanAir);
+        // Setup Checkboxes with Pro Max Interaction Patterns (Rule 27: Haptics)
+        setupAirGoal(view.findViewById(R.id.checkBoxFreshAir), "air_fresh_");
+        setupAirGoal(view.findViewById(R.id.checkBoxVentilation), "air_vent_");
+        setupAirGoal(view.findViewById(R.id.checkBoxDeepBreathing), "air_deep_");
+        setupAirGoal(view.findViewById(R.id.checkBoxCleanAir), "air_clean_");
 
-        // Player Views
-        YouTubePlayerView playerFreshAir = view.findViewById(R.id.youtube_fresh_air);
-        YouTubePlayerView playerVentilation = view.findViewById(R.id.youtube_ventilation);
-        YouTubePlayerView playerDeepBreathing = view.findViewById(R.id.youtube_deep_breathing);
-        YouTubePlayerView playerCleanAir = view.findViewById(R.id.youtube_clean_air);
-
-        // Add to lifecycle
-        getLifecycle().addObserver(playerFreshAir);
-        getLifecycle().addObserver(playerVentilation);
-        getLifecycle().addObserver(playerDeepBreathing);
-        getLifecycle().addObserver(playerCleanAir);
-
-        // Load saved states
-        checkBoxFreshAir.setChecked(sharedPreferences.getBoolean("air_fresh_" + date, false));
-        checkBoxVentilation.setChecked(sharedPreferences.getBoolean("air_vent_" + date, false));
-        checkBoxDeepBreathing.setChecked(sharedPreferences.getBoolean("air_deep_" + date, false));
-        checkBoxCleanAir.setChecked(sharedPreferences.getBoolean("air_clean_" + date, false));
-
-        // Sliding Hints Logic
+        // Sliding Hints - Rule 36 (High Contrast)
         textSwitcherHints = view.findViewById(R.id.textSwitcherAirHints);
         textSwitcherHints.setFactory(() -> {
             TextView textView = new TextView(getContext());
             textView.setGravity(Gravity.START);
-            textView.setTextColor(getResources().getColor(android.R.color.white));
+            // Updated to themed color for better readability on container background
+            textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.on_air_container));
             textView.setTextSize(16);
             textView.setTypeface(null, android.graphics.Typeface.BOLD);
             return textView;
@@ -104,28 +93,24 @@ public class Fragment_Air extends Fragment {
 
         startHintsSliding();
 
-        // Randomly select one video ID for each player
+        // Player Views - Performance Optimization (Rule 96: Bandwidth efficient)
         Random random = new Random();
-        String videoIdFreshAir = videoIdsFreshAir[random.nextInt(videoIdsFreshAir.length)];
-        String videoIdVentilation = videoIdsVentilation[random.nextInt(videoIdsVentilation.length)];
-        String videoIdDeepBreathing = videoIdsDeepBreathing[random.nextInt(videoIdsDeepBreathing.length)];
-        String videoIdCleanAir = videoIdsCleanAir[random.nextInt(videoIdsCleanAir.length)];
+        setupPlayer(view.findViewById(R.id.youtube_fresh_air), videoIdsFreshAir[random.nextInt(videoIdsFreshAir.length)]);
+        setupPlayer(view.findViewById(R.id.youtube_ventilation), videoIdsVentilation[random.nextInt(videoIdsVentilation.length)]);
+        setupPlayer(view.findViewById(R.id.youtube_deep_breathing), videoIdsDeepBreathing[random.nextInt(videoIdsDeepBreathing.length)]);
+        setupPlayer(view.findViewById(R.id.youtube_clean_air), videoIdsCleanAir[random.nextInt(videoIdsCleanAir.length)]);
+    }
 
-        // Initialize Players with the randomly selected videos
-        setupPlayer(playerFreshAir, videoIdFreshAir);
-        setupPlayer(playerVentilation, videoIdVentilation);
-        setupPlayer(playerDeepBreathing, videoIdDeepBreathing);
-        setupPlayer(playerCleanAir, videoIdCleanAir);
-
-        // Listeners
-        checkBoxFreshAir.setOnCheckedChangeListener((buttonView, isChecked) ->
-                sharedPreferences.edit().putBoolean("air_fresh_" + date, isChecked).apply());
-        checkBoxVentilation.setOnCheckedChangeListener((buttonView, isChecked) ->
-                sharedPreferences.edit().putBoolean("air_vent_" + date, isChecked).apply());
-        checkBoxDeepBreathing.setOnCheckedChangeListener((buttonView, isChecked) ->
-                sharedPreferences.edit().putBoolean("air_deep_" + date, isChecked).apply());
-        checkBoxCleanAir.setOnCheckedChangeListener((buttonView, isChecked) ->
-                sharedPreferences.edit().putBoolean("air_clean_" + date, isChecked).apply());
+    private void setupAirGoal(CheckBox checkBox, String keyPrefix) {
+        if (checkBox == null) return;
+        String finalKey = keyPrefix + date;
+        checkBox.setChecked(sharedPreferences.getBoolean(finalKey, false));
+        
+        checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            // Tactile feedback on achievement
+            buttonView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+            sharedPreferences.edit().putBoolean(finalKey, isChecked).apply();
+        });
     }
 
     private void startHintsSliding() {
@@ -136,24 +121,24 @@ public class Fragment_Air extends Fragment {
             public void run() {
                 currentHintIdx = (currentHintIdx + 1) % airHints.length;
                 textSwitcherHints.setText(getString(airHints[currentHintIdx]));
-                hintHandler.postDelayed(this, 5000);
+                hintHandler.postDelayed(this, 5500); 
             }
         };
-        hintHandler.postDelayed(hintRunnable, 5000);
+        hintHandler.postDelayed(hintRunnable, 5500);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (hintHandler != null && hintRunnable != null) {
-            hintHandler.removeCallbacks(hintRunnable);
-        }
+        if (hintRunnable != null) hintHandler.removeCallbacks(hintRunnable);
     }
 
     private void setupPlayer(YouTubePlayerView playerView, String videoId) {
+        getLifecycle().addObserver(playerView);
         playerView.initialize(new AbstractYouTubePlayerListener() {
             @Override
             public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+                // Efficiency: cue instead of auto-load
                 youTubePlayer.cueVideo(videoId, 0);
             }
         });

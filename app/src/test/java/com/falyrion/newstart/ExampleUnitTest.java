@@ -1,4 +1,4 @@
-package com.falyrion.newstart;
+package com.newstart;
 
 import org.junit.Test;
 

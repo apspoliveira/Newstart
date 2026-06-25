@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="newstart">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -17,7 +16,7 @@
         android:usesCleartextTraffic="true">
 
         <activity
-            android:name="newstart.activities.Activity_InitialSetup"
+            android:name=".activities.Activity_InitialSetup"
             android:exported="true"
             android:screenOrientation="sensorPortrait">
             <intent-filter>
@@ -27,21 +26,21 @@
         </activity>
 
         <activity
-            android:name="newstart.activities.Activity_FullContent"
+            android:name=".activities.Activity_FullContent"
             android:exported="false"
             android:screenOrientation="sensorPortrait" />
         <activity
-            android:name="newstart.activities.Activity_Calendar"
+            android:name=".activities.Activity_Calendar"
             android:exported="false"
             android:screenOrientation="sensorPortrait"
-            android:parentActivityName="newstart.Activity_Main" />
+            android:parentActivityName=".Activity_Main" />
         <activity
-            android:name="newstart.Activity_Main"
+            android:name=".Activity_Main"
             android:screenOrientation="sensorPortrait"
             android:exported="true" />
 
         <receiver
-            android:name="newstart.notifications.NotificationReceiver"
+            android:name=".notifications.NotificationReceiver"
             android:exported="false" />
 
     </application>

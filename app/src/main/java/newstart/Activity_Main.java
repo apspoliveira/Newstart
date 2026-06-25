@@ -1,6 +1,11 @@
 package newstart;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +13,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import newstart.data.DatabaseHelper;
@@ -18,19 +22,51 @@ import newstart.fragments.Fragment_Sun;
 import newstart.fragments.Fragment_Water;
 import newstart.fragments.Fragment_Workout;
 import newstart.fragments.Fragment_Settings;
+import newstart.fragments.Fragment_Trust;
+import newstart.fragments.Fragment_Temperance;
+import newstart.fragments.Fragment_Rest;
 
-import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.appbar.MaterialToolbar;
 
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class Activity_Main extends AppCompatActivity {
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
+public class Activity_Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    static {
+        // Disable Night Mode globally - Removing dark theme option
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        
+        try {
+            TrustManager[] trustAllCerts = new TrustManager[]{
+                new X509TrustManager() {
+                    public X509Certificate[] getAcceptedIssuers() { return null; }
+                    public void checkClientTrusted(X509Certificate[] certs, String authType) {}
+                    public void checkServerTrusted(X509Certificate[] certs, String authType) {}
+                }
+            };
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, trustAllCerts, new SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+            HttpsURLConnection.setDefaultHostnameVerifier((hostname, session) -> true);
+        } catch (Exception ignored) {}
+    }
 
     public String date;
     private int currentFragmentID = 0;
     public DatabaseHelper databaseHelper;
-
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private MaterialToolbar toolbar;
 
     private void setFragmentNutrition(String date) {
         Fragment_Nutrition fragment = new Fragment_Nutrition();
@@ -38,60 +74,74 @@ public class Activity_Main extends AppCompatActivity {
         args.putString("date", date);
         fragment.setArguments(args);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+        toolbar.setTitle(R.string.nav_meal);
     }
 
     private void setFragmentAir() {
         Fragment_Air fragment = new Fragment_Air();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+        toolbar.setTitle(R.string.nav_air);
     }
 
     private void setFragmentWater() {
         Fragment_Water fragment = new Fragment_Water();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+        toolbar.setTitle(R.string.nav_water);
     }
 
     private void setFragmentSun() {
         Fragment_Sun fragment = new Fragment_Sun();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+        toolbar.setTitle(R.string.nav_sun);
     }
 
     private void setFragmentWorkout() {
         Fragment_Workout fragment = new Fragment_Workout();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+        toolbar.setTitle(R.string.nav_exercise);
+    }
+
+    private void setFragmentTrust() {
+        Fragment_Trust fragment = new Fragment_Trust();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+        toolbar.setTitle(R.string.nav_trust);
+    }
+
+    private void setFragmentTemperance() {
+        Fragment_Temperance fragment = new Fragment_Temperance();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+        toolbar.setTitle(R.string.nav_temperance);
+    }
+
+    private void setFragmentRest() {
+        Fragment_Rest fragment = new Fragment_Rest();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+        toolbar.setTitle(R.string.nav_rest);
     }
 
     private void setFragmentSettings() {
         Fragment_Settings fragment = new Fragment_Settings();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+        toolbar.setTitle(R.string.nav_settings);
     }
 
     private static void updateLanguage(Context context, String language) {
-
-        if (language == null || language.equals("system")) {
-            return;
-        }
-
+        if (language == null || language.equals("system")) return;
         Locale locale = new Locale(language);
         Locale.setDefault(locale);
-
         Resources resources = context.getResources();
-
         Configuration configuration = resources.getConfiguration();
-        configuration.locale = locale;
-
+        configuration.setLocale(locale);
         resources.updateConfiguration(configuration, resources.getDisplayMetrics());
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Database
-        databaseHelper = new DatabaseHelper(Activity_Main.this);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
-        // Update language before super.onCreate to ensure layout is inflated with correct language
+        databaseHelper = new DatabaseHelper(Activity_Main.this);
         Cursor cursor = databaseHelper.getSettingsLanguage();
         if (cursor != null && cursor.moveToFirst()) {
-            // Index 0 is the ID, Index 1 is the language string
             updateLanguage(this, cursor.getString(1));
             cursor.close();
         }
@@ -99,11 +149,19 @@ public class Activity_Main extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // -----------------------------------------------------------------------------------------
-        // Get data if activity was started by another activity
-        Intent intent = getIntent();
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        // Get current date
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+                R.string.button_text_save, R.string.button_text_cancel);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        Intent intent = getIntent();
         if (getIntent().hasExtra("date")) {
             date = intent.getStringExtra("date");
         } else {
@@ -111,115 +169,66 @@ public class Activity_Main extends AppCompatActivity {
             date = formatter.format(new Date());
         }
 
-        // If there is a fragmentID submitted take it. Else keep previously set or default one (=0)
         if (getIntent().hasExtra("fragmentID")) {
             currentFragmentID = intent.getIntExtra("fragmentID", 0);
         }
 
-        // Set current fragment based on fragmentID
-        switch (currentFragmentID) {
-            case 0: setFragmentWorkout(); break;
-            case 1: setFragmentNutrition(date); break;
-            case 4: setFragmentAir(); break;
-            case 5: setFragmentWater(); break;
-            case 6: setFragmentSun(); break;
-            case 3: setFragmentSettings(); break;
-            default: setFragmentNutrition(date); break;
+        displaySelectedScreen(currentFragmentID);
+    }
+
+    private void displaySelectedScreen(int itemId) {
+        if (itemId == 0 || itemId == R.id.nav_nutrition) {
+            setFragmentNutrition(date);
+            navigationView.setCheckedItem(R.id.nav_nutrition);
+        } else if (itemId == 1 || itemId == R.id.nav_exercise) {
+            setFragmentWorkout();
+            navigationView.setCheckedItem(R.id.nav_exercise);
+        } else if (itemId == 2 || itemId == R.id.nav_water) {
+            setFragmentWater();
+            navigationView.setCheckedItem(R.id.nav_water);
+        } else if (itemId == 3 || itemId == R.id.nav_sun) {
+            setFragmentSun();
+            navigationView.setCheckedItem(R.id.nav_sun);
+        } else if (itemId == 4 || itemId == R.id.nav_temperance) {
+            setFragmentTemperance();
+            navigationView.setCheckedItem(R.id.nav_temperance);
+        } else if (itemId == 5 || itemId == R.id.nav_air) {
+            setFragmentAir();
+            navigationView.setCheckedItem(R.id.nav_air);
+        } else if (itemId == 6 || itemId == R.id.nav_rest) {
+            setFragmentRest();
+            navigationView.setCheckedItem(R.id.nav_rest);
+        } else if (itemId == 7 || itemId == R.id.nav_trust) {
+            setFragmentTrust();
+            navigationView.setCheckedItem(R.id.nav_trust);
+        } else if (itemId == 8 || itemId == R.id.nav_settings) {
+            setFragmentSettings();
+            navigationView.setCheckedItem(R.id.nav_settings);
+        } else {
+            setFragmentNutrition(date);
+            navigationView.setCheckedItem(R.id.nav_nutrition);
         }
-
-        // -----------------------------------------------------------------------------------------
-        // Setup navigation bar (using TabLayout to support >5 items)
-        TabLayout tabLayout = findViewById(R.id.bottom_navigation_tabs);
-        
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                int position = tab.getPosition();
-                switch (position) {
-                    case 0: // Home
-                        if (currentFragmentID != 0) {
-                            setFragmentWorkout();
-                            currentFragmentID = 0;
-                        }
-                        break;
-                    case 1: // Air
-                        if (currentFragmentID != 4) {
-                            setFragmentAir();
-                            currentFragmentID = 4;
-                        }
-                        break;
-                    case 2: // Water
-                        if (currentFragmentID != 5) {
-                            setFragmentWater();
-                            currentFragmentID = 5;
-                        }
-                        break;
-                    case 3: // Sun
-                        if (currentFragmentID != 6) {
-                            setFragmentSun();
-                            currentFragmentID = 6;
-                        }
-                        break;
-                    case 4: // Meal
-                        if (currentFragmentID != 1) {
-                            setFragmentNutrition(date);
-                            currentFragmentID = 1;
-                        }
-                        break;
-                    case 5: // Settings
-                        if (currentFragmentID != 3) {
-                            setFragmentSettings();
-                            currentFragmentID = 3;
-                        }
-                        break;
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {}
-        });
-
-        // Set initial tab selection based on currentFragmentID
-        TabLayout.Tab initialTab = null;
-        switch (currentFragmentID) {
-            case 0: initialTab = tabLayout.getTabAt(0); break;
-            case 1: initialTab = tabLayout.getTabAt(4); break;
-            case 4: initialTab = tabLayout.getTabAt(1); break;
-            case 5: initialTab = tabLayout.getTabAt(2); break;
-            case 6: initialTab = tabLayout.getTabAt(3); break;
-            case 3: initialTab = tabLayout.getTabAt(5); break;
-        }
-        if (initialTab != null) initialTab.select();
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        displaySelectedScreen(item.getItemId());
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_settings) {
-            setFragmentSettings();
-            currentFragmentID = 3;
-            // Update tab selection
-            TabLayout tabLayout = findViewById(R.id.bottom_navigation_tabs);
-            TabLayout.Tab settingsTab = tabLayout.getTabAt(5);
-            if (settingsTab != null) settingsTab.select();
-            return true;
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
         }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onDestroy() {
-        if (databaseHelper != null) {
-            databaseHelper.close();
-        }
+        if (databaseHelper != null) databaseHelper.close();
         super.onDestroy();
     }
 }

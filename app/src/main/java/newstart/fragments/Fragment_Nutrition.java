@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import newstart.R;
@@ -38,7 +38,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-
 
 public class Fragment_Nutrition extends Fragment {
 
@@ -61,41 +60,6 @@ public class Fragment_Nutrition extends Fragment {
     private int currentHintIdx = 0;
     private final Handler hintHandler = new Handler();
     private Runnable hintRunnable;
-
-    // Meal Suggestions following NEWSTART principles (Plant-based, Whole foods)
-    private final String[][] mealSuggestionsEn = {
-            {"Oatmeal with Blueberries and Walnuts", "Quinoa Salad with Roasted Vegetables", "Steamed Broccoli and Baked Tofu"},
-            {"Whole Grain Pancakes with Fresh Fruit", "Black Bean and Corn Tacos", "Lentil Soup with Kale"},
-            {"Fruit Smoothie with Flax Seeds", "Chickpea Curry with Brown Rice", "Mixed Green Salad with Seeds"},
-            {"Buckwheat Porridge with Almonds", "Hummus and Veggie Wrap", "Vegetable Stir-fry with Tempeh"},
-            {"Chia Pudding with Mango", "Sweet Potato and Black Bean Chili", "Roasted Cauliflower with Tahini"},
-            {"Whole Wheat Toast with Avocado", "Lentil and Vegetable Stew", "Zucchini Noodles with Pesto"},
-            {"Millet with Dates and Cashews", "Quinoa and Black Bean Bowl", "Baked Sweet Potato with Greens"},
-            {"Tofu Scramble with Spinach", "Farro Salad with Dried Cranberries", "Roasted Roots with Garlic Dip"},
-            {"Acai Bowl with Homemade Granola", "Red Lentil Pasta with Marinara", "Kale and Quinoa Salad"},
-            {"Breakfast Quinoa with Berries", "Lentil Shepherd's Pie (Vegan)", "Baked Asparagus with Almonds"},
-            {"Peanut Butter Banana Toast", "Buddha Bowl with Chickpeas", "Stuffed Peppers with Wild Rice"},
-            {"Smoothie Bowl with Nuts", "Vegetable Barley Soup", "Mushroom Risotto (Brown Rice)"},
-            {"Cornmeal Porridge", "Falafel Wrap with Hummus", "Eggplant Lasagna (No-Cheese)"},
-            {"Apple Cinnamon Oats", "Split Pea Soup", "Sweet and Sour Tofu"},
-            {"Breakfast Burrito (Beans/Veg)", "Tabouli with Extra Parsley", "Brussels Sprouts with Balsamic"},
-            {"Granola with Almond Milk", "Minestrone Soup", "Stir-fried Bok Choy and Tempeh"},
-            {"Mashed Avocado on Rye", "Black-Eyed Pea Salad", "Baked Squash with Quinoa"},
-            {"Fruit and Nut Muesli", "Vegetable Paella", "Grilled Portobello Steaks"},
-            {"Quinoa with Peaches", "Cabbage Soup with Potatoes", "Spiced Cauliflower Steaks"},
-            {"Banana Pancakes (Oat Flour)", "Mediterranean Chickpea Salad", "Broccoli and Cashew Stir-fry"},
-            {"Overnight Oats with Pumpkin", "Vegetable Korma", "Balsamic Glazed Beets"},
-            {"Soy Yogurt with Mixed Berries", "White Bean and Kale Soup", "Cabbage and Carrot Slaw"},
-            {"Spelt Bread with Nut Butter", "Green Lentil and Rice (Mujadara)", "Steamed Artichokes"},
-            {"Tofu and Veggie Hash", "Roasted Chickpea Salad", "Baked Sweet Potato Wedges"},
-            {"Pear and Walnut Porridge", "Three Bean Chili", "Garlic Sauteed Green Beans"},
-            {"Smoothie with Spinach/Fruit", "Brown Rice and Veggie Sushi", "Miso Soup with Tofu"},
-            {"Buckwheat with Savory Herbs", "Tomato and Lentil Stew", "Stir-fried Snap Peas"},
-            {"Fruit Salad with Hemp Seeds", "Quinoa with Pomegranate", "Zucchini and Corn Sauté"},
-            {"Whole Grain Toast with Hummus", "Barley and Mushroom Soup", "Steamed Mixed Vegetables"},
-            {"Mixed Berry Parfait (Vegan)", "Tofu and Broccoli with Peanut Sauce", "Baked Acorn Squash"},
-            {"Steel Cut Oats with Figs", "Mexican Quinoa Bowl", "Sautéed Swiss Chard with Garlic"}
-    };
 
     private final String[][] mealSuggestionsPt = {
             {MealConstants.PT_AVEIA_MIRTILOS, MealConstants.PT_SALADA_QUINOA_LEGUMES, MealConstants.PT_BROCOLIS_TOFU_GRELHADO},
@@ -133,37 +97,22 @@ public class Fragment_Nutrition extends Fragment {
 
     private static final Map<String, String> mealVideos = new HashMap<>();
     static {
-        // Breakfasts
-        mealVideos.put("Oatmeal with Blueberries and Walnuts", "41Xy3SihQfs");
         mealVideos.put(MealConstants.PT_AVEIA_MIRTILOS, "41Xy3SihQfs");
-        mealVideos.put("Whole Grain Pancakes with Fresh Fruit", "FcvDYecIcAs");
         mealVideos.put(MealConstants.PT_PANQUECAS_INTEGRAIS, "FcvDYecIcAs");
-        mealVideos.put("Fruit Smoothie with Flax Seeds", "DLgJF2jV_mU");
         mealVideos.put(MealConstants.PT_SMOOTHIE_LINHACA, "DLgJF2jV_mU");
-        mealVideos.put("Buckwheat Porridge with Almonds", "q_Q-7Mv3Uu0");
         mealVideos.put(MealConstants.PT_PAPA_SARRACENO, "q_Q-7Mv3Uu0");
-        mealVideos.put("Chia Pudding with Mango", "o0iN3n-pP7w");
         mealVideos.put(MealConstants.PT_PUDIM_CHIA, "o0iN3n-pP7w");
-        mealVideos.put("Whole Wheat Toast with Avocado", "L6Xo9xGfL-M");
         mealVideos.put(MealConstants.PT_TORRADA_ABACATE, "L6Xo9xGfL-M");
-        mealVideos.put("Millet with Dates and Cashews", "eFf_y4C0E78");
         mealVideos.put(MealConstants.PT_PAINCO_CAJU, "eFf_y4C0E78");
-        mealVideos.put("Tofu Scramble with Spinach", "zH_hI5N_G4M");
         mealVideos.put(MealConstants.PT_MEXIDO_TOFU_ESPINAFRES, "zH_hI5N_G4M");
-
-        // Lunches
         mealVideos.put(MealConstants.PT_SALADA_QUINOA_LEGUMES, "8k2_kGf7oQc");
         mealVideos.put(MealConstants.PT_TACOS_FEIJAO_MILHO, "83uY7n0-nIk");
-
-        // Dinners
         mealVideos.put(MealConstants.PT_BROCOLIS_TOFU_GRELHADO, "S-u-8j9f-fI");
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Get date from arguments
         if (getArguments() != null && getArguments().containsKey("date")) {
             date = getArguments().getString("date");
         } else {
@@ -173,9 +122,7 @@ public class Fragment_Nutrition extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_nutrition, container, false);
     }
 
@@ -183,131 +130,59 @@ public class Fragment_Nutrition extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        updateMealSuggestions(view);
+        // Header and Navigation
+        view.findViewById(R.id.buttonNutritionCalendar).setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), Activity_Calendar.class);
+            intent.putExtra("date", date);
+            intent.putExtra("fragmentID", 0);
+            startActivity(intent);
+        });
 
-        // Sliding Hints Logic
+        // Sliding Hints - Use themed colors
         textSwitcherHints = view.findViewById(R.id.textSwitcherNutritionHints);
         textSwitcherHints.setFactory(() -> {
             TextView textView = new TextView(getContext());
             textView.setGravity(Gravity.START);
-            textView.setTextColor(getResources().getColor(android.R.color.white));
+            textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.on_nutrition_container));
             textView.setTextSize(16);
             textView.setTypeface(null, android.graphics.Typeface.BOLD);
             return textView;
         });
-
         textSwitcherHints.setInAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left));
         textSwitcherHints.setOutAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right));
-
         startHintsSliding();
 
-        ImageView buttonCalendar = view.findViewById(R.id.buttonNutritionCalendar);
-        if (buttonCalendar != null) {
-            buttonCalendar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(view.getContext(), Activity_Calendar.class);
-                    intent.putExtra("date", date);
-                    intent.putExtra("fragmentID", 0);
-                    startActivity(intent);
-                }
-            });
-        }
+        // Meal Suggestions Data Logic
+        updateMealSuggestions(view);
 
-        // Initialize players
-        setupPlayerInitialization(view.findViewById(R.id.youtube_breakfast), 0);
-        setupPlayerInitialization(view.findViewById(R.id.youtube_lunch), 1);
-        setupPlayerInitialization(view.findViewById(R.id.youtube_dinner), 2);
+        // Setup Meal Cards
+        setupMealCard(view.findViewById(R.id.includeBreakfast), todayBreakfast, getString(R.string.nutrition_breakfast_title), getString(R.string.nutrition_breakfast_desc), 0);
+        setupMealCard(view.findViewById(R.id.includeLunch), todayLunch, getString(R.string.nutrition_lunch_title), getString(R.string.nutrition_lunch_desc), 1);
+        setupMealCard(view.findViewById(R.id.includeDinner), todayDinner, getString(R.string.nutrition_dinner_title), getString(R.string.nutrition_dinner_desc), 2);
 
-        // Breakfast Card Click -> Video
-        CardView cardBreakfast = view.findViewById(R.id.cardBreakfast);
-        if (cardBreakfast != null) {
-            cardBreakfast.setOnClickListener(v -> playBreakfastVideo(view));
-        }
-
-        // Lunch Card Click -> Video
-        CardView cardLunch = view.findViewById(R.id.cardLunch);
-        if (cardLunch != null) {
-            cardLunch.setOnClickListener(v -> playLunchVideo(view));
-        }
-
-        // Dinner Card Click -> Video
-        CardView cardDinner = view.findViewById(R.id.cardDinner);
-        if (cardDinner != null) {
-            cardDinner.setOnClickListener(v -> playDinnerVideo(view));
-        }
-
-        // Breakfast Recipe Button
-        Button buttonViewBreakfast = view.findViewById(R.id.buttonViewBreakfastRecipe);
-        if (buttonViewBreakfast != null) {
-            buttonViewBreakfast.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showRecipe(todayBreakfast);
-                }
-            });
-        }
-
-        // Lunch Recipe Button
-        Button buttonViewLunch = view.findViewById(R.id.buttonViewLunchRecipe);
-        if (buttonViewLunch != null) {
-            buttonViewLunch.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showRecipe(todayLunch);
-                }
-            });
-        }
-
-        // Dinner Recipe Button
-        Button buttonViewDinner = view.findViewById(R.id.buttonViewDinnerRecipe);
-        if (buttonViewDinner != null) {
-            buttonViewDinner.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showRecipe(todayDinner);
-                }
-            });
-        }
-
-        // Play Video Buttons
-        ImageView playBreakfast = view.findViewById(R.id.buttonPlayVideoBreakfast);
-        if (playBreakfast != null) {
-            playBreakfast.setOnClickListener(v -> playBreakfastVideo(view));
-        }
-
-        ImageView playLunch = view.findViewById(R.id.buttonPlayVideoLunch);
-        if (playLunch != null) {
-            playLunch.setOnClickListener(v -> playLunchVideo(view));
-        }
-
-        ImageView playDinner = view.findViewById(R.id.buttonPlayVideoDinner);
-        if (playDinner != null) {
-            playDinner.setOnClickListener(v -> playDinnerVideo(view));
-        }
-
-        // Handle clicks on top suggestions summary list
-        View.OnClickListener summaryClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextView tv = (TextView) v;
-                showRecipe(tv.getText().toString());
-            }
-        };
-
-        TextView breakfastSum = view.findViewById(R.id.textBreakfastSuggestion);
-        TextView lunchSum = view.findViewById(R.id.textLunchSuggestion);
-        TextView dinnerSum = view.findViewById(R.id.textDinnerSuggestion);
-
-        if (breakfastSum != null) breakfastSum.setOnClickListener(summaryClickListener);
-        if (lunchSum != null) lunchSum.setOnClickListener(summaryClickListener);
-        if (dinnerSum != null) dinnerSum.setOnClickListener(summaryClickListener);
+        // Summary Clicks
+        View.OnClickListener summaryClickListener = v -> showRecipe(((TextView) v).getText().toString());
+        view.findViewById(R.id.textBreakfastSuggestion).setOnClickListener(summaryClickListener);
+        view.findViewById(R.id.textLunchSuggestion).setOnClickListener(summaryClickListener);
+        view.findViewById(R.id.textDinnerSuggestion).setOnClickListener(summaryClickListener);
     }
 
-    private void setupPlayerInitialization(YouTubePlayerView pView, int type) {
-        if (pView == null) return;
-        getLifecycle().addObserver(pView);
-        pView.initialize(new AbstractYouTubePlayerListener() {
+    private void setupMealCard(View cardContainer, String mealName, String typeLabel, String description, int type) {
+        TextView textType = cardContainer.findViewById(R.id.textMealType);
+        TextView textTitle = cardContainer.findViewById(R.id.textMealTitle);
+        TextView textDesc = cardContainer.findViewById(R.id.textMealDescription);
+        Button buttonRecipe = cardContainer.findViewById(R.id.buttonViewRecipe);
+        ImageView buttonPlay = cardContainer.findViewById(R.id.buttonPlayVideo);
+        YouTubePlayerView playerView = cardContainer.findViewById(R.id.youtube_player);
+
+        textType.setText(typeLabel);
+        textTitle.setText(mealName);
+        textDesc.setText(description);
+
+        buttonRecipe.setOnClickListener(v -> showRecipe(mealName));
+        
+        getLifecycle().addObserver(playerView);
+        playerView.initialize(new AbstractYouTubePlayerListener() {
             @Override
             public void onReady(@NonNull YouTubePlayer youTubePlayer) {
                 if (type == 0) breakfastPlayer = youTubePlayer;
@@ -315,111 +190,30 @@ public class Fragment_Nutrition extends Fragment {
                 else if (type == 2) dinnerPlayer = youTubePlayer;
             }
         });
+
+        buttonPlay.setOnClickListener(v -> {
+            YouTubePlayer player = (type == 0) ? breakfastPlayer : (type == 1) ? lunchPlayer : dinnerPlayer;
+            playInternalVideo(mealName, player, playerView, cardContainer);
+        });
     }
 
-    private void playBreakfastVideo(View view) {
-        playInternalVideo(todayBreakfast, breakfastPlayer, 
-            view.findViewById(R.id.youtube_breakfast),
-            view.findViewById(R.id.imageBreakfastPlaceholder),
-            view.findViewById(R.id.overlayBreakfast),
-            view.findViewById(R.id.layoutBreakfastText),
-            view.findViewById(R.id.buttonPlayVideoBreakfast),
-            view.findViewById(R.id.buttonViewBreakfastRecipe));
-    }
-
-    private void playLunchVideo(View view) {
-        playInternalVideo(todayLunch, lunchPlayer,
-            view.findViewById(R.id.youtube_lunch),
-            view.findViewById(R.id.imageLunchPlaceholder),
-            view.findViewById(R.id.overlayLunch),
-            view.findViewById(R.id.layoutLunchText),
-            view.findViewById(R.id.buttonPlayVideoLunch),
-            view.findViewById(R.id.buttonViewLunchRecipe));
-    }
-
-    private void playDinnerVideo(View view) {
-        playInternalVideo(todayDinner, dinnerPlayer,
-            view.findViewById(R.id.youtube_dinner),
-            view.findViewById(R.id.imageDinnerPlaceholder),
-            view.findViewById(R.id.overlayDinner),
-            view.findViewById(R.id.layoutDinnerText),
-            view.findViewById(R.id.buttonPlayVideoDinner),
-            view.findViewById(R.id.buttonViewDinnerRecipe));
-    }
-
-    private boolean isNetworkAvailable() {
-        ConnectivityManager cm = (ConnectivityManager) requireContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnected();
-    }
-
-    private void playInternalVideo(String mealName, YouTubePlayer playerObj, YouTubePlayerView playerView, View placeholder, View overlay, View textLayout, View playButton, View recipeButton) {
-        if (mealName == null || playerView == null) return;
-        
+    private void playInternalVideo(String mealName, YouTubePlayer playerObj, YouTubePlayerView playerView, View container) {
         if (!isNetworkAvailable()) {
-            Toast.makeText(getContext(), "Sem ligação à internet. Verifique o seu Wi-Fi.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Sem ligação à internet.", Toast.LENGTH_SHORT).show();
             return;
         }
 
         String videoId = mealVideos.get(mealName);
-
-        if (videoId != null && !videoId.isEmpty() && !videoId.contains("f9f9j")) {
+        if (videoId != null && playerObj != null) {
             playerView.setVisibility(View.VISIBLE);
-
-            if (playerObj != null) {
-                // Hide placeholder elements
-                if (placeholder != null) placeholder.setVisibility(View.GONE);
-                if (overlay != null) overlay.setVisibility(View.GONE);
-                if (textLayout != null) textLayout.setVisibility(View.GONE);
-                if (playButton != null) playButton.setVisibility(View.GONE);
-                if (recipeButton != null) recipeButton.setVisibility(View.GONE);
-                
-                // Small delay to allow the layout to settle before loading the video stream
-                playerView.postDelayed(() -> playerObj.loadVideo(videoId, 0f), 200);
-            } else {
-                Toast.makeText(getContext(), "A carregar o reprodutor, tente novamente.", Toast.LENGTH_SHORT).show();
-            }
+            container.findViewById(R.id.imagePlaceholder).setVisibility(View.GONE);
+            container.findViewById(R.id.overlay).setVisibility(View.GONE);
+            container.findViewById(R.id.layoutText).setVisibility(View.GONE);
+            container.findViewById(R.id.buttonPlayVideo).setVisibility(View.GONE);
+            playerObj.loadVideo(videoId, 0f);
         } else {
-            Toast.makeText(getContext(), "Vídeo brevemente disponível para: " + mealName, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Vídeo brevemente disponível.", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private void startHintsSliding() {
-        textSwitcherHints.setText(getString(nutritionHints[currentHintIdx]));
-        hintRunnable = new Runnable() {
-            @Override
-            public void run() {
-                currentHintIdx++;
-                if (currentHintIdx >= nutritionHints.length) currentHintIdx = 0;
-                textSwitcherHints.setText(getString(nutritionHints[currentHintIdx]));
-                hintHandler.postDelayed(this, 5000); // Change hint every 5 seconds
-            }
-        };
-        hintHandler.postDelayed(hintRunnable, 5000);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (hintHandler != null && hintRunnable != null) {
-            hintHandler.removeCallbacks(hintRunnable);
-        }
-    }
-
-    private void showRecipe(String title) {
-        if (title == null || title.isEmpty() || title.equals("Loading...")) return;
-
-        DatabaseHelper db = new DatabaseHelper(getContext());
-        String htmlContent = db.getRecipeContent(title);
-
-        Intent intent = new Intent(getContext(), Activity_FullContent.class);
-        intent.putExtra("title", title);
-        if (htmlContent != null) {
-            intent.putExtra("content", htmlContent);
-        } else {
-            intent.putExtra("content", "<h1>Receita em breve!</h1><p>Estamos a trabalhar para adicionar " + title + " à nossa base de dados.</p>");
-        }
-        startActivity(intent);
     }
 
     private void updateMealSuggestions(View view) {
@@ -430,37 +224,52 @@ public class Fragment_Nutrition extends Fragment {
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(dateObj);
                 int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-                
-                // Sempre usar Português como padrão para as sugestões
-                String[][] currentSuggestions = mealSuggestionsPt;
-                
-                int suggestionIndex = (dayOfMonth - 1) % currentSuggestions.length;
+                int idx = (dayOfMonth - 1) % mealSuggestionsPt.length;
 
-                String[] todayMeals = currentSuggestions[suggestionIndex];
-                todayBreakfast = todayMeals[0];
-                todayLunch = todayMeals[1];
-                todayDinner = todayMeals[2];
+                todayBreakfast = mealSuggestionsPt[idx][0];
+                todayLunch = mealSuggestionsPt[idx][1];
+                todayDinner = mealSuggestionsPt[idx][2];
 
-                // Update Summary card
-                TextView breakfastSum = view.findViewById(R.id.textBreakfastSuggestion);
-                TextView lunchSum = view.findViewById(R.id.textLunchSuggestion);
-                TextView dinnerSum = view.findViewById(R.id.textDinnerSuggestion);
-
-                if (breakfastSum != null) breakfastSum.setText(todayBreakfast);
-                if (lunchSum != null) lunchSum.setText(todayLunch);
-                if (dinnerSum != null) dinnerSum.setText(todayDinner);
-
-                // Update Detail cards
-                TextView breakfastTitle = view.findViewById(R.id.textBreakfastCardTitle);
-                TextView lunchTitle = view.findViewById(R.id.textLunchCardTitle);
-                TextView dinnerTitle = view.findViewById(R.id.textDinnerCardTitle);
-
-                if (breakfastTitle != null) breakfastTitle.setText(todayBreakfast);
-                if (lunchTitle != null) lunchTitle.setText(todayLunch);
-                if (dinnerTitle != null) dinnerTitle.setText(todayDinner);
+                ((TextView) view.findViewById(R.id.textBreakfastSuggestion)).setText(todayBreakfast);
+                ((TextView) view.findViewById(R.id.textLunchSuggestion)).setText(todayLunch);
+                ((TextView) view.findViewById(R.id.textDinnerSuggestion)).setText(todayDinner);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception ignored) {}
+    }
+
+    private void startHintsSliding() {
+        textSwitcherHints.setText(getString(nutritionHints[currentHintIdx]));
+        hintRunnable = new Runnable() {
+            @Override
+            public void run() {
+                currentHintIdx = (currentHintIdx + 1) % nutritionHints.length;
+                textSwitcherHints.setText(getString(nutritionHints[currentHintIdx]));
+                hintHandler.postDelayed(this, 5000);
+            }
+        };
+        hintHandler.postDelayed(hintRunnable, 5000);
+    }
+
+    private void showRecipe(String title) {
+        if (title == null || title.isEmpty() || title.equals("Loading...")) return;
+        DatabaseHelper db = new DatabaseHelper(getContext());
+        String htmlContent = db.getRecipeContent(title);
+        Intent intent = new Intent(getContext(), Activity_FullContent.class);
+        intent.putExtra("title", title);
+        intent.putExtra("content", htmlContent != null ? htmlContent : "<h1>Receita em breve!</h1>");
+        intent.putExtra("fragmentID", 0); // Nutrition
+        startActivity(intent);
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager cm = (ConnectivityManager) requireContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnected();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (hintRunnable != null) hintHandler.removeCallbacks(hintRunnable);
     }
 }

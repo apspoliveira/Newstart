@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import newstart.R;
@@ -27,6 +29,9 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
 
+/**
+ * Fragment_Workout - Enhanced with Material 3 and UI/UX Pro Max interaction patterns.
+ */
 public class Fragment_Workout extends Fragment {
 
     private String date;
@@ -64,32 +69,18 @@ public class Fragment_Workout extends Fragment {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
         date = formatter.format(new Date());
 
-        // Checkboxes
-        CheckBox checkBoxStrength = view.findViewById(R.id.checkBoxStrength);
-        CheckBox checkBoxCardio = view.findViewById(R.id.checkBoxCardio);
-        CheckBox checkBoxFlexibility = view.findViewById(R.id.checkBoxFlexibility);
+        // Setup Checkboxes with Pro Max Interaction Patterns (Rule 27: Haptics)
+        setupWorkoutGoal(view.findViewById(R.id.checkBoxStrength), "workout_strength_");
+        setupWorkoutGoal(view.findViewById(R.id.checkBoxCardio), "workout_cardio_");
+        setupWorkoutGoal(view.findViewById(R.id.checkBoxFlexibility), "workout_flexibility_");
 
-        // Player Views
-        YouTubePlayerView playerStrength = view.findViewById(R.id.youtube_strength);
-        YouTubePlayerView playerCardio = view.findViewById(R.id.youtube_cardio);
-        YouTubePlayerView playerFlexibility = view.findViewById(R.id.youtube_flexibility);
-
-        // Add to lifecycle
-        getLifecycle().addObserver(playerStrength);
-        getLifecycle().addObserver(playerCardio);
-        getLifecycle().addObserver(playerFlexibility);
-
-        // Load saved states
-        checkBoxStrength.setChecked(sharedPreferences.getBoolean("workout_strength_" + date, false));
-        checkBoxCardio.setChecked(sharedPreferences.getBoolean("workout_cardio_" + date, false));
-        checkBoxFlexibility.setChecked(sharedPreferences.getBoolean("workout_flexibility_" + date, false));
-
-        // Sliding Hints Logic
+        // Sliding Hints - Applying Accessibility & Contrast Rules (Rule 36)
         textSwitcherHints = view.findViewById(R.id.textSwitcherWorkoutHints);
         textSwitcherHints.setFactory(() -> {
             TextView textView = new TextView(getContext());
             textView.setGravity(Gravity.START);
-            textView.setTextColor(getResources().getColor(android.R.color.white));
+            // Updated to themed color for better readability on container background
+            textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.on_workout_container));
             textView.setTextSize(16);
             textView.setTypeface(null, android.graphics.Typeface.BOLD);
             return textView;
@@ -100,52 +91,50 @@ public class Fragment_Workout extends Fragment {
 
         startHintsSliding();
 
-        // Randomly select one video ID for each player
+        // Player Views - Performance Optimization (Rule 96: Bandwidth efficient)
         Random random = new Random();
-        String videoIdStrength = videoIdsStrength[random.nextInt(videoIdsStrength.length)];
-        String videoIdCardio = videoIdsCardio[random.nextInt(videoIdsCardio.length)];
-        String videoIdFlexibility = videoIdsFlexibility[random.nextInt(videoIdsFlexibility.length)];
+        setupPlayer(view.findViewById(R.id.youtube_strength), videoIdsStrength[random.nextInt(videoIdsStrength.length)]);
+        setupPlayer(view.findViewById(R.id.youtube_cardio), videoIdsCardio[random.nextInt(videoIdsCardio.length)]);
+        setupPlayer(view.findViewById(R.id.youtube_flexibility), videoIdsFlexibility[random.nextInt(videoIdsFlexibility.length)]);
+    }
 
-        // Initialize Players with the randomly selected videos
-        setupPlayer(playerStrength, videoIdStrength);
-        setupPlayer(playerCardio, videoIdCardio);
-        setupPlayer(playerFlexibility, videoIdFlexibility);
-
-        // Listeners
-        checkBoxStrength.setOnCheckedChangeListener((buttonView, isChecked) ->
-                sharedPreferences.edit().putBoolean("workout_strength_" + date, isChecked).apply());
-        checkBoxCardio.setOnCheckedChangeListener((buttonView, isChecked) ->
-                sharedPreferences.edit().putBoolean("workout_cardio_" + date, isChecked).apply());
-        checkBoxFlexibility.setOnCheckedChangeListener((buttonView, isChecked) ->
-                sharedPreferences.edit().putBoolean("workout_flexibility_" + date, isChecked).apply());
+    private void setupWorkoutGoal(CheckBox checkBox, String keyPrefix) {
+        if (checkBox == null) return;
+        String finalKey = keyPrefix + date;
+        checkBox.setChecked(sharedPreferences.getBoolean(finalKey, false));
+        
+        checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            buttonView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+            sharedPreferences.edit().putBoolean(finalKey, isChecked).apply();
+        });
     }
 
     private void startHintsSliding() {
+        if (textSwitcherHints == null) return;
         textSwitcherHints.setText(getString(workoutHints[currentHintIdx]));
         hintRunnable = new Runnable() {
             @Override
             public void run() {
-                currentHintIdx++;
-                if (currentHintIdx >= workoutHints.length) currentHintIdx = 0;
+                currentHintIdx = (currentHintIdx + 1) % workoutHints.length;
                 textSwitcherHints.setText(getString(workoutHints[currentHintIdx]));
-                hintHandler.postDelayed(this, 5000); // Change hint every 5 seconds
+                hintHandler.postDelayed(this, 5500); 
             }
         };
-        hintHandler.postDelayed(hintRunnable, 5000);
+        hintHandler.postDelayed(hintRunnable, 5500);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (hintHandler != null && hintRunnable != null) {
-            hintHandler.removeCallbacks(hintRunnable);
-        }
+        if (hintRunnable != null) hintHandler.removeCallbacks(hintRunnable);
     }
 
     private void setupPlayer(YouTubePlayerView playerView, String videoId) {
+        getLifecycle().addObserver(playerView);
         playerView.initialize(new AbstractYouTubePlayerListener() {
             @Override
             public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+                // Rule 96: Bandwidth efficiency - cue instead of load
                 youTubePlayer.cueVideo(videoId, 0);
             }
         });

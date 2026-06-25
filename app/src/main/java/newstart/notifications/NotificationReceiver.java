@@ -41,33 +41,48 @@ public class NotificationReceiver extends BroadcastReceiver {
         String title = "NEWSTART Reminder";
         String text = "Time to check your health goals!";
         int icon = R.drawable.ic_launcher_foreground;
-        int fragmentId = 0;
+        int fragmentId = 0; // Default to Nutrition
 
         switch (type) {
-            case "air":
-                title = "Fresh Air";
-                text = "Take a moment to breathe some fresh air today!";
-                fragmentId = 4;
-                break;
             case "nutrition":
                 title = "Healthy Eating";
                 text = "Remember to choose whole, plant-based foods for your next meal.";
-                fragmentId = 1;
-                break;
-            case "sun":
-                title = "Sunlight";
-                text = "It's a great time to get some natural Vitamin D!";
-                fragmentId = 6;
-                break;
-            case "water":
-                title = "Hydration";
-                text = "Time for another glass of water. Stay hydrated!";
-                fragmentId = 5;
+                fragmentId = 0;
                 break;
             case "workout":
                 title = "Exercise";
                 text = "Ready for a quick workout or stretch?";
-                fragmentId = 0;
+                fragmentId = 1;
+                break;
+            case "water":
+                title = "Hydration";
+                text = "Time for another glass of water. Stay hydrated!";
+                fragmentId = 2;
+                break;
+            case "sun":
+                title = "Sunlight";
+                text = "It's a great time to get some natural Vitamin D!";
+                fragmentId = 3;
+                break;
+            case "temp":
+                title = "Temperance";
+                text = "Practice self-control and balance today!";
+                fragmentId = 4;
+                break;
+            case "air":
+                title = "Fresh Air";
+                text = "Take a moment to breathe some fresh air today!";
+                fragmentId = 5;
+                break;
+            case "rest":
+                title = "Rest";
+                text = "Give your body the rest it needs for recovery.";
+                fragmentId = 6;
+                break;
+            case "trust":
+                title = "Trust in God";
+                text = "Take a moment for prayer and meditation.";
+                fragmentId = 7;
                 break;
         }
 

@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/trust_primary"
+    tools:context=".fragments.Fragment_Trust">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:elevation="0dp">
+
+        <RelativeLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/trust_title"
+                android:textColor="@color/white"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_baseline_favorite_24"
+                app:tint="@color/white"
+                android:contentDescription="@string/trust_title" />
+        </RelativeLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Health Hint Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="#33FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/health_hint_label"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textAllCaps="true"
+                        android:alpha="0.9" />
+
+                    <TextSwitcher
+                        android:id="@+id/textSwitcherTrustHints"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Bible Verse Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="24dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="24dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:text="@string/settings_bible_title"
+                        android:textColor="@color/trust_primary"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:alpha="0.7"
+                        android:textAllCaps="true"
+                        android:letterSpacing="0.1" />
+
+                    <TextView
+                        android:id="@+id/textViewVerse"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_bible_loading"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="italic"
+                        android:lineSpacingMultiplier="1.2" />
+
+                    <TextView
+                        android:id="@+id/textViewReference"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/default_bible_reference"
+                        android:textAlignment="center"
+                        android:textColor="@color/trust_primary"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="EXERCÍCIOS DE CONFIANÇA"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="12dp"
+                android:textAllCaps="true"
+                android:letterSpacing="0.1" />
+
+            <!-- Prayer Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="24dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="12dp">
+
+                        <com.google.android.material.checkbox.MaterialCheckBox
+                            android:id="@+id/checkBoxPrayer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:buttonTint="@color/trust_primary" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/trust_prayer"
+                            android:textColor="@color/trust_primary"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardBackgroundColor="@color/black"
+                        app:strokeWidth="0dp">
+                        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                            android:id="@+id/youtube_prayer"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:enableAutomaticInitialization="false" />
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Meditation Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="24dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="12dp">
+
+                        <com.google.android.material.checkbox.MaterialCheckBox
+                            android:id="@+id/checkBoxMeditation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:buttonTint="@color/trust_primary" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/trust_meditation"
+                            android:textColor="@color/trust_primary"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardBackgroundColor="@color/black"
+                        app:strokeWidth="0dp">
+                        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                            android:id="@+id/youtube_meditation"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:enableAutomaticInitialization="false" />
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Gratitude Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="24dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="12dp">
+
+                        <com.google.android.material.checkbox.MaterialCheckBox
+                            android:id="@+id/checkBoxGratitude"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:buttonTint="@color/trust_primary" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/trust_gratitude"
+                            android:textColor="@color/trust_primary"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardBackgroundColor="@color/black"
+                        app:strokeWidth="0dp">
+                        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                            android:id="@+id/youtube_gratitude"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:enableAutomaticInitialization="false" />
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Rest Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="24dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="12dp">
+
+                        <com.google.android.material.checkbox.MaterialCheckBox
+                            android:id="@+id/checkBoxRest"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:buttonTint="@color/trust_primary" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/trust_rest"
+                            android:textColor="@color/trust_primary"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardBackgroundColor="@color/black"
+                        app:strokeWidth="0dp">
+                        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                            android:id="@+id/youtube_rest"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:enableAutomaticInitialization="false" />
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

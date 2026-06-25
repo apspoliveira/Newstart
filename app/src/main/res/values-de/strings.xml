@@ -106,6 +106,7 @@
     <string name="settings">Einstellungen</string>
     <string name="settings_lang">Sprache</string>
     <string name="settings_goals">Tägliche Ziele</string>
+    <string name="health_hint_label">GESUNDHEITSTIPP</string>
 
     <string name="lang_de">Deutsch</string>
     <string name="lang_en">Englisch</string>
@@ -125,6 +126,16 @@
     <string name="air_keep_windows">FENSTER OFFEN HALTEN</string>
     <string name="air_deep_breathing">TIEF DURCHATMEN</string>
     <string name="air_avoid_polluted">VERSCHMUTZTE UMGEBUNG MEIDEN</string>
+
+    <!-- NEWSTART Sun -->
+    <string name="sun_title">Sonnenlicht</string>
+    <string name="sun_exposure_label">SONNENEXPOSITION</string>
+    <string name="sun_minutes_format">%1$d Minuten</string>
+    <string name="sun_goal_format">Ziel: %1$d Min</string>
+    <string name="sun_benefits_label">VORTEILE DES SONNENLICHTS</string>
+    <string name="sun_tips_label">TIPPS ZUM SONNENLICHT</string>
+    <string name="sun_vitamin_d_label">VITAMIN D UND GESUNDHEIT</string>
+    <string name="label_learn_more">MEHR ERFAHREN</string>
 
     <!-- Workout Hints -->
     <string name="workout_hint_1">Bewegung stärkt das Herz und verbessert die Durchblutung.</string>

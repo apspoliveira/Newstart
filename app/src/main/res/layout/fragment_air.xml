@@ -1,42 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFF3E0">
+    android:background="@color/air_primary"
+    tools:context=".fragments.Fragment_Air">
 
-    <RelativeLayout
-        android:id="@+id/header"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="@android:color/transparent"
+        app:elevation="0dp">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="@string/air_title"
-            android:textColor="#E65100"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+            android:padding="16dp">
 
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentEnd="true"
-            android:padding="8dp"
-            android:src="@drawable/ic_baseline_air_24"
-            app:tint="#EF6C00" />
-    </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/air_title"
+                android:textColor="@color/white"
+                android:textSize="28sp"
+                android:textStyle="bold" />
 
-    <ScrollView
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_baseline_air_24"
+                app:tint="@color/white"
+                android:contentDescription="@string/air_title" />
+        </RelativeLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:clipToPadding="false"
-        android:paddingBottom="80dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,29 +50,29 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Sliding Hints Card -->
-            <androidx.cardview.widget.CardView
+            <!-- Health Hint Card -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="#FF9800"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp">
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="#CCFFFFFF"
+                app:cardCornerRadius="16dp"
+                app:strokeWidth="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="20dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/health_hint_label"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/air_primary"
                         android:textSize="12sp"
                         android:textStyle="bold"
-                        android:alpha="0.8"/>
+                        android:textAllCaps="true" />
 
                     <TextSwitcher
                         android:id="@+id/textSwitcherAirHints"
@@ -74,16 +80,28 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <!-- Fresh Air Card -->
-            <androidx.cardview.widget.CardView
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="HÁBITOS DIÁRIOS"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="12dp"
+                android:textAllCaps="true"
+                android:letterSpacing="0.1" />
+
+            <!-- Card Fresh Air -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="#F57C00"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp">
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="24dp"
+                app:strokeWidth="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -98,39 +116,45 @@
                         android:orientation="horizontal"
                         android:layout_marginBottom="12dp">
 
-                        <CheckBox
+                        <com.google.android.material.checkbox.MaterialCheckBox
                             android:id="@+id/checkBoxFreshAir"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:buttonTint="#FFE0B2" />
+                            app:buttonTint="@color/air_primary" />
 
                         <TextView
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:text="@string/air_spend_time"
-                            android:textColor="#FFFFFF"
+                            android:textColor="@color/air_primary"
                             android:textSize="14sp"
-                            android:textStyle="bold" />
-
+                            android:textStyle="bold"
+                            android:textAllCaps="true" />
                     </LinearLayout>
 
-                    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-                        android:id="@+id/youtube_fresh_air"
+                    <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        app:enableAutomaticInitialization="false" />
+                        app:cardCornerRadius="16dp"
+                        app:cardBackgroundColor="@color/black"
+                        app:strokeWidth="0dp">
+                        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                            android:id="@+id/youtube_fresh_air"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:enableAutomaticInitialization="false" />
+                    </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <!-- Ventilation Card -->
-            <androidx.cardview.widget.CardView
+            <!-- Card Ventilation -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="#F57C00"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp">
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="24dp"
+                app:strokeWidth="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -145,37 +169,45 @@
                         android:orientation="horizontal"
                         android:layout_marginBottom="12dp">
 
-                        <CheckBox
+                        <com.google.android.material.checkbox.MaterialCheckBox
                             android:id="@+id/checkBoxVentilation"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:buttonTint="#FFE0B2" />
+                            app:buttonTint="@color/air_primary" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/air_keep_windows"
-                            android:textColor="#FFFFFF"
+                            android:textColor="@color/air_primary"
                             android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:textAllCaps="true" />
                     </LinearLayout>
 
-                    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-                        android:id="@+id/youtube_ventilation"
+                    <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        app:enableAutomaticInitialization="false" />
+                        app:cardCornerRadius="16dp"
+                        app:cardBackgroundColor="@color/black"
+                        app:strokeWidth="0dp">
+                        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                            android:id="@+id/youtube_ventilation"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:enableAutomaticInitialization="false" />
+                    </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <!-- Deep Breathing Card -->
-            <androidx.cardview.widget.CardView
+            <!-- Card Deep Breathing -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="#F57C00"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp">
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="24dp"
+                app:strokeWidth="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -190,37 +222,45 @@
                         android:orientation="horizontal"
                         android:layout_marginBottom="12dp">
 
-                        <CheckBox
+                        <com.google.android.material.checkbox.MaterialCheckBox
                             android:id="@+id/checkBoxDeepBreathing"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:buttonTint="#FFE0B2" />
+                            app:buttonTint="@color/air_primary" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/air_deep_breathing"
-                            android:textColor="#FFFFFF"
+                            android:textColor="@color/air_primary"
                             android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:textAllCaps="true" />
                     </LinearLayout>
 
-                    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-                        android:id="@+id/youtube_deep_breathing"
+                    <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        app:enableAutomaticInitialization="false" />
+                        app:cardCornerRadius="16dp"
+                        app:cardBackgroundColor="@color/black"
+                        app:strokeWidth="0dp">
+                        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                            android:id="@+id/youtube_deep_breathing"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:enableAutomaticInitialization="false" />
+                    </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <!-- Clean Air Card -->
-            <androidx.cardview.widget.CardView
+            <!-- Card Clean Air -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="#F57C00"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp">
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="24dp"
+                app:strokeWidth="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -235,29 +275,37 @@
                         android:orientation="horizontal"
                         android:layout_marginBottom="12dp">
 
-                        <CheckBox
+                        <com.google.android.material.checkbox.MaterialCheckBox
                             android:id="@+id/checkBoxCleanAir"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:buttonTint="#FFE0B2" />
+                            app:buttonTint="@color/air_primary" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/air_avoid_polluted"
-                            android:textColor="#FFFFFF"
+                            android:textColor="@color/air_primary"
                             android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:textAllCaps="true" />
                     </LinearLayout>
 
-                    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-                        android:id="@+id/youtube_clean_air"
+                    <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        app:enableAutomaticInitialization="false" />
+                        app:cardCornerRadius="16dp"
+                        app:cardBackgroundColor="@color/black"
+                        app:strokeWidth="0dp">
+                        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                            android:id="@+id/youtube_clean_air"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:enableAutomaticInitialization="false" />
+                    </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
-    </ScrollView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

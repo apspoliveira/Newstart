@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_nutrition"
+            android:icon="@drawable/ic_baseline_restaurant_24"
+            android:title="@string/nav_meal" />
+        <item
+            android:id="@+id/nav_exercise"
+            android:icon="@drawable/ic_dumbbell_24"
+            android:title="@string/nav_exercise" />
+        <item
+            android:id="@+id/nav_water"
+            android:icon="@drawable/ic_baseline_water_drop_24"
+            android:title="@string/nav_water" />
+        <item
+            android:id="@+id/nav_sun"
+            android:icon="@drawable/ic_baseline_wb_sunny_24"
+            android:title="@string/nav_sun" />
+        <item
+            android:id="@+id/nav_temperance"
+            android:icon="@drawable/ic_baseline_balance_24"
+            android:title="@string/nav_temperance" />
+        <item
+            android:id="@+id/nav_air"
+            android:icon="@drawable/ic_baseline_air_24"
+            android:title="@string/nav_air" />
+        <item
+            android:id="@+id/nav_rest"
+            android:icon="@drawable/ic_baseline_bedtime_24"
+            android:title="@string/nav_rest" />
+        <item
+            android:id="@+id/nav_trust"
+            android:icon="@drawable/ic_baseline_favorite_24"
+            android:title="@string/nav_trust" />
+    </group>
+
+    <item android:title="Application">
+        <menu>
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_baseline_settings_24"
+                android:title="@string/nav_settings" />
+        </menu>
+    </item>
+</menu>

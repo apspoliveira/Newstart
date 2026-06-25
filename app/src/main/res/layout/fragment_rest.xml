@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/rest_primary"
+    tools:context=".fragments.Fragment_Rest">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:elevation="0dp">
+
+        <RelativeLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/nav_rest"
+                android:textColor="@color/white"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_baseline_bedtime_24"
+                app:tint="@color/white"
+                android:contentDescription="@string/nav_rest" />
+        </RelativeLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Health Hint Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="#CCFFFFFF"
+                app:cardCornerRadius="16dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/health_hint_label"
+                        android:textColor="@color/rest_primary"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textAllCaps="true" />
+
+                    <TextSwitcher
+                        android:id="@+id/textSwitcherRestHints"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PREPARAÇÃO PARA O SONO"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="12dp"
+                android:textAllCaps="true"
+                android:letterSpacing="0.1" />
+
+            <!-- Sleep Duration Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="24dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="12dp">
+
+                        <com.google.android.material.checkbox.MaterialCheckBox
+                            android:id="@+id/checkBoxRestHours"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:buttonTint="@color/rest_primary" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/rest_hours"
+                            android:textColor="@color/rest_primary"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textAllCaps="true" />
+                    </LinearLayout>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardBackgroundColor="@color/black"
+                        app:strokeWidth="0dp">
+                        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                            android:id="@+id/youtube_rest_hours"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:enableAutomaticInitialization="false" />
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Screens Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="24dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="12dp">
+
+                        <com.google.android.material.checkbox.MaterialCheckBox
+                            android:id="@+id/checkBoxNoScreens"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:buttonTint="@color/rest_primary" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/rest_no_screens"
+                            android:textColor="@color/rest_primary"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textAllCaps="true" />
+                    </LinearLayout>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardBackgroundColor="@color/black"
+                        app:strokeWidth="0dp">
+                        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                            android:id="@+id/youtube_no_screens"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:enableAutomaticInitialization="false" />
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Regular Schedule Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="24dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="12dp">
+
+                        <com.google.android.material.checkbox.MaterialCheckBox
+                            android:id="@+id/checkBoxRegularSchedule"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:buttonTint="@color/rest_primary" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/rest_regular_schedule"
+                            android:textColor="@color/rest_primary"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textAllCaps="true" />
+                    </LinearLayout>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardBackgroundColor="@color/black"
+                        app:strokeWidth="0dp">
+                        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                            android:id="@+id/youtube_regular_schedule"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:enableAutomaticInitialization="false" />
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Environment Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="24dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="12dp">
+
+                        <com.google.android.material.checkbox.MaterialCheckBox
+                            android:id="@+id/checkBoxEnvironment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:buttonTint="@color/rest_primary" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/rest_environment"
+                            android:textColor="@color/rest_primary"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textAllCaps="true" />
+                    </LinearLayout>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardBackgroundColor="@color/black"
+                        app:strokeWidth="0dp">
+                        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                            android:id="@+id/youtube_environment"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:enableAutomaticInitialization="false" />
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

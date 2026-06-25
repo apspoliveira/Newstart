@@ -5,19 +5,21 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import newstart.R;
+import com.google.android.material.button.MaterialButton;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
@@ -26,6 +28,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * Fragment_Sun - Matches the visual standards with the Light Green Sunlight theme.
+ */
 public class Fragment_Sun extends Fragment {
 
     private String date;
@@ -62,14 +67,15 @@ public class Fragment_Sun extends Fragment {
 
         textViewSunMinutes = view.findViewById(R.id.textViewSunMinutes);
         textViewSunGoal = view.findViewById(R.id.textViewSunGoal);
-        Button buttonPlus = view.findViewById(R.id.buttonPlusSun);
-        Button buttonMinus = view.findViewById(R.id.buttonMinusSun);
+        MaterialButton buttonPlus = view.findViewById(R.id.buttonPlusSun);
+        MaterialButton buttonMinus = view.findViewById(R.id.buttonMinusSun);
 
         // Load saved state
         sunMinutes = sharedPreferences.getInt("sun_mins_" + date, 0);
         updateSunText();
 
         buttonPlus.setOnClickListener(v -> {
+            v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
             sunMinutes += 5;
             saveSunMinutes();
             updateSunText();
@@ -77,18 +83,18 @@ public class Fragment_Sun extends Fragment {
 
         buttonMinus.setOnClickListener(v -> {
             if (sunMinutes >= 5) {
+                v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
                 sunMinutes -= 5;
                 saveSunMinutes();
                 updateSunText();
             }
         });
 
-        // Sliding Hints Logic
         textSwitcherHints = view.findViewById(R.id.textSwitcherSunHints);
         textSwitcherHints.setFactory(() -> {
             TextView textView = new TextView(getContext());
             textView.setGravity(Gravity.START);
-            textView.setTextColor(getResources().getColor(android.R.color.white));
+            textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
             textView.setTextSize(16);
             textView.setTypeface(null, android.graphics.Typeface.BOLD);
             return textView;
@@ -99,15 +105,8 @@ public class Fragment_Sun extends Fragment {
 
         startHintsSliding();
 
-        // Player Views
-        YouTubePlayerView player01 = view.findViewById(R.id.youtube_sun_01);
-        YouTubePlayerView player02 = view.findViewById(R.id.youtube_sun_02);
-
-        getLifecycle().addObserver(player01);
-        getLifecycle().addObserver(player02);
-
-        setupPlayer(player01, "7SRE9963F9U"); // Benefits of Sunlight
-        setupPlayer(player02, "6_z2iK2W-4k"); // Vitamin D video
+        setupPlayer(view.findViewById(R.id.youtube_sun_01), "7SRE9963F9U");
+        setupPlayer(view.findViewById(R.id.youtube_sun_02), "6_z2iK2W-4k");
     }
 
     private void startHintsSliding() {
@@ -127,13 +126,13 @@ public class Fragment_Sun extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (hintHandler != null && hintRunnable != null) {
-            hintHandler.removeCallbacks(hintRunnable);
-        }
+        if (hintRunnable != null) hintHandler.removeCallbacks(hintRunnable);
     }
 
     private void updateSunText() {
         textViewSunMinutes.setText(getString(R.string.sun_minutes_format, sunMinutes));
+        // Use the sun_primary color for the tracker text as per your green theme
+        textViewSunMinutes.setTextColor(ContextCompat.getColor(requireContext(), R.color.sun_primary));
         if (textViewSunGoal != null) {
             textViewSunGoal.setText(getString(R.string.sun_goal_format, 20));
         }
@@ -144,6 +143,8 @@ public class Fragment_Sun extends Fragment {
     }
 
     private void setupPlayer(YouTubePlayerView playerView, String videoId) {
+        if (playerView == null) return;
+        getLifecycle().addObserver(playerView);
         playerView.initialize(new AbstractYouTubePlayerListener() {
             @Override
             public void onReady(@NonNull YouTubePlayer youTubePlayer) {

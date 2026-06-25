@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import newstart.Activity_Main;
 import newstart.R;
@@ -25,6 +26,9 @@ public class Activity_InitialSetup extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // FORCE LIGHT MODE - This disables the dark theme option from the app globally
+        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        
         super.onCreate(savedInstanceState);
 
         // Check if setup is already completed
@@ -76,12 +80,7 @@ public class Activity_InitialSetup extends AppCompatActivity {
             editor.putBoolean("setup_completed", true);
             editor.apply();
 
-            // Save weight to database for today
-            DatabaseHelper dbHelper = new DatabaseHelper(this);
-            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
-            String date = formatter.format(new Date());
-
-            // Go to Activity_Main (which will show Nutrition fragment by default)
+            // Go to Activity_Main
             Intent intent = new Intent(Activity_InitialSetup.this, Activity_Main.class);
             startActivity(intent);
             finish();
