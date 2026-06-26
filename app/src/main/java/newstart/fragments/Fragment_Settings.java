@@ -25,11 +25,14 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.textfield.TextInputEditText;
+
 import newstart.Activity_Main;
 import newstart.R;
 import newstart.notifications.NotificationReceiver;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 public class Fragment_Settings extends Fragment {
 
@@ -38,7 +41,9 @@ public class Fragment_Settings extends Fragment {
 
     private Button saveButton;
     private CheckBox checkAir, checkNutrition, checkSun, checkWater, checkWorkout, checkTrust, checkTemperance, checkRest;
+    private TextInputEditText editName, editAge, editWeight, editHeight;
     private SharedPreferences sharedPrefs;
+    private SharedPreferences userPrefs;
 
     private final ActivityResultLauncher<String> requestPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
@@ -55,10 +60,10 @@ public class Fragment_Settings extends Fragment {
         super.onCreate(savedInstanceState);
         languages = new String[] {
                 getString(R.string.lang_pt),
-                getString(R.string.lang_en),
-                getString(R.string.lang_de)
+                getString(R.string.lang_en)
         };
         sharedPrefs = requireActivity().getSharedPreferences("NEWSTART_Prefs", Context.MODE_PRIVATE);
+        userPrefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
     }
 
     @Override
@@ -71,6 +76,20 @@ public class Fragment_Settings extends Fragment {
         AutoCompleteTextView spinner = view.findViewById(R.id.spinnerLanguages);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.spinner_item_purple_middle, languages);
         spinner.setAdapter(adapter);
+
+        editName = view.findViewById(R.id.editSettingsName);
+        editAge = view.findViewById(R.id.editSettingsAge);
+        editWeight = view.findViewById(R.id.editSettingsWeight);
+        editHeight = view.findViewById(R.id.editSettingsHeight);
+
+        // Load profile data
+        editName.setText(userPrefs.getString("user_name", ""));
+        int age = userPrefs.getInt("user_age", 0);
+        editAge.setText(age > 0 ? String.valueOf(age) : "");
+        float weight = userPrefs.getFloat("user_weight", 0f);
+        editWeight.setText(weight > 0 ? String.valueOf(weight) : "");
+        float height = userPrefs.getFloat("user_height", 0f);
+        editHeight.setText(height > 0 ? String.valueOf(height) : "");
 
         checkAir = view.findViewById(R.id.checkNotifAir);
         checkNutrition = view.findViewById(R.id.checkNotifNutrition);
@@ -105,7 +124,6 @@ public class Fragment_Settings extends Fragment {
             currentLanguage = cursor.getString(1);
             int selection = 0; // Default PT
             if ("en".equals(currentLanguage)) selection = 1;
-            else if ("de".equals(currentLanguage)) selection = 2;
             spinner.setText(languages[selection], false);
             cursor.close();
         } else {
@@ -116,12 +134,12 @@ public class Fragment_Settings extends Fragment {
             switch (position) {
                 case 0: currentLanguage = "pt"; break;
                 case 1: currentLanguage = "en"; break;
-                case 2: currentLanguage = "de"; break;
             }
         });
 
         saveButton = view.findViewById(R.id.buttonSaveSettings);
         saveButton.setOnClickListener(v -> {
+            saveProfileData();
             ((Activity_Main) requireActivity()).databaseHelper.setSettingsLanguage(currentLanguage);
             saveNotificationSettings();
             Toast.makeText(getContext(), "Configurações salvas!", Toast.LENGTH_SHORT).show();
@@ -130,6 +148,24 @@ public class Fragment_Settings extends Fragment {
             startActivity(intent);
             requireActivity().finish();
         });
+    }
+
+    private void saveProfileData() {
+        String name = editName.getText().toString().trim();
+        String ageStr = editAge.getText().toString().trim();
+        String weightStr = editWeight.getText().toString().trim();
+        String heightStr = editHeight.getText().toString().trim();
+
+        SharedPreferences.Editor editor = userPrefs.edit();
+        if (!name.isEmpty()) editor.putString("user_name", name);
+        
+        try {
+            if (!ageStr.isEmpty()) editor.putInt("user_age", Integer.parseInt(ageStr));
+            if (!weightStr.isEmpty()) editor.putFloat("user_weight", Float.parseFloat(weightStr));
+            if (!heightStr.isEmpty()) editor.putFloat("user_height", Float.parseFloat(heightStr));
+        } catch (NumberFormatException ignored) {}
+        
+        editor.apply();
     }
 
     private void checkAndRequestNotificationPermission() {

@@ -17,6 +17,7 @@
     <string name="button_text_save">Salvar Alterações</string>
     <string name="button_text_cancel">Cancelar</string>
     <string name="button_text_create_meal">Novo Alimento</string>
+    <string name="calendar">Calendário</string>
     <string name="settings">Configurações</string>
     <string name="settings_lang">Idioma</string>
     <string name="settings_goals">Objetivos</string>
@@ -139,7 +140,6 @@
     <string name="default_bible_reference">- Salmos 23:1</string>
 
     <!-- Idiomas -->
-    <string name="lang_de">Alemão</string>
     <string name="lang_en">Inglês</string>
     <string name="lang_pt">Português</string>
 

@@ -69,7 +69,7 @@ public class Activity_InitialSetup extends AppCompatActivity {
         try {
             int age = Integer.parseInt(ageStr);
             float height = Float.parseFloat(heightStr);
-            double weight = Double.parseDouble(weightStr);
+            float weight = Float.parseFloat(weightStr);
 
             // Save to SharedPreferences
             SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
@@ -77,6 +77,7 @@ public class Activity_InitialSetup extends AppCompatActivity {
             editor.putString("user_name", name);
             editor.putInt("user_age", age);
             editor.putFloat("user_height", height);
+            editor.putFloat("user_weight", weight);
             editor.putBoolean("setup_completed", true);
             editor.apply();
 

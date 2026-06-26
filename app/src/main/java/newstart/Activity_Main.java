@@ -9,11 +9,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import newstart.data.DatabaseHelper;
 import newstart.fragments.Fragment_Air;
@@ -45,7 +48,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
     static {
         // Disable Night Mode globally - Removing dark theme option
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        
+
         try {
             TrustManager[] trustAllCerts = new TrustManager[]{
                 new X509TrustManager() {
@@ -161,6 +164,8 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
+        updateNavHeader();
+
         Intent intent = getIntent();
         if (getIntent().hasExtra("date")) {
             date = intent.getStringExtra("date");
@@ -174,6 +179,28 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         }
 
         displaySelectedScreen(currentFragmentID);
+    }
+
+    private void updateNavHeader() {
+        if (navigationView != null && navigationView.getHeaderCount() > 0) {
+            View headerView = navigationView.getHeaderView(0);
+            TextView textViewName = headerView.findViewById(R.id.textViewHeaderName);
+            TextView textViewStats = headerView.findViewById(R.id.textViewHeaderStats);
+
+            SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
+            String name = prefs.getString("user_name", "User");
+            int age = prefs.getInt("user_age", 0);
+            float weight = prefs.getFloat("user_weight", 0f);
+            float height = prefs.getFloat("user_height", 0f);
+
+            if (textViewName != null) {
+                textViewName.setText(name);
+            }
+            if (textViewStats != null) {
+                String stats = String.format(Locale.getDefault(), "%d anos | %.1f kg | %.0f cm", age, weight, height);
+                textViewStats.setText(stats);
+            }
+        }
     }
 
     private void displaySelectedScreen(int itemId) {
