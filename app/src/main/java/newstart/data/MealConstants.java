@@ -14,13 +14,7 @@ public class MealConstants {
     public static final String PT_PAINCO_CAJU = "Painço com Tâmaras e Caju";
     public static final String PT_MEXIDO_TOFU_ESPINAFRES = "Mexido de Tofu com Espinafres";
     public static final String PT_TACA_ACAI = "Taça de Açaí com Granola Caseira";
-    public static final String PT_QUINOA_PEQUENO_ALMOCO = getString();
-
-    @NonNull
-    private static String getString() {
-        return "Quinoa de Pequeno-Almoço com Bagas";
-    }
-
+    public static final String PT_QUINOA_PEQUENO_ALMOCO = "Quinoa de Pequeno-Almoço com Bagas";
     public static final String PT_TORRADA_AMENDOIM_BANANA = "Torrada de Manteiga de Amendoim e Banana";
     public static final String PT_SMOOTHIE_BOWL_FRUTOS_SECOS = "Smoothie Bowl com Frutos Secos";
     public static final String PT_PAPAS_MILHO = "Papas de Milho";
@@ -246,12 +240,12 @@ public class MealConstants {
     public static final String PT_MAR_CHILI_FEIJAO_MILHO = "Chili de Feijão e Milho";
     public static final String PT_MAR_ALMONDEGAS_LENTILHA = "Almôndegas de Lentilha com Esparguete";
     public static final String PT_MAR_RISOTO_ESPARGOS_ERVILHAS = "Risoto de Espargos e Ervilhas";
-    public static final String PT_MAR_ESTUFADO_GRAO_COUVE = "EstUFADO de Grão com Couve";
+    public static final String PT_MAR_ESTUFADO_GRAO_COUVE = "Estufado de Grão com Couve";
     public static final String PT_MAR_HAMBURGUER_GRAO_SALADA = "Hambúrguer de Grão com Salada";
     public static final String PT_MAR_COUSCOUS_MEDITERRANEO = "Couscous com Legumes Mediterrâneos";
     public static final String PT_MAR_LASANHA_ESPINAFRES = "Lasanha de Espinafres e Ricota";
     public static final String PT_MAR_SALADA_MACARRAO_PESTO = "Salada de Macarrão com Pesto";
-    public static final String PT_MAR_ARROZ_FEIJAO_LEGUMES = "Arroz de Feijão com Pataniscas";
+    public static final String PT_MAR_ARROZ_FEIJAO_LEGUMES = "Arroz de Feijão com Pataniscas de Legumes";
     public static final String PT_MAR_TORTILHA_BATATA_CEBOLA = "Tortilha de Batata e Cebola";
     public static final String PT_MAR_QUICHE_COGUMELOS_ALHO = "Quiche de Cogumelos e Alho-Francês";
     public static final String PT_MAR_SALADA_LENTILHAS_ROMA = "Salada de Lentilhas, Feta e Romã";
@@ -456,7 +450,7 @@ public class MealConstants {
     public static final String PT_MAY_SALADA_QUINOA_AVOCADO = "Salada de Quinoa e Avocado";
     public static final String PT_MAY_ARROZ_TOMATE_PANADOS_VEG = "Arroz de Tomate com Panados de Soja";
     public static final String PT_MAY_QUICHE_ALHO_FRANCES_COGUMELOS = "Quiche de Alho-Francês e Cogumelos";
-    public static final String PT_MAY_SALADA_FEIJAO_FRADE_ATUM_VEG = "Salada de Feijão Frade com 'Atum' Vegano";
+    public static final String PT_MAY_SALADA_FEIJAO_FRADE_ATUM_VEG = "Salada de Feijão Frade com Atum Vegano";
     public static final String PT_MAY_MASSA_PESTO_TOMATE_CHERRY = "Massa com Pesto e Tomate Cherry";
     public static final String PT_MAY_GRATINADO_LEGUMES_PRIMAVERA = "Gratinado de Legumes de Primavera";
     public static final String PT_MAY_SALADA_LENTILHAS_MACA_NOZ = "Salada de Lentilhas com Maçã e Noz";

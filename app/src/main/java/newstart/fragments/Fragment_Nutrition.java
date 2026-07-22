@@ -603,6 +603,20 @@ public class Fragment_Nutrition extends Fragment {
                     suggestions = mealSuggestionsPtApr;
                 } else if (month == Calendar.MAY) {
                     suggestions = mealSuggestionsPtMay;
+                } else if (month == Calendar.JUNE) {
+                    suggestions = mealSuggestionsPtJun;
+                } else if (month == Calendar.JULY) {
+                    suggestions = mealSuggestionsPtJul;
+                } else if (month == Calendar.AUGUST) {
+                    suggestions = mealSuggestionsPtAgo;
+                } else if (month == Calendar.SEPTEMBER) {
+                    suggestions = mealSuggestionsPtSet;
+                } else if (month == Calendar.OCTOBER) {
+                    suggestions = mealSuggestionsPtOut;
+                } else if (month == Calendar.NOVEMBER) {
+                    suggestions = mealSuggestionsPtNov;
+                } else if (month == Calendar.DECEMBER) {
+                    suggestions = mealSuggestionsPtDez;
                 } else {
                     suggestions = mealSuggestionsPtJan;
                 }
