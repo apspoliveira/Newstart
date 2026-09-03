@@ -1,0 +1,3 @@
+- [x] Increase Gradle download timeouts in `gradle.properties`
+- [x] Perform Gradle Sync
+- [x] Verify if Gradle tasks are recognized
