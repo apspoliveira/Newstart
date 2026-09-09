@@ -464,6 +464,7 @@ public class Fragment_Nutrition extends Fragment {
     };
 
     private static final Map<String, String> mealVideos = new HashMap<>();
+    private static final Map<String, Integer> mealImages = new HashMap<>();
     static {
         mealVideos.put(MealConstants.PT_AVEIA_MIRTILOS, "41Xy3SihQfs");
         mealVideos.put(MealConstants.PT_PANQUECAS_INTEGRAIS, "FcvDYecIcAs");
@@ -476,6 +477,39 @@ public class Fragment_Nutrition extends Fragment {
         mealVideos.put(MealConstants.PT_SALADA_QUINOA_LEGUMES, "8k2_kGf7oQc");
         mealVideos.put(MealConstants.PT_TACOS_FEIJAO_MILHO, "83uY7n0-nIk");
         mealVideos.put(MealConstants.PT_BROCOLIS_TOFU_GRELHADO, "S-u-8j9f-fI");
+
+        // Image Mappings - January Breakfasts
+        mealImages.put(MealConstants.PT_AVEIA_MIRTILOS, R.drawable.pt_aveia_mirtilos);
+        mealImages.put(MealConstants.PT_PANQUECAS_INTEGRAIS, R.drawable.pt_panquecas_integrais);
+        mealImages.put(MealConstants.PT_PAPA_SARRACENO, R.drawable.pt_papa_sarraceno);
+        mealImages.put(MealConstants.PT_SMOOTHIE_LINHACA, R.drawable.pt_smoothie_linhaca);
+        mealImages.put(MealConstants.PT_PUDIM_CHIA, R.drawable.pt_pudim_chia);
+        mealImages.put(MealConstants.PT_TORRADA_ABACATE, R.drawable.pt_torrada_abacate);
+        mealImages.put(MealConstants.PT_PAINCO_CAJU, R.drawable.pt_painco_caju);
+        mealImages.put(MealConstants.PT_MEXIDO_TOFU_ESPINAFRES, R.drawable.pt_mexido_tofu_espinafres);
+        mealImages.put(MealConstants.PT_TACA_ACAI, R.drawable.pt_taca_acai);
+        mealImages.put(MealConstants.PT_QUINOA_PEQUENO_ALMOCO, R.drawable.pt_quinoa_pequeno_almoco);
+        mealImages.put(MealConstants.PT_TORRADA_AMENDOIM_BANANA, R.drawable.pt_torrada_amendoim_banana);
+        mealImages.put(MealConstants.PT_SMOOTHIE_BOWL_FRUTOS_SECOS, R.drawable.pt_smoothie_bowl_frutos_secos);
+        mealImages.put(MealConstants.PT_PAPAS_MILHO, R.drawable.pt_papas_milho);
+        mealImages.put(MealConstants.PT_AVEIA_MACA_CANELA, R.drawable.pt_aveia_maca_canela);
+        mealImages.put(MealConstants.PT_BURRITO_VEG, R.drawable.pt_burrito_veg);
+        mealImages.put(MealConstants.PT_GRANOLA_LEITE_AMENDOAS, R.drawable.pt_granola_leite_amendoas);
+        mealImages.put(MealConstants.PT_ABOCATE_CENTEIO, R.drawable.pt_abocate_centeio);
+        mealImages.put(MealConstants.PT_MUESLI_FRUTAS, R.drawable.pt_muesli_frutas);
+        mealImages.put(MealConstants.PT_QUINOA_PESSEGOS, R.drawable.pt_quinoa_pessegos);
+        mealImages.put(MealConstants.PT_PANQUECAS_BANANA, R.drawable.pt_panquecas_banana);
+        mealImages.put(MealConstants.PT_AVEIA_ABOBORA, R.drawable.pt_aveia_abobora);
+        mealImages.put(MealConstants.PT_IOGURTE_SOJA_FRUTAS, R.drawable.pt_iogurte_soja_frutas);
+        mealImages.put(MealConstants.PT_PAO_ESPELTA_MANTEIGA, R.drawable.pt_pao_espelta_manteiga);
+        mealImages.put(MealConstants.PT_MEXIDO_TOFU_VEGETAIS, R.drawable.pt_mexido_tofu_vegetais);
+        mealImages.put(MealConstants.PT_PAPAS_PERA_NOZ, R.drawable.pt_papas_pera_noz);
+        mealImages.put(MealConstants.PT_SMOOTHIE_ESPINAFRES, R.drawable.pt_smoothie_espinafres);
+        mealImages.put(MealConstants.PT_SARRACENO_ERVAS, R.drawable.pt_sarraceno_ervas);
+        mealImages.put(MealConstants.PT_SALADA_FRUTA_CANHAMO, R.drawable.pt_salada_fruta_canhamo);
+        mealImages.put(MealConstants.PT_TORRADA_HUMUS, R.drawable.pt_torrada_humus);
+        mealImages.put(MealConstants.PT_PARFAIT_VEGAN, R.drawable.pt_parfait_vegan);
+        mealImages.put(MealConstants.PT_AVEIA_FIGOS, R.drawable.pt_aveia_figos);
     }
 
     @Override
@@ -541,11 +575,20 @@ public class Fragment_Nutrition extends Fragment {
         TextView textDesc = cardContainer.findViewById(R.id.textMealDescription);
         Button buttonRecipe = cardContainer.findViewById(R.id.buttonViewRecipe);
         ImageView buttonPlay = cardContainer.findViewById(R.id.buttonPlayVideo);
+        ImageView imagePlaceholder = cardContainer.findViewById(R.id.imagePlaceholder);
         YouTubePlayerView playerView = cardContainer.findViewById(R.id.youtube_player);
 
         textType.setText(typeLabel);
         textTitle.setText(mealName);
         textDesc.setText(description);
+
+        // Set illustrative image if available
+        Integer imgRes = mealImages.get(mealName);
+        if (imgRes != null) {
+            imagePlaceholder.setImageResource(imgRes);
+        } else {
+            imagePlaceholder.setImageResource(R.drawable.card_background);
+        }
 
         buttonRecipe.setOnClickListener(v -> showRecipe(mealName));
         
