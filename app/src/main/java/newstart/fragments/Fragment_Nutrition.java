@@ -511,6 +511,37 @@ public class Fragment_Nutrition extends Fragment {
         mealImages.put(MealConstants.PT_PARFAIT_VEGAN, R.drawable.pt_parfait_vegan);
         mealImages.put(MealConstants.PT_AVEIA_FIGOS, R.drawable.pt_aveia_figos);
 
+        // Image Mappings - February Breakfasts
+        mealImages.put(MealConstants.PT_FEB_SMOOTHIE_MANGA, R.drawable.pt_feb_smoothie_manga);
+        mealImages.put(MealConstants.PT_FEB_AVEIA_AMENDOA, R.drawable.pt_feb_aveia_amendoa);
+        mealImages.put(MealConstants.PT_FEB_PANQUECAS_MIRTILO, R.drawable.pt_feb_panquecas_mirtilo);
+        mealImages.put(MealConstants.PT_FEB_PUDIM_CHIA_MORANGO, R.drawable.pt_feb_pudim_chia_morango);
+        mealImages.put(MealConstants.PT_FEB_TORRADA_RICOTA, R.drawable.pt_feb_torrada_ricota);
+        mealImages.put(MealConstants.PT_FEB_SMOOTHIE_VERDE, R.drawable.pt_feb_smoothie_verde);
+        mealImages.put(MealConstants.PT_FEB_TACA_IOGURTE, R.drawable.pt_feb_taca_iogurte);
+        mealImages.put(MealConstants.PT_FEB_MEXIDO_TOFU_COGUMELOS, R.drawable.pt_feb_mexido_tofu_cogumelos);
+        mealImages.put(MealConstants.PT_FEB_PAPAS_AVELA, R.drawable.pt_feb_papas_avela);
+        mealImages.put(MealConstants.PT_FEB_SMOOTHIE_BANANA_CACAU, R.drawable.pt_feb_smoothie_banana_cacau);
+        mealImages.put(MealConstants.PT_FEB_TORRADA_ABACATE_OVO, R.drawable.pt_feb_torrada_abacate_ovo);
+        mealImages.put(MealConstants.PT_FEB_GRANOLA_IOGURTE_MEL, R.drawable.pt_feb_granola_iogurte_mel);
+        mealImages.put(MealConstants.PT_FEB_PAPA_QUINOA_COCO, R.drawable.pt_feb_papa_quinoa_coco);
+        mealImages.put(MealConstants.PT_FEB_AVEIA_AMORA, R.drawable.pt_feb_aveia_amora);
+        mealImages.put(MealConstants.PT_FEB_PANQUECAS_AVEIA_CANELA, R.drawable.pt_feb_panquecas_aveia_canela);
+        mealImages.put(MealConstants.PT_FEB_SMOOTHIE_PITAYA, R.drawable.pt_feb_smoothie_pitaya);
+        mealImages.put(MealConstants.PT_FEB_TORRADA_TOMATE_ALHO, R.drawable.pt_feb_torrada_tomate_alho);
+        mealImages.put(MealConstants.PT_FEB_MUESLI_IOGURTE, R.drawable.pt_feb_muesli_iogurte);
+        mealImages.put(MealConstants.PT_FEB_AVEIA_PERA_CANELA, R.drawable.pt_feb_aveia_pera_canela);
+        mealImages.put(MealConstants.PT_FEB_SMOOTHIE_LARANJA_CENOURA, R.drawable.pt_feb_smoothie_laranja_cenoura);
+        mealImages.put(MealConstants.PT_FEB_PUDIM_CHIA_CHOCOLATE, R.drawable.pt_feb_pudim_chia_chocolate);
+        mealImages.put(MealConstants.PT_FEB_TORRADA_MANTEIGA_AVELA, R.drawable.pt_feb_torrada_manteiga_avela);
+        mealImages.put(MealConstants.PT_FEB_MEXIDO_LEGUMES, R.drawable.pt_feb_mexido_legumes);
+        mealImages.put(MealConstants.PT_FEB_PAPAS_TRIGO_SARRACENO, R.drawable.pt_feb_papas_trigo_sarraceno);
+        mealImages.put(MealConstants.PT_FEB_SMOOTHIE_BOWL_MANGA, R.drawable.pt_feb_smoothie_bowl_manga);
+        mealImages.put(MealConstants.PT_FEB_AVEIA_COCO_ANANAS, R.drawable.pt_feb_aveia_coco_ananas);
+        mealImages.put(MealConstants.PT_FEB_PANQUECAS_ABOBORA, R.drawable.pt_feb_panquecas_abobora);
+        mealImages.put(MealConstants.PT_FEB_TORRADA_QUEIJO_MEL, R.drawable.pt_feb_torrada_queijo_mel);
+        mealImages.put(MealConstants.PT_FEB_SMOOTHIE_FRAMBOESA, R.drawable.pt_feb_smoothie_framboesa);
+
         // Image Mappings - January Lunches
         mealImages.put(MealConstants.PT_SALADA_QUINOA_LEGUMES, R.drawable.pt_salada_quinoa_legumes);
         mealImages.put(MealConstants.PT_TACOS_FEIJAO_MILHO, R.drawable.pt_tacos_feijao_milho);
@@ -543,6 +574,39 @@ public class Fragment_Nutrition extends Fragment {
         mealImages.put(MealConstants.PT_SOPA_CEVADA_COGUMELOS, R.drawable.pt_sopa_cevada_cogumelos);
         mealImages.put(MealConstants.PT_TOFU_BROCOLIS_AMENDOIM, R.drawable.pt_tofu_brocolis_amendoim);
         mealImages.put(MealConstants.PT_BOWL_QUINOA_MEXICANO, R.drawable.pt_bowl_quinoa_mexicano);
+
+        // Image Mappings - January Dinners
+        mealImages.put(MealConstants.PT_BROCOLIS_TOFU_GRELHADO, R.drawable.pt_brocolis_tofu_grelhado);
+        mealImages.put(MealConstants.PT_SOPA_LENTILHA_COUVE, R.drawable.pt_sopa_lentilha_couve);
+        mealImages.put(MealConstants.PT_SALADA_VERDE_SEMENTES, R.drawable.pt_salada_verde_sementes);
+        mealImages.put(MealConstants.PT_SALTEADO_TEMPEH, R.drawable.pt_salteado_tempeh);
+        mealImages.put(MealConstants.PT_COUVE_FLOR_TAHINI, R.drawable.pt_couve_flor_tahini);
+        mealImages.put(MealConstants.PT_ZOODLES_PESTO, R.drawable.pt_zoodles_pesto);
+        mealImages.put(MealConstants.PT_BATATA_DOCE_FOLHAS_VERDES, R.drawable.pt_batata_doce_folhas_verdes);
+        mealImages.put(MealConstants.PT_RAIZES_ASSADAS_ALHO, R.drawable.pt_raizes_assadas_alho);
+        mealImages.put(MealConstants.PT_SALADA_COUVE_QUINOA, R.drawable.pt_salada_couve_quinoa);
+        mealImages.put(MealConstants.PT_ESPARGOS_ASSADOS, R.drawable.pt_espargos_assados);
+        mealImages.put(MealConstants.PT_PIMENTOS_RECHEADOS, R.drawable.pt_pimentos_recheados);
+        mealImages.put(MealConstants.PT_RISOTO_COGUMELOS, R.drawable.pt_risoto_cogumelos);
+        mealImages.put(MealConstants.PT_LASANHA_BERINGELA, R.drawable.pt_lasanha_beringela);
+        mealImages.put(MealConstants.PT_TOFU_AGRIDOCE, R.drawable.pt_tofu_agridoce);
+        mealImages.put(MealConstants.PT_COUVE_BRUXELAS_BALSAMICO, R.drawable.pt_couve_bruxelas_balsamico);
+        mealImages.put(MealConstants.PT_BOK_CHOY_TEMPEH, R.drawable.pt_bok_choy_tempeh);
+        mealImages.put(MealConstants.PT_ABOBORA_ASSADA_QUINOA, R.drawable.pt_abobora_assada_quinoa);
+        mealImages.put(MealConstants.PT_BIFES_PORTOBELLO, R.drawable.pt_bifes_portobello);
+        mealImages.put(MealConstants.PT_BIFES_COUVE_FLOR, R.drawable.pt_bifes_couve_flor);
+        mealImages.put(MealConstants.PT_SALTEADO_BROCOLIS_CAJU, R.drawable.pt_salteado_brocolis_caju);
+        mealImages.put(MealConstants.PT_BETERRABA_GLACIADA, R.drawable.pt_beterraba_glaciada);
+        mealImages.put(MealConstants.PT_SALADA_REPOLHO_CENOURA, R.drawable.pt_salada_repolho_cenoura);
+        mealImages.put(MealConstants.PT_ALCACHOFRAS_VAPOR, R.drawable.pt_alcachofras_vapor);
+        mealImages.put(MealConstants.PT_PALITOS_BATATA_DOCE, R.drawable.pt_palitos_batata_doce);
+        mealImages.put(MealConstants.PT_VAGEM_ALHO, R.drawable.pt_vagem_alho);
+        mealImages.put(MealConstants.PT_SOPA_MISO_TOFU, R.drawable.pt_sopa_miso_tofu);
+        mealImages.put(MealConstants.PT_ERVILHAS_QUEBRAR_SALTEADAS, R.drawable.pt_ervilhas_quebrar_salteadas);
+        mealImages.put(MealConstants.PT_SALTEADO_ABOBORINHA_MILHO, R.drawable.pt_salteado_aboborinha_milho);
+        mealImages.put(MealConstants.PT_VEGETAIS_VAPOR, R.drawable.pt_vegetais_vapor);
+        mealImages.put(MealConstants.PT_ABOBORA_MENINA_ASSADA, R.drawable.pt_abobora_menina_assada);
+        mealImages.put(MealConstants.PT_ACELGA_ALHO, R.drawable.pt_acelga_alho);
     }
 
     @Override

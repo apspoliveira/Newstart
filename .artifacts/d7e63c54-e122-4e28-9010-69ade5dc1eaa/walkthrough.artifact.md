@@ -1,36 +1,27 @@
-# Walkthrough - Atualização de Imagens de Almoço (Janeiro)
+# Walkthrough - Atualização de Imagens de Pequeno-Almoço (Fevereiro)
 
-Concluí o mapeamento das imagens ilustrativas para todas as 31 receitas de almoço de Janeiro. Agora, tanto os pequenos-almoços como os almoços de Janeiro possuem fotografias personalizadas no cartão da refeição.
+Concluí o mapeamento das imagens ilustrativas para todas as 29 receitas de pequeno-almoço de Fevereiro. Além disso, realizei uma limpeza e padronização profunda na pasta de recursos para garantir a estabilidade da aplicação.
 
 ## Alterações Realizadas
-
-### [Recursos e Assets]
-
-#### [RENOMEAR] [Imagens](file:///C:/Users/apspo/Igreja/Newstart/app/src/main/res/drawable/)
-Renomeei todos os ficheiros de imagem na pasta `res/drawable` para minúsculas, garantindo a conformidade com as regras do sistema de recursos do Android.
-- Ex: `PT_SALADA_QUINOA_LEGUMES.webp` -> `pt_salada_quinoa_legumes.webp`
-- Ex: `PT_TACOS_FEIJAO_MILHO.jpg` -> `pt_tacos_feijao_milho.jpg`
-- (Processados todos os ficheiros existentes no diretório)
 
 ### [Módulo de Nutrição]
 
 #### [MODIFICAR] [Fragment_Nutrition.java](file:///C:/Users/apspo/Igreja/Newstart/app/src/main/java/newstart/fragments/Fragment_Nutrition.java)
-Atualizei a estrutura de dados `mealImages` para incluir o mapeamento dos 31 almoços de Janeiro:
+Associei cada uma das 29 constantes de pequeno-almoço de Fevereiro ao seu respetivo ficheiro de imagem:
+- Mapeamentos incluídos: `Smoothie de Manga`, `Aveia com Amêndoa`, `Panquecas de Mirtilo`, `Pudim de Chia`, `Torrada com Ricota`, entre outros.
 
-```java
-mealImages.put(MealConstants.PT_SALADA_QUINOA_LEGUMES, R.drawable.pt_salada_quinoa_legumes);
-mealImages.put(MealConstants.PT_TACOS_FEIJAO_MILHO, R.drawable.pt_tacos_feijao_milho);
-// ... e mais 29 mapeamentos
-```
+### [Recursos e Estabilidade]
+
+#### [CORREÇÃO] Padronização de Nomes de Ficheiros
+Detetei e corrigi vários problemas que estavam a impedir o build do projeto:
+1.  **Lowercase Enforcement**: Renomeei todos os ficheiros na pasta `res/drawable` para minúsculas. O Android não permite letras maiúsculas em nomes de recursos de ficheiro (ex: `PT_FEB_...` passou a `pt_feb_...`).
+2.  **Limpeza de Ficheiros Temporários**: Removi ficheiros residuais de downloads interrompidos (extensão `.crdownload`) que causavam erros fatais no compilador de recursos (AAPT2).
 
 ## Verificações Realizadas
 
 ### Testes Automatizados
-- **Build do Projeto**: O comando `gradlew app:assembleDebug` foi executado com sucesso. Todos os novos recursos foram indexados e estão disponíveis para a aplicação.
+- **Build Completo**: Executei `gradlew app:assembleDebug` e o projeto compilou sem qualquer erro ou aviso de recursos.
+- **Indexação de Recursos**: Confirmei que o ficheiro `R.java` reconhece agora todos os novos identificadores `R.drawable.pt_feb_*`.
 
-### Notas Técnicas
-- **Consistência de Nomes**: O mapeamento no código utiliza agora os nomes de recursos em minúsculas, evitando erros de compilação.
-- **Renderização Dinâmica**: O cartão de almoço (`includeLunch`) agora deteta automaticamente a imagem correta com base na sugestão do dia.
-
-## Resultado Visual
-Ao selecionar qualquer dia de Janeiro, o ecrã de Nutrição apresenta agora imagens apetecíveis tanto para o pequeno-almoço como para o almoço, melhorando significativamente a estética e a utilidade da aplicação.
+## Resultado Final
+Ao navegar pelos dias de Fevereiro na secção de Nutrição, os cartões de pequeno-almoço exibem agora fotografias vibrantes e profissionais, melhorando a consistência visual com o mês de Janeiro já concluído.
