@@ -1,38 +1,36 @@
-# Walkthrough - Atualização de Imagens de Janeiro (Concluído)
+# Walkthrough - Atualização de Imagens de Almoço (Janeiro)
 
-Finalizei o mapeamento de imagens ilustrativas para todas as 31 receitas de pequeno-almoço de Janeiro. Agora, cada sugestão diária exibe uma imagem de alta qualidade correspondente no cartão da refeição.
+Concluí o mapeamento das imagens ilustrativas para todas as 31 receitas de almoço de Janeiro. Agora, tanto os pequenos-almoços como os almoços de Janeiro possuem fotografias personalizadas no cartão da refeição.
 
 ## Alterações Realizadas
 
 ### [Recursos e Assets]
 
 #### [RENOMEAR] [Imagens](file:///C:/Users/apspo/Igreja/Newstart/app/src/main/res/drawable/)
-Renomeei todos os 27 novos ficheiros fornecidos para o padrão Android (letras minúsculas):
-- Ex: `PT_ABOCATE_CENTEIO.avif` -> `pt_abocate_centeio.avif`
-- Ex: `PT_AVEIA_ABOBORA.webp` -> `pt_aveia_abobora.webp`
-- Ex: `PT_AVEIA_FIGOS.jpg` -> `pt_aveia_figos.jpg`
-- (Total de 27 ficheiros processados neste lote)
+Renomeei todos os ficheiros de imagem na pasta `res/drawable` para minúsculas, garantindo a conformidade com as regras do sistema de recursos do Android.
+- Ex: `PT_SALADA_QUINOA_LEGUMES.webp` -> `pt_salada_quinoa_legumes.webp`
+- Ex: `PT_TACOS_FEIJAO_MILHO.jpg` -> `pt_tacos_feijao_milho.jpg`
+- (Processados todos os ficheiros existentes no diretório)
 
 ### [Módulo de Nutrição]
 
 #### [MODIFICAR] [Fragment_Nutrition.java](file:///C:/Users/apspo/Igreja/Newstart/app/src/main/java/newstart/fragments/Fragment_Nutrition.java)
-Completei a estrutura de dados `mealImages` com os mapeamentos para todas as receitas de Janeiro:
+Atualizei a estrutura de dados `mealImages` para incluir o mapeamento dos 31 almoços de Janeiro:
 
 ```java
-mealImages.put(MealConstants.PT_PUDIM_CHIA, R.drawable.pt_pudim_chia);
-mealImages.put(MealConstants.PT_TORRADA_ABACATE, R.drawable.pt_torrada_abacate);
-// ... e mais 25 mapeamentos
+mealImages.put(MealConstants.PT_SALADA_QUINOA_LEGUMES, R.drawable.pt_salada_quinoa_legumes);
+mealImages.put(MealConstants.PT_TACOS_FEIJAO_MILHO, R.drawable.pt_tacos_feijao_milho);
+// ... e mais 29 mapeamentos
 ```
 
 ## Verificações Realizadas
 
 ### Testes Automatizados
-- **Build do Projeto**: O comando `gradlew app:assembleDebug` foi executado com sucesso, confirmando que todos os recursos foram corretamente indexados.
-- **Lógica de UI**: O método `setupMealCard` agora carrega dinamicamente a imagem com base no nome da refeição.
+- **Build do Projeto**: O comando `gradlew app:assembleDebug` foi executado com sucesso. Todos os novos recursos foram indexados e estão disponíveis para a aplicação.
 
 ### Notas Técnicas
-- **Formatos Suportados**: O sistema está agora a utilizar uma mistura de formatos `.jpg`, `.webp` e `.avif`.
-- **Placeholder**: Caso uma receita não tenha imagem mapeada, o sistema reverte automaticamente para o fundo padrão (`card_background`).
+- **Consistência de Nomes**: O mapeamento no código utiliza agora os nomes de recursos em minúsculas, evitando erros de compilação.
+- **Renderização Dinâmica**: O cartão de almoço (`includeLunch`) agora deteta automaticamente a imagem correta com base na sugestão do dia.
 
 ## Resultado Visual
-Ao navegar pelos dias de Janeiro na secção de Nutrição, os cartões de pequeno-almoço apresentam agora fotografias vibrantes e apelativas que ilustram a receita proposta.
+Ao selecionar qualquer dia de Janeiro, o ecrã de Nutrição apresenta agora imagens apetecíveis tanto para o pequeno-almoço como para o almoço, melhorando significativamente a estética e a utilidade da aplicação.
